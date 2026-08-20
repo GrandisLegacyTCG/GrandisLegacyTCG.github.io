@@ -1,10 +1,10 @@
-/* Grandis Legacy PvP v2.6.20 — static GitHub Pages deployment config.
-   Northflank still serves its own dynamic /config.js; this file is used only when public/ is published statically. */
+/* Grandis Legacy PvP v3.01 — static GitHub Pages frontend config.
+   Northflank remains the authoritative Room 1 / Room 2 WebSocket backend. */
 (function(){
   'use strict';
   window.GL_APP_MODE='PVP';
   window.GL_CONFIG={
-    version:'Grandis Legacy PvP v2.6.20 — /pvp/ GitHub Pages frontend',
+    version:'Grandis Legacy PvP v3.01 — GitHub Pages frontend bridge',
     mode:'server-authoritative-human-vs-human',
     wsPath:'/ws',
     publicFrontendUrl:'https://grandislegacytcg.github.io/pvp/',
