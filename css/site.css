@@ -223,3 +223,8 @@ img{display:block;max-width:100%}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
+
+/* v1.1 asset fidelity / social icon fixes */
+.icon-link img{display:block;width:24px;height:24px;object-fit:contain}
+.discord-link img{filter:none}
+.art-slide img,.fan-card,.deck-card,.play-preview img,.feature-band-bg{image-rendering:auto;-webkit-font-smoothing:antialiased}
