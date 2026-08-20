@@ -2,18 +2,182 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1e1e27">
+  <meta name="description" content="Grandis Legacy — a 3 vs 3 Hero trading card game for digital and tabletop play.">
   <title>Grandis Legacy</title>
-  <meta name="robots" content="noindex">
-  <style>
-    html,body{height:100%}body{margin:0;display:grid;place-items:center;background:#1e1e27;color:#fff;font-family:Arial,sans-serif}.wrap{text-align:center;padding:32px}.wrap h1{margin:0 0 12px;font-size:28px}.wrap p{margin:0 0 22px;color:#acacae}.wrap a{display:inline-block;padding:12px 18px;border-radius:10px;background:#00a1ff;color:white;text-decoration:none;font-weight:700}
-  </style>
+  <link rel="preload" href="assets/site/fonts/NotoSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/site.css?v=1.0.0">
 </head>
 <body>
-  <main class="wrap">
-    <h1>Grandis Legacy</h1>
-    <p>Main website is being prepared.</p>
-    <a href="pvp/">Open PvP Lobby</a>
+  <div id="top" class="top-anchor" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="frame frame-wide header-inner">
+      <a class="brand-link" href="#top" aria-label="Back to top">
+        <img src="assets/site/logo.webp" alt="Grandis Legacy" class="brand-logo">
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="Grandis-Legacy-VS-AI/tutorial/">Tutorial</a>
+        <a href="Grandis-Legacy-Deck-Builder/">Deck Builder</a>
+        <a href="Grandis-Legacy-VS-AI/">AI Lobby</a>
+        <a href="pvp/">PVP Lobby</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="icon-link mail-link" href="mailto:grandislegacytcg@gmail.com" aria-label="Email Grandis Legacy">✉</a>
+        <a class="icon-link discord-link" href="https://discord.gg/xg6zTeRCBP" target="_blank" rel="noopener noreferrer" aria-label="Join Grandis Legacy Discord">◉</a>
+        <button class="support-button" type="button" aria-disabled="true" disabled>Support Us</button>
+        <button class="mobile-menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+      </div>
+    </div>
+
+    <nav id="mobile-menu" class="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="Grandis-Legacy-VS-AI/tutorial/">Tutorial</a>
+      <a href="Grandis-Legacy-Deck-Builder/">Deck Builder</a>
+      <a href="Grandis-Legacy-VS-AI/">AI Lobby</a>
+      <a href="pvp/">PVP Lobby</a>
+      <a href="mailto:grandislegacytcg@gmail.com">Email</a>
+      <a href="https://discord.gg/xg6zTeRCBP" target="_blank" rel="noopener noreferrer">Discord</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-section frame frame-wide" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <h1 id="hero-title">Create your own Legacy in <span>Grandis Legacy</span></h1>
+        <p>Search cards, build decks, browse community lists, or <strong>Start</strong> a game.</p>
+        <div class="hero-cta-row">
+          <a class="button button-outline button-large" href="Grandis-Legacy-Deck-Builder/">Deck Builder</a>
+          <a class="button button-primary button-large" href="pvp/">Play it Online</a>
+        </div>
+      </div>
+
+      <div class="hero-card-fan" aria-label="Grandis Legacy Hero cards">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <img class="fan-card fan-left" src="shared/season1/v1/cards/thumbs/S1-WAR-H002.webp" alt="Draxen Blacksand card">
+        <img class="fan-card fan-center" src="shared/season1/v1/cards/thumbs/S1-WAR-H006.webp" alt="Aurek Sunsworn card">
+        <img class="fan-card fan-right" src="shared/season1/v1/cards/thumbs/S1-CLE-H002.webp" alt="Elara Heavens card">
+      </div>
+    </section>
+
+    <section class="discover-section" aria-labelledby="discover-title">
+      <div class="section-heading fixed-1160">
+        <h2 id="discover-title">Discover the World We've Created</h2>
+        <p>Step into a world of legendary heroes, ancient magic, and unforgettable battles through our growing collection of concept artwork.</p>
+      </div>
+
+      <div class="art-carousel" data-carousel tabindex="0" aria-label="Grandis Legacy concept artwork carousel">
+        <div class="art-track">
+          <article class="art-slide is-active" data-title="Smite" data-kind="Magical Attack">
+            <img src="assets/site/art/smite.webp" alt="Smite concept artwork">
+            <div class="art-shade"></div>
+            <div class="art-caption"><h3>Smite</h3><span class="skill-pill magical">◉ Magical Attack</span></div>
+          </article>
+          <article class="art-slide" data-title="Charged Shot" data-kind="Physical Attack">
+            <img src="assets/site/art/charged-shot.webp" alt="Charged Shot concept artwork">
+            <div class="art-shade"></div>
+            <div class="art-caption"><h3>Charged Shot</h3><span class="skill-pill physical">× Physical Attack</span></div>
+          </article>
+          <article class="art-slide" data-title="Glacial Spike" data-kind="Magical Attack">
+            <img src="assets/site/art/glacial-spike.webp" alt="Glacial Spike concept artwork">
+            <div class="art-shade"></div>
+            <div class="art-caption"><h3>Glacial Spike</h3><span class="skill-pill magical">◉ Magical Attack</span></div>
+          </article>
+          <article class="art-slide" data-title="Parry" data-kind="Defend Skill">
+            <img src="assets/site/art/parry.webp" alt="Parry concept artwork">
+            <div class="art-shade"></div>
+            <div class="art-caption"><h3>Parry</h3><span class="skill-pill defend">◈ Defend Skill</span></div>
+          </article>
+          <article class="art-slide" data-title="Venom Binding" data-kind="Magical Attack">
+            <img src="assets/site/art/venom-binding.webp" alt="Venom Binding concept artwork">
+            <div class="art-shade"></div>
+            <div class="art-caption"><h3>Venom Binding</h3><span class="skill-pill magical">◉ Magical Attack</span></div>
+          </article>
+        </div>
+        <button class="carousel-hit carousel-prev" type="button" aria-label="Previous artwork"></button>
+        <button class="carousel-hit carousel-next" type="button" aria-label="Next artwork"></button>
+      </div>
+    </section>
+
+    <section class="feature-band" aria-label="Grandis Legacy features">
+      <img class="feature-band-bg" src="assets/site/art/intercept.webp" alt="">
+      <div class="feature-band-overlay" aria-hidden="true"></div>
+      <div class="frame frame-wide feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">⚔</div>
+          <div>
+            <h3>Three Heroes Party</h3>
+            <p>In Grandis Legacy, you control a party of three heroes in battle. Your goal is to strategically use your heroes to defeat your opponent's team.</p>
+          </div>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">Ⅱ</div>
+          <div>
+            <h3>Legacy System</h3>
+            <p>Even in death, your heroes continue to fight. Each fallen hero leaves behind a Legacy Card, because true heroes are defined by their legacy.</p>
+          </div>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">☆</div>
+          <div>
+            <h3>Play Anywhere</h3>
+            <p>Grandis Legacy is built for both digital and tabletop play. Challenge your friends online or battle face to face with physical cards.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="build-section fixed-1160" aria-labelledby="build-title">
+      <div class="deck-card-fan" aria-label="Grandis Legacy deck cards">
+        <img class="deck-card deck-1" src="shared/season1/v1/cards/thumbs/S1-ITM-005.webp" alt="Mana Catalyst card">
+        <img class="deck-card deck-2" src="shared/season1/v1/cards/thumbs/S1-EVT-002.webp" alt="Market Bargain card">
+        <img class="deck-card deck-3" src="shared/season1/v1/cards/thumbs/S1-CLE-013.webp" alt="God's Blessing card">
+        <img class="deck-card deck-4" src="shared/season1/v1/cards/thumbs/S1-MAG-L002.webp" alt="Arcane Wand card">
+      </div>
+      <div class="build-copy">
+        <h2 id="build-title">Build Your Perfect Deck</h2>
+        <p>Choose your heroes, combine powerful skill cards, and create endless strategies.</p>
+        <a class="button button-primary" href="Grandis-Legacy-Deck-Builder/style-2/">Deck Builder</a>
+      </div>
+    </section>
+
+    <section class="play-section frame frame-wide" aria-labelledby="play-title">
+      <div class="play-panel">
+        <div class="play-copy">
+          <h2 id="play-title">Play Grandis Legacy Today</h2>
+          <p>Play it online with your friends or against AI.</p>
+          <div class="play-cta-row">
+            <a class="button button-outline" href="Grandis-Legacy-VS-AI/">AI Lobby</a>
+            <a class="button button-primary" href="pvp/">PVP Lobby</a>
+          </div>
+        </div>
+        <div class="play-preview" aria-hidden="true">
+          <img src="assets/site/battle-preview.webp" alt="">
+          <div class="play-preview-gradient"></div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="frame frame-wide footer-inner">
+      <div class="footer-brand">
+        <a class="brand-link" href="#top" aria-label="Back to top">
+          <img src="assets/site/logo.webp" alt="Grandis Legacy" class="brand-logo">
+        </a>
+        <span>© 2026&nbsp; Grandis Legacy</span>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="Grandis-Legacy-VS-AI/tutorial/">Tutorial</a>
+        <a href="Grandis-Legacy-Deck-Builder/">Deck Builder</a>
+        <a href="Grandis-Legacy-VS-AI/">AI Lobby</a>
+        <a href="pvp/">PVP Lobby</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/site.js?v=1.0.0"></script>
 </body>
 </html>

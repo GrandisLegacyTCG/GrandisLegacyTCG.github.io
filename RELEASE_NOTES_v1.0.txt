@@ -1,0 +1,24 @@
+Grandis Legacy Website v1.0
+Release date: 2026-08-21
+
+Homepage
+- Implements the two locked Figma desktop references as one responsive page.
+- Uses 1440x900 and 1920x1080 as desktop visual standards.
+- Keeps the 1920 standard centered around the 1720px Figma content frame.
+- Adds responsive behavior for intermediate desktop sizes and compact/mobile layouts.
+- Uses Grandis Legacy card artwork and shared Season 1 card assets for the visual sections.
+- Adds the artwork carousel, three feature cards, Deck Builder section, and Play Now panel.
+
+Navigation
+- Tutorial -> VS AI Tutorial.
+- Deck Builder in header/hero/footer -> Style 1.
+- Deck Builder in Build Your Perfect Deck -> Style 2.
+- Play it Online and PVP Lobby -> public /pvp/ frontend.
+- AI Lobby -> VS AI.
+- Support Us remains intentionally disabled.
+- Email and Discord links are active.
+- Header/footer logo returns to the top of the homepage.
+
+Preserved public services
+- /pvp/ remains PvP v3.02 public frontend with Northflank backend.
+- /shared/season1/v1/ remains the shared versioned Season 1 asset source.
