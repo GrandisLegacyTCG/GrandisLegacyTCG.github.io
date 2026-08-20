@@ -228,3 +228,9 @@ img{display:block;max-width:100%}
 .icon-link img{display:block;width:24px;height:24px;object-fit:contain}
 .discord-link img{filter:none}
 .art-slide img,.fan-card,.deck-card,.play-preview img,.feature-band-bg{image-rendering:auto;-webkit-font-smoothing:antialiased}
+
+/* v1.2 source-asset fidelity */
+.art-slide > img{object-position:center 68%}
+.art-caption .skill-badge{display:block;width:auto;height:48px;max-width:min(280px,70vw);object-fit:contain;filter:none}
+.feature-band-bg{object-position:center 54%}
+@media (max-width:900px){.art-caption .skill-badge{height:40px;max-width:220px}.art-slide > img{object-position:center 66%}}

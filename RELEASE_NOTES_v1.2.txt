@@ -1,0 +1,18 @@
+Grandis Legacy Website v1.2
+
+Homepage
+- Add Rulebook to the footer, linking to /rulebook/.
+- Replace the five carousel artwork sources with crops from the supplied 750x1050 PNG card masters.
+- Use badge graphics extracted from the supplied card masters instead of recreated HTML/CSS badges.
+- Replace the Three Heroes Party / Legacy System / Play Anywhere background with artwork from Relentless Leveling.
+- Preserve the corrected email, Discord invite, and alternating Deck Builder Style 1 / Style 2 mapping from v1.1.
+
+Rulebook Web v1.0
+- New /rulebook/ documentation experience based on Grandis Legacy Player Rulebook v1.
+- GitBook-style responsive documentation layout with sticky sidebar navigation.
+- Ctrl/Cmd+K full-rulebook search.
+- 12 rulebook chapters, page references, tables, callouts, Positioning System visual, and Hero Card anatomy visual.
+- Original Player Rulebook PDF is bundled and available from the documentation header.
+- Arvon Rulebook Assistant chat box is included. It searches the Player Rulebook locally and cites the matching chapter/page.
+- Arvon is rulebook-only: if the source does not support an answer, it does not create a new rule.
+- Frontend includes an optional GRANDIS_ARVON_ENDPOINT hook so a future AI backend can be connected without rebuilding the chat UI.
