@@ -18,31 +18,74 @@
   const carousel = document.querySelector('[data-carousel]');
   if (carousel) {
     const track = carousel.querySelector('.art-track');
-    const slides = [...carousel.querySelectorAll('.art-slide')];
+    const originals = [...carousel.querySelectorAll('.art-slide')];
     const next = carousel.querySelector('.carousel-next');
     const prev = carousel.querySelector('.carousel-prev');
-    let index = 0;
     let timer = null;
     let touchStartX = 0;
     let touchStartY = 0;
     let lastSwipeAt = 0;
+    let visualIndex = 1;
+    let animating = false;
 
+    // Infinite loop: clone the last slide before Smite and Smite after Venom Binding.
+    if (track && originals.length > 1) {
+      const firstClone = originals[0].cloneNode(true);
+      const lastClone = originals[originals.length - 1].cloneNode(true);
+      firstClone.classList.remove('is-active');
+      lastClone.classList.remove('is-active');
+      firstClone.setAttribute('aria-hidden', 'true');
+      lastClone.setAttribute('aria-hidden', 'true');
+      track.insertBefore(lastClone, originals[0]);
+      track.appendChild(firstClone);
+    }
+    const slides = [...track.querySelectorAll('.art-slide')];
     const isMobile = () => window.matchMedia('(max-width: 820px)').matches;
-    const render = () => {
-      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+    const transformFor = (width, gap) => isMobile()
+      ? `translateX(${-visualIndex * (width + gap)}px)`
+      : `translateX(${-width / 2 - visualIndex * (width + gap)}px)`;
+
+    const render = (animate = true) => {
       if (!slides.length) return;
       const width = slides[0].getBoundingClientRect().width;
       const styles = getComputedStyle(track);
       const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
-      track.style.transform = isMobile()
-        ? `translateX(${-index * (width + gap)}px)`
-        : `translateX(${-width / 2 - index * (width + gap)}px)`;
+      if (!animate) track.style.transition = 'none';
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('is-active', i === visualIndex);
+        if (i === 0 || i === slides.length - 1) slide.setAttribute('aria-hidden', 'true');
+        else slide.removeAttribute('aria-hidden');
+      });
+      track.style.transform = transformFor(width, gap);
+      if (!animate) {
+        // Force the jump to land without exposing the cloned edge slide.
+        void track.offsetWidth;
+        track.style.transition = '';
+      }
+    };
+
+    const normalizeLoopEdge = () => {
+      if (visualIndex === 0) {
+        visualIndex = originals.length;
+        render(false);
+      } else if (visualIndex === slides.length - 1) {
+        visualIndex = 1;
+        render(false);
+      }
+      animating = false;
     };
 
     const go = (direction) => {
-      index = (index + direction + slides.length) % slides.length;
-      render();
+      if (animating || originals.length < 2) return;
+      animating = true;
+      visualIndex += direction;
+      render(true);
     };
+    track?.addEventListener('transitionend', (event) => {
+      if (event.target !== track || event.propertyName !== 'transform') return;
+      normalizeLoopEdge();
+    });
+
     const stop = () => { if (timer) window.clearInterval(timer); timer = null; };
     const start = () => {
       stop();
@@ -74,8 +117,8 @@
     });
     carousel.addEventListener('mouseenter', stop);
     carousel.addEventListener('mouseleave', start);
-    window.addEventListener('resize', render, { passive: true });
-    render();
+    window.addEventListener('resize', () => render(false), { passive: true });
+    render(false);
     start();
   }
 

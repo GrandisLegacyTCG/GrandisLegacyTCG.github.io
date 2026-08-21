@@ -217,16 +217,16 @@
       navGroups:['GETTING STARTED','HERO & LEGACY','CARDS & RESOLUTION','REFERENCE'],
       navLinks:{'chapter-1':'Understanding Grandis Legacy','chapter-2':'Setup, Turn, Mana','chapter-3':'Heroes & Combat','chapter-4':'Positioning System','chapter-5':'Hero Card & Exhaust','chapter-6':'Tribute & Rank Up','chapter-7':'Legacy, Defeat, Revive','chapter-8':'Main Deck & Skill Card','chapter-9':'Skill Symbols & Types','chapter-10':'Response, Attachment, Casting','chapter-11':'Status & Healing','chapter-12':'Quick Reference'},
       homeLink:'← Grandis Legacy Home', searchPlaceholder:'Search rules, e.g. Casting, Poison, Rank Up...', searchEmpty:'Type to search the entire Player Rulebook.', searchNone:'No matching result found in Player Rulebook v2.',
-      arvonLaunch:'Ask rules & interactions', arvonPanel:'Game Guide · Rulebook v2', arvonInput:'Ask Arvon...', arvonWelcome:'I am Arvon. Ask me about Grandis Legacy rules. I will cite the relevant chapter and page when the local Rulebook supports the answer.',
-      arvonNote:'Rulebook source is available locally. Advanced card-interaction rulings use the Arvon backend when connected.', arvonSearching:'Searching the Rulebook…', arvonMissing:'I could not find a clear answer in Player Rulebook v2. Try the exact term printed on the card, such as “Casting”, “Rank Up”, “Freeze”, or “Attachment”.', sourceWord:'Open Chapter', pdf:'assets/Grandis_Legacy_Player_Rulebook_v2_EN.pdf'
+      arvonLaunch:'Ask rules & cards', arvonPanel:'Rules & Card Guide · Rulebook v2 + Season 1', arvonInput:'Ask Arvon about rules or cards...', arvonWelcome:'I am Arvon. Ask me about Grandis Legacy rules, Season 1 cards, or card interactions. I will use the Rulebook and official Season 1 card data available on this site.',
+      arvonNote:'Local sources: Rulebook v2 + official Season 1 card data. Advanced rulings can also use the Arvon authority backend when connected.', arvonSearching:'Checking rules and cards…', arvonMissing:'I could not find a clear answer in the local Rulebook or Season 1 card data. Try the exact card name or the exact term printed on the card.', sourceWord:'Open Chapter', pdf:'assets/Grandis_Legacy_Player_Rulebook_v2_EN.pdf'
     },
     id: {
       brandTitle:'Panduan Pemain', searchTrigger:'Cari panduan...', sidebarHome:'Panduan Pemain Season 1',
       navGroups:['MULAI','HERO & LEGACY','KARTU & PENYELESAIAN','REFERENSI'],
       navLinks:{'chapter-1':'Mengenal Grandis Legacy','chapter-2':'Persiapan, Turn, Mana','chapter-3':'Hero & Pertarungan','chapter-4':'Positioning System','chapter-5':'Hero Card & Exhaust','chapter-6':'Tribute & Rank Up','chapter-7':'Legacy, Defeat, Revive','chapter-8':'Main Deck & Skill Card','chapter-9':'Simbol & Jenis Skill','chapter-10':'Response, Attachment, Casting','chapter-11':'Status & Healing','chapter-12':'Ringkasan Cepat'},
       homeLink:'← Beranda Grandis Legacy', searchPlaceholder:'Cari aturan, mis. Casting, Poison, Rank Up...', searchEmpty:'Ketik untuk mencari di seluruh Panduan Pemain.', searchNone:'Tidak ada hasil yang cocok di Panduan Pemain v2.',
-      arvonLaunch:'Tanya aturan & interaksi', arvonPanel:'Panduan Game · Rulebook v2', arvonInput:'Tanya Arvon...', arvonWelcome:'Saya Arvon. Tanyakan aturan Grandis Legacy. Jika jawabannya didukung Rulebook lokal, saya akan menunjuk chapter dan page sumbernya.',
-      arvonNote:'Sumber Rulebook tersedia lokal. Ruling interaksi kartu lanjutan memakai backend Arvon jika sudah terhubung.', arvonSearching:'Mencari di Rulebook…', arvonMissing:'Saya belum menemukan jawaban yang cukup jelas di Panduan Pemain v2. Coba gunakan istilah yang tertulis pada kartu, misalnya “Casting”, “Rank Up”, “Freeze”, atau “Attachment”.', sourceWord:'Buka Chapter', pdf:'assets/Grandis_Legacy_Panduan_Pemain_v2_ID.pdf'
+      arvonLaunch:'Tanya aturan & kartu', arvonPanel:'Panduan Aturan & Kartu · Rulebook v2 + Season 1', arvonInput:'Tanya Arvon soal aturan atau kartu...', arvonWelcome:'Saya Arvon. Tanyakan aturan Grandis Legacy, kartu Season 1, atau interaksi antar-kartu. Saya akan memakai Rulebook dan data kartu Season 1 resmi yang tersedia di website ini.',
+      arvonNote:'Sumber lokal: Rulebook v2 + data kartu Season 1 resmi. Ruling lanjutan juga dapat memakai backend authority Arvon jika terhubung.', arvonSearching:'Memeriksa aturan dan kartu…', arvonMissing:'Saya belum menemukan jawaban yang cukup jelas di Rulebook atau data kartu Season 1 lokal. Coba gunakan nama kartu atau istilah yang tertulis pada kartu.', sourceWord:'Buka Chapter', pdf:'assets/Grandis_Legacy_Panduan_Pemain_v2_ID.pdf'
     }
   };
 
@@ -348,8 +348,86 @@
   const closeArvon=()=>{panel.hidden=true;launcher.hidden=false;launcher.setAttribute('aria-expanded','false')};
   launcher?.addEventListener('click',openArvon); closeBtn?.addEventListener('click',closeArvon);
   const addMessage=(who,html)=>{const row=document.createElement('div');row.className=`chat-row ${who}`;const b=document.createElement('div');b.className='bubble';b.innerHTML=html;row.appendChild(b);messages.appendChild(row);messages.scrollTop=messages.scrollHeight;return row};
+  const cardIndex = Array.isArray(window.GRANDIS_RULEBOOK_CARD_INDEX) ? window.GRANDIS_RULEBOOK_CARD_INDEX : [];
+  const findMentionedCards=(q)=>{
+    const nq=normalize(q);
+    const hits=cardIndex.filter(card=>{
+      const nn=normalize(card.name||'');
+      return nn.length>2 && nq.includes(nn);
+    });
+    if(!hits.length)return [];
+    const longest=Math.max(...hits.map(c=>normalize(c.name).length));
+    return hits.filter(c=>normalize(c.name).length===longest);
+  };
+  const cardSearch=(q)=>{
+    const tokens=tokensFor(q);
+    if(!tokens.length)return [];
+    return cardIndex.map(card=>{
+      const hay=normalize([card.name,card.card_id,card.card_type,card.display_class,card.cost_display,card.card_text].join(' '));
+      let score=0;
+      tokens.forEach(t=>{ if(hay.includes(t)) score+=t.length>4?3:1; });
+      return {card,score};
+    }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score || String(a.card.name).localeCompare(String(b.card.name))).slice(0,5);
+  };
+  const localCardAnswer=(q)=>{
+    if(!cardIndex.length)return null;
+    const nq=normalize(q);
+    const mentioned=findMentionedCards(q);
+    const card=mentioned[0];
+    const isID=currentLang==='id';
+    if(card){
+      const policy=card.double_casting_policy;
+      if(policy?.two_separate_response_windows && /negate|cancel|response|respon/.test(nq)){
+        const body=isID
+          ? '<strong>Bisa.</strong> Double Casting membuat dua aktivasi Attack yang terpisah, dan setiap aktivasi membuka Response Window sendiri. Negate/Cancel pada satu aktivasi hanya menghentikan aktivasi yang sedang direspons; aktivasi lainnya tetap berjalan kecuali direspons dan dihentikan secara terpisah.'
+          : '<strong>Yes.</strong> Double Casting creates two separate Attack activations, and each activation opens its own Response Window. A Negate/Cancel on one activation stops only the activation currently being answered; the other activation still proceeds unless it is separately answered and stopped.';
+        const source=isID
+          ? 'Sumber: Double Casting (S1-MAG-018) — two separate Response Windows · Rulebook Chapter 10, Page 12.'
+          : 'Source: Double Casting (S1-MAG-018) — two separate Response Windows · Rulebook Chapter 10, Page 12.';
+        return {html:`${body}<span class="source-link">${escapeHTML(source)}</span>`};
+      }
+      const text=String(card.card_text||'');
+      const lower=normalize(text);
+      if(/dodge|dodged/.test(nq) && /cannot be dodged|can not be dodged/.test(lower)){
+        return {html:isID
+          ? `<strong>${escapeHTML(card.name)}</strong> tidak bisa di-Dodge karena teks kartunya secara eksplisit menyatakan demikian.<br><br>${escapeHTML(text)}<span class="source-link">${escapeHTML(card.card_id)} · Season 1 Card Data</span>`
+          : `<strong>${escapeHTML(card.name)}</strong> cannot be Dodged because the card text explicitly says so.<br><br>${escapeHTML(text)}<span class="source-link">${escapeHTML(card.card_id)} · Season 1 Card Data</span>`};
+      }
+      if(/block|blocked/.test(nq) && /cannot be blocked|can not be blocked/.test(lower)){
+        return {html:isID
+          ? `<strong>${escapeHTML(card.name)}</strong> tidak bisa di-Block karena teks kartunya secara eksplisit menyatakan demikian.<br><br>${escapeHTML(text)}<span class="source-link">${escapeHTML(card.card_id)} · Season 1 Card Data</span>`
+          : `<strong>${escapeHTML(card.name)}</strong> cannot be Blocked because the card text explicitly says so.<br><br>${escapeHTML(text)}<span class="source-link">${escapeHTML(card.card_id)} · Season 1 Card Data</span>`};
+      }
+      if(/mana|cost|biaya/.test(nq)){
+        const label=isID?'Biaya':'Cost';
+        return {html:`<strong>${escapeHTML(card.name)}</strong><br>${label}: ${escapeHTML(card.cost_display||'-')}<br><br>${escapeHTML(text)}<span class="source-link">${escapeHTML(card.card_id)} · Season 1 Card Data</span>`};
+      }
+      if(/efek|effect|fungsi|what does|apa/.test(nq)){
+        return {html:`<strong>${escapeHTML(card.name)}</strong><br>${escapeHTML(text)}<span class="source-link">${escapeHTML(card.card_id)} · Season 1 Card Data</span>`};
+      }
+      if(/negate|cancel/.test(nq) && (card.attack || /attack/.test(normalize(card.card_type+' '+text)))){
+        const answer=isID
+          ? `Rulebook memberi lawan Response opportunity saat Attack diselesaikan, dan Negate/Cancel menghentikan kartu atau effect sesuai teks kartu. Saya tidak menemukan teks pada <strong>${escapeHTML(card.name)}</strong> yang menyatakan kartu ini tidak bisa di-Negate.`
+          : `The Rulebook gives the opponent a Response opportunity when an Attack resolves, and Negate/Cancel stops a card or effect according to its text. I do not see text on <strong>${escapeHTML(card.name)}</strong> saying that it cannot be Negated.`;
+        return {html:`${answer}<br><br>${escapeHTML(text)}<span class="source-link">${escapeHTML(card.card_id)} · Season 1 Card Data · Rulebook Chapter 10</span>`};
+      }
+      const meta=[card.card_type,card.display_class,card.cost_display].filter(Boolean).join(' · ');
+      return {html:`<strong>${escapeHTML(card.name)}</strong>${meta?`<br>${escapeHTML(meta)}`:''}<br><br>${escapeHTML(text)}<span class="source-link">${escapeHTML(card.card_id)} · Season 1 Card Data</span>`};
+    }
+    if(/cari|find|list|show|kartu|card/.test(nq)){
+      const found=cardSearch(q);
+      if(found.length>=1 && found[0].score>=2){
+        const title=isID?'Kartu yang paling cocok:':'Closest matching cards:';
+        const lines=found.map(({card})=>`<li><strong>${escapeHTML(card.name)}</strong> — ${escapeHTML([card.display_class,card.card_type,card.cost_display].filter(Boolean).join(' · '))}</li>`).join('');
+        return {html:`<strong>${title}</strong><ul>${lines}</ul><span class="source-link">Season 1 Card Data</span>`};
+      }
+    }
+    return null;
+  };
   const localAnswer=(q)=>{
     const t=ui[currentLang];
+    const cardAnswer=localCardAnswer(q);
+    if(cardAnswer)return cardAnswer;
     const ranked=chunks.map(c=>({...c,score:scoreText(c.text,c.section.tags,q)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
     if (!ranked.length || ranked[0].score < 4) return {text:t.arvonMissing};
     const top=ranked[0], second=ranked.find(x=>x.section.id!==top.section.id && x.score>=top.score*.72);
@@ -362,7 +440,7 @@
     const endpoint=window.GRANDIS_ARVON_ENDPOINT;
     if (!endpoint) return null;
     try{
-      const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,language:currentLang,source:'Grandis Legacy Rulebook v2',requestedSources:['rulebook','season1_cards','authority']})});
+      const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,language:currentLang,source:'Grandis Legacy Rulebook v2 + Season 1 Cards',requestedSources:['rulebook','season1_cards','authority']})});
       if(!r.ok) return null; const d=await r.json(); if(!d?.answer) return null; return {text:d.answer,source:d.source||''};
     }catch{return null;}
   };
