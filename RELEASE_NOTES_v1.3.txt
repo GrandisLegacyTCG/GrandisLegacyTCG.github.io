@@ -1,0 +1,23 @@
+Grandis Legacy Website v1.3
+
+Homepage
+- Use the official Grandis Legacy logo asset with header/footer sizing aligned to the other Grandis Legacy apps.
+- Remove Support Us from desktop and mobile.
+- Add Rulebook to the desktop/mobile header. Rulebook links intentionally open in a new tab; other site navigation remains same-tab.
+- Use the supplied Mail and Discord raw icons.
+- Use supplied raw HD carousel slides for Smite, Charged Shot, Glacial Spike, Parry, and Venom Binding. Titles and Skill badges are part of the supplied slide assets; no reconstructed overlays are used.
+- Use supplied feature icons for Three Heroes Party, Legacy System, and Play Anywhere.
+- Use the supplied Play Grandis Legacy Today battle image.
+- Add adaptive desktop scaling below 1440 CSS px while preserving 1440 and 1920 reference layouts.
+- Rework mobile layout to follow the supplied mobile reference: hamburger left, centered logo, Discord right, stacked sections, image-first Play panel, and no page-level horizontal scrolling.
+- Add Homepage GA4 measurement ID G-FVQCYF8PKQ.
+
+Rulebook Web
+- Default language is English with EN / ID switching while staying on the same chapter.
+- Bundle Player Rulebook v2 English and Panduan Pemain v2 Indonesian PDFs.
+- Add the updated Turn Structure, Positioning System, Hero Detail, Rank Up Detail, Skill Card, and Ultimate Skill Card visuals.
+- Use the existing Arvon image from Tutorial in the chat launcher/panel.
+- Keep local Rulebook search/answer fallback and preserve the optional GRANDIS_ARVON_ENDPOINT hook for advanced card-interaction answers.
+
+Public PvP
+- Sync /pvp/ frontend to PvP v3.05, including latest same-tab navigation and result-screen Back to Lobby / 1-minute cleanup behavior.

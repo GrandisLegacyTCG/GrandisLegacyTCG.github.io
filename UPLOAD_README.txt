@@ -1,4 +1,4 @@
-Grandis Legacy Website v1.2
+Grandis Legacy Website v1.3
 
 FULL REPLACEMENT package for the public GrandisLegacyTCG.github.io repository.
 
@@ -9,4 +9,4 @@ GitHub Desktop workflow:
 4. Commit and push to main.
 5. GitHub Pages remains: Deploy from a branch -> main -> / (root).
 
-This package preserves /pvp/ and /shared/, updates the homepage, and adds /rulebook/.
+This package preserves /shared/, syncs public /pvp/ to PvP v3.05, updates the homepage, and upgrades /rulebook/.

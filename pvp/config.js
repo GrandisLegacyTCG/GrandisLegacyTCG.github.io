@@ -11,7 +11,7 @@
     homeUrl:'https://grandislegacytcg.github.io/',
     room1WsBase:'wss://p01--grandis-legacy-pvp--2kwws8nzlcc2.code.run',
     room2WsBase:'wss://p01--grandis-legacy-pvp-room2--2kwws8nzlcc2.code.run',
-    deckBuilderUrl:'https://grandislegacytcg.github.io/Grandis-Legacy-Deck-Builder/',
+    deckBuilderUrl:'https://grandislegacytcg.github.io/Grandis-Legacy-Deck-Builder/style-1/',
     aiLobbyUrl:'https://grandislegacytcg.github.io/Grandis-Legacy-VS-AI/',
     maxPlayers:2,
     maxSpectators:4,

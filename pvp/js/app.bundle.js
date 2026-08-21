@@ -1,18 +1,18 @@
-/* Grandis Legacy shared gameplay application v3.0 — PvP v3.02 / VS AI v6.1 shared battlefield.
+/* Grandis Legacy shared gameplay application v3.0 — PvP v3.05 / VS AI v6.1 shared battlefield.
    One Source Authority v1.5.0 + Runtime Foundation v1.82 / Runtime Core v0.50 / Runtime Data v0.12.7.
    This gameplay/UI bundle is the next shared authority for Local AI and the future PvP rebuild; only intent controller and network transport may differ. */
 (function(){
   'use strict';
   var GL_APP_MODE=String((typeof window!=='undefined'&&window.GL_APP_MODE)||'LOCAL_AI').toUpperCase();
   var IS_PVP_APP=GL_APP_MODE==='PVP';
-  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.02 · VS AI v6.1 Battlefield · One Source v1.5.0 · Runtime Data v0.12.7 · Foundation v1.82 · Core v0.50':'Grandis Legacy VS AI v6.1 · Shared Gameplay Bundle v3.0 · One Source v1.5.0 · Runtime Data v0.12.7 · Foundation v1.82 · Core v0.50';
+  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.05 · VS AI v6.1 Battlefield · One Source v1.5.0 · Runtime Data v0.12.7 · Foundation v1.82 · Core v0.50':'Grandis Legacy VS AI v6.1 · Shared Gameplay Bundle v3.0 · One Source v1.5.0 · Runtime Data v0.12.7 · Foundation v1.82 · Core v0.50';
   var PHASES=['Draw','Deploy','Battle','Reform','End'];
   var LANE_ORDER=['LEFT','CENTER','RIGHT'];
   var EXP_MAX_TOTAL=700;
   var OPENING_HAND_SIZE=6;
   var RACIAL_TOKEN_CAP=2;
   var GL_SHARED_CARD_BASE='https://grandislegacytcg.github.io/shared/season1/v1/cards/';
-  var GL_ASSET_REV='gl-pvp-3.02-osa-1.5';
+  var GL_ASSET_REV='gl-pvp-3.04-osa-1.5';
   var GL_CARD_ZOOM_ID=null;
   var GL_LAST_PLAYER_TURN_BANNER_KEY='', GL_PLAYER_TURN_BANNER_TIMER=null;
   var GL_MODAL_HOVER_GUARD_BOUND=false;
@@ -5931,7 +5931,7 @@ function getActivatedHeroAbilities(state, side, lane){
     var root=$('app');
     root.innerHTML=''+
       '<main class="deck-setup-screen runtime-ui-v14-setup">'+
-        '<header class="ai-lobby-topbar"><div class="ai-lobby-logo"><img src="assets/lobby/grandis-legacy-logo.webp" alt="Grandis Legacy"></div><div class="ai-lobby-heading"><h1>VS AI LOBBY</h1></div><nav class="ai-lobby-actions"><a id="aiLobbyTutorialButton" class="ai-lobby-btn ai-lobby-btn--outline" href="tutorial/">TUTORIAL</a><a id="aiLobbyDeckBuilderButton" class="ai-lobby-btn ai-lobby-btn--outline" href="https://grandislegacytcg.github.io/Grandis-Legacy-Deck-Builder/" target="_blank" rel="noopener">GO TO DECK BUILDER</a><a id="aiLobbyPvpButton" class="ai-lobby-btn ai-lobby-btn--blue" href="https://p01--grandis-legacy-pvp--2kwws8nzlcc2.code.run/" target="_blank" rel="noopener">GO TO PVP</a></nav></header>'+
+        '<header class="ai-lobby-topbar"><div class="ai-lobby-logo"><img src="assets/lobby/grandis-legacy-logo.webp" alt="Grandis Legacy"></div><div class="ai-lobby-heading"><h1>VS AI LOBBY</h1></div><nav class="ai-lobby-actions"><a id="aiLobbyTutorialButton" class="ai-lobby-btn ai-lobby-btn--outline" href="tutorial/">TUTORIAL</a><a id="aiLobbyDeckBuilderButton" class="ai-lobby-btn ai-lobby-btn--outline" href="https://grandislegacytcg.github.io/Grandis-Legacy-Deck-Builder/style-1/">GO TO DECK BUILDER</a><a id="aiLobbyPvpButton" class="ai-lobby-btn ai-lobby-btn--blue" href="https://grandislegacytcg.github.io/pvp/">GO TO PVP</a></nav></header>'+
         '<section class="deck-setup-shell">'+deckSetupHtml()+'</section>'+ 
       '</main>';
     closeChoice();

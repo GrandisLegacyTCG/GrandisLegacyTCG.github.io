@@ -1,297 +1,281 @@
-<!doctype html>
-<html lang="id">
+<!DOCTYPE html>
+
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#15151d">
-  <meta name="description" content="Grandis Legacy Player Rulebook Season 1 — dokumentasi aturan resmi permainan.">
-  <title>Grandis Legacy — Player Rulebook</title>
-  <link rel="preload" href="../assets/site/fonts/NotoSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/rulebook.css?v=1.0.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#15151d" name="theme-color"/>
+<meta content="Grandis Legacy Season 1 Player Rulebook — official game rules in English and Indonesian." name="description"/>
+<title>Grandis Legacy — Player Rulebook</title>
+<link as="font" crossorigin="" href="../assets/site/fonts/NotoSans-Variable.woff2" rel="preload" type="font/woff2"/>
+<link href="css/rulebook.css?v=1.3.0" rel="stylesheet"/>
 </head>
 <body>
-  <header class="docs-topbar">
-    <div class="docs-brand">
-      <a href="../" class="docs-logo-link" aria-label="Grandis Legacy Home"><img src="../assets/site/logo.png" alt="Grandis Legacy"></a>
-      <span class="brand-divider" aria-hidden="true"></span>
-      <strong>Player Rulebook</strong>
-    </div>
-    <button class="sidebar-toggle" type="button" aria-label="Buka navigasi" aria-expanded="false">☰</button>
-    <button class="search-trigger" type="button" aria-label="Cari rulebook"><span class="search-icon">⌕</span><span>Cari rulebook...</span><kbd>Ctrl K</kbd></button>
-    <a class="pdf-button" href="assets/Grandis_Legacy_Rulebook_for_Player_v1.pdf" target="_blank" rel="noopener">PDF</a>
-  </header>
-
-  <div class="docs-shell">
-    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Rulebook navigation">
-      <div class="sidebar-scroll">
-        <a href="#overview" class="sidebar-home">Rulebook Season 1</a>
-        <div class="nav-group">
-          <div class="nav-label">GETTING STARTED</div>
-          <a href="#chapter-1"><span>01</span>Mengenal Grandis Legacy</a>
-          <a href="#chapter-2"><span>02</span>Persiapan, Turn, Mana</a>
-          <a href="#chapter-3"><span>03</span>Hero & Pertarungan</a>
-          <a href="#chapter-4"><span>04</span>Positioning System</a>
-        </div>
-        <div class="nav-group">
-          <div class="nav-label">HERO & LEGACY</div>
-          <a href="#chapter-5"><span>05</span>Hero Card & Exhaust</a>
-          <a href="#chapter-6"><span>06</span>Tribute & Rank Up</a>
-          <a href="#chapter-7"><span>07</span>Legacy, Defeat, Revive</a>
-        </div>
-        <div class="nav-group">
-          <div class="nav-label">CARDS & RESOLUTION</div>
-          <a href="#chapter-8"><span>08</span>Main Deck & Skill Card</a>
-          <a href="#chapter-9"><span>09</span>Simbol & Jenis Skill</a>
-          <a href="#chapter-10"><span>10</span>Response, Attachment, Casting</a>
-        </div>
-        <div class="nav-group">
-          <div class="nav-label">REFERENCE</div>
-          <a href="#chapter-11"><span>11</span>Status & Healing</a>
-          <a href="#chapter-12"><span>12</span>Ringkasan Cepat</a>
-        </div>
-        <div class="sidebar-footer">
-          <a href="../">← Grandis Legacy Home</a>
-          <a href="https://discord.gg/xg6zTeRCBP" target="_blank" rel="noopener noreferrer">Discord</a>
-        </div>
-      </div>
-    </aside>
-
-    <main class="docs-content" id="docs-content">
-      <section class="doc-section hero-doc" id="overview" data-page="1-2" data-tags="rulebook season 1 panduan navigasi daftar isi">
-        <div class="eyebrow">GRANDIS LEGACY · SEASON 1</div>
-        <h1>Player Rulebook</h1>
-        <p class="lead">Panduan bermain Grandis Legacy Season 1 untuk pertarungan TCG 3 vs 3 Hero.</p>
-        <div class="hero-actions">
-          <a class="primary-action" href="#chapter-1">Mulai membaca</a>
-          <a class="secondary-action" href="assets/Grandis_Legacy_Rulebook_for_Player_v1.pdf" target="_blank" rel="noopener">Buka PDF asli</a>
-        </div>
-        <div class="callout info"><strong>Urutan membaca:</strong> Chapter 1-8 menjelaskan fungsi utama permainan. Chapter berikutnya digunakan ketika simbol Skill, Response, Attachment, Casting, Status, atau Healing muncul.</div>
-      </section>
-
-      <section class="doc-section" id="chapter-1" data-page="3" data-tags="menang battlefield legacy deck main deck mana pool hand racial token attachment discard deck out kalah">
-        <div class="eyebrow">DASAR PERMAINAN · PAGE 3</div>
-        <h2>1. Mengenal Grandis Legacy dan Battlefield</h2>
-        <p>Grandis Legacy adalah Trading Card Game dengan pertarungan <strong>3 Hero melawan 3 Hero</strong>. Pemain mengatur posisi Hero, menggunakan kartu dari Main Deck, menaikkan Rank, dan memakai Legacy untuk menjaga strategi setelah Hero defeated.</p>
-        <div class="two-col">
-          <div class="rule-card"><h3>Cara utama untuk menang</h3><p>Kalahkan seluruh 3 Hero lawan.</p></div>
-          <div class="rule-card"><h3>Deck-out</h3><p>Jika Main Deck kosong dan draw wajib pada Draw Phase tidak dapat dilakukan, pemain kalah.</p></div>
-        </div>
-        <div class="callout"><strong>Dua poin berbeda:</strong> mengalahkan 3 Hero adalah tujuan untuk menang. Menjaga Main Deck adalah syarat agar kamu tidak kalah saat Draw Phase.</div>
-        <h3>Area Battlefield</h3>
-        <div class="table-wrap"><table><thead><tr><th>Area</th><th>Fungsi</th></tr></thead><tbody>
-          <tr><td>Hero Left / Center / Right</td><td>Tempat Hero atau Legacy.</td></tr>
-          <tr><td>Attachment Slot</td><td>Dua slot efek aktif per Hero.</td></tr>
-          <tr><td>Legacy Deck</td><td>Hero Rank I-III dan Legacy Card.</td></tr>
-          <tr><td>Racial Token</td><td>Digunakan untuk Racial Trait.</td></tr>
-          <tr><td>Main Deck</td><td>Sumber Skill, Item, dan Event.</td></tr>
-          <tr><td>Discard Pile</td><td>Tempat kartu yang selesai atau dibuang.</td></tr>
-          <tr><td>Mana Pool</td><td>Tempat Mana Shard tersedia.</td></tr>
-          <tr><td>Hand</td><td>Kartu privat milik pemain.</td></tr>
-        </tbody></table></div>
-        <p><strong>Legacy Deck:</strong> tiga paket perkembangan Hero. Setiap paket berisi Hero Rank I, Rank II, Rank III, dan 1 Legacy Card. <strong>Main Deck:</strong> berisi Skill, Item, dan Event Card; Main Deck diacak dan menjadi sumber kartu di Hand.</p>
-      </section>
-
-      <section class="doc-section" id="chapter-2" data-page="4" data-tags="setup opening hand 60 card mana shard mana regen draw deploy battle reform end first player turn pertama hand limit">
-        <div class="eyebrow">SEBELUM BERMAIN · PAGE 4</div>
-        <h2>2. Persiapan, Struktur Turn, dan Mana</h2>
-        <h3>Persiapan permainan</h3>
-        <ol class="steps">
-          <li>Pilih tiga paket Hero untuk Legacy Deck.</li>
-          <li>Letakkan Hero Rank I pada Left, Center, dan Right.</li>
-          <li>Kocok Main Deck.</li>
-          <li>Ambil 6 kartu sebagai opening hand.</li>
-          <li>Mulai dengan 2 Mana Shard, Mana Regen 1, dan 2 Racial Token.</li>
-          <li>Tentukan pemain pertama dan mulai pada Draw Phase.</li>
-        </ol>
-        <div class="table-wrap"><table><thead><tr><th>Bagian</th><th>Aturan</th></tr></thead><tbody>
-          <tr><td>Main Deck</td><td>60 kartu yang terdiri dari Skill, Item, dan Event. Jumlah tiap jenis bebas.</td></tr>
-          <tr><td>Legacy Deck</td><td>12 kartu: tiga paket Hero dan Legacy.</td></tr>
-          <tr><td>Batas nama</td><td>Kartu normal maksimal 2; Ultimate maksimal 1.</td></tr>
-          <tr><td>Hand limit</td><td>Maksimum 8 pada akhir turn.</td></tr>
-        </tbody></table></div>
-        <h3>Struktur Turn</h3>
-        <div class="phase-strip" aria-label="Turn order"><span>DRAW</span><span>DEPLOY</span><span>BATTLE</span><span>REFORM</span><span>END</span></div>
-        <ul>
-          <li><strong>Draw:</strong> Ready Hero, draw wajib 1 kartu, lalu dapatkan Mana.</li>
-          <li><strong>Deploy:</strong> Tactical, Item, Event, Ability, Racial Trait, Legacy Ability, Reposition.</li>
-          <li><strong>Battle:</strong> Attack, Response, dan Casting yang sudah siap.</li>
-          <li><strong>Reform:</strong> Support, Tribute, Legacy Ability, Reposition.</li>
-          <li><strong>End:</strong> Status dan efek akhir turn, kurangi Hand sampai 8, lalu ganti pemain.</li>
-        </ul>
-        <h3>Mana</h3>
-        <p>Mana Shard membayar kartu dan kemampuan. Mana tersedia disimpan di Mana Pool. <strong>Mana Pool maksimum 12.</strong> Mana Cost adalah jumlah Mana yang dibayar. Mana Regen adalah Mana yang didapat saat Draw Phase dan dapat meningkat sampai 6.</p>
-        <div class="callout warning"><strong>Timing:</strong> kartu hanya dapat digunakan pada fase atau kesempatan yang tertulis pada kartu. <strong>Pemain pertama tidak dapat menyerang pada turn pertamanya.</strong></div>
-      </section>
-
-      <section class="doc-section" id="chapter-3" data-page="5" data-tags="attack target area of attack range attack area attack reposition hp exp target normal left center right response damage">
-        <div class="eyebrow">BAGIAN INTI · PAGE 5</div>
-        <h2>3. Hero dan Dasar Pertarungan</h2>
-        <h3>Formasi dan Area of Attack</h3>
-        <div class="table-wrap"><table><thead><tr><th>Posisi penyerang</th><th>Target normal</th></tr></thead><tbody>
-          <tr><td>Left</td><td>Left atau Center</td></tr>
-          <tr><td>Center</td><td>Left, Center, atau Right</td></tr>
-          <tr><td>Right</td><td>Center atau Right</td></tr>
-        </tbody></table></div>
-        <div class="two-col">
-          <div class="rule-card"><h3>Range Attack</h3><p>Serangan yang tidak dibatasi oleh Area of Attack normal berdasarkan posisi Hero.</p></div>
-          <div class="rule-card"><h3>Area Attack</h3><p>Tidak memilih target satu per satu. Attack mengenai semua Hero lawan di dalam Area of Attack Hero pengguna.</p></div>
-        </div>
-        <h3>Cara menggunakan Attack Skill</h3>
-        <ol class="steps"><li>Pilih Attack Skill dari Hand.</li><li>Pilih Hero yang memenuhi Class, Rank, dan syarat kartu.</li><li>Pilih target yang legal bila diperlukan.</li><li>Konfirmasi, bayar Mana, dan Exhaust Hero bila diperlukan.</li><li>Lawan mendapat kesempatan Response.</li><li>Selesaikan damage dan efek kartu.</li></ol>
-        <h3>Reposition</h3>
-        <p>Reposition menukar dua posisi yang bersebelahan. Left bersebelahan dengan Center; Right bersebelahan dengan Center.</p>
-        <div class="table-wrap"><table><thead><tr><th>Pertukaran</th><th>Hasil</th></tr></thead><tbody><tr><td>Hero ↔ Hero</td><td>Keduanya Exhausted.</td></tr><tr><td>Hero ↔ Legacy</td><td>Hanya Hero Exhausted.</td></tr><tr><td>Legacy ↔ Legacy</td><td>Tidak legal.</td></tr></tbody></table></div>
-        <p>HP, EXP, status, Attachment, Casting, dan Exhaust ikut berpindah bersama Hero. Reposition dari efek kartu tidak otomatis Exhaust kecuali tertulis.</p>
-        <ul><li>Semua Attack non-Area harus memilih target, kecuali kartu menentukan target sendiri atau menyatakan tidak memakai target.</li><li>Jumlah target mengikuti teks kartu.</li><li>Attack yang memilih beberapa posisi mengikuti pilihan pada kartu; setiap Hero yang terkena mendapat Response sendiri.</li><li>Legacy bukan target Hero, kecuali kartu secara khusus memilih posisi dan mengizinkan Legacy.</li></ul>
-        <div class="callout info"><strong>Pengaruh posisi:</strong> posisi Hero membatasi target Attack pada Battle Phase. Penggunaan kartu di luar Battle Phase tidak dibatasi posisi, kecuali kartu menyatakan berbeda.</div>
-      </section>
-
-      <section class="doc-section visual-section" id="chapter-4" data-page="6" data-tags="positioning system left center right attack range safer positioning focused pressure highest influence highest risk">
-        <div class="eyebrow">POSITIONING SYSTEM · PAGE 6</div>
-        <h2>4. Positioning System</h2>
-        <p>Hero bertarung sebagai bagian dari formasi battlefield. Posisi menentukan Hero lawan yang dapat diserang.</p>
-        <figure class="source-figure"><img src="assets/positioning-system.jpg" alt="Grandis Legacy Positioning System dari Player Rulebook"><figcaption>Positioning System — source: Player Rulebook page 6.</figcaption></figure>
-      </section>
-
-      <section class="doc-section" id="chapter-5" data-page="7" data-tags="hero card anatomy nama hero hp class icon race rank quote exp requirement racial trait class ability rank up bonus card id ready exhausted racial token">
-        <div class="eyebrow">LEGACY DECK - HERO · PAGE 7</div>
-        <h2>5. Membaca Hero Card dan Exhaust</h2>
-        <figure class="source-figure anatomy"><img src="assets/hero-card-anatomy.jpg" alt="Anatomi Hero Card Grandis Legacy"><figcaption>Anatomi Hero Card — contoh Rank III.</figcaption></figure>
-        <div class="anatomy-grid">
-          <div><b>1. Nama Hero</b><span>Identitas Hero.</span></div><div><b>2. Total HP</b><span>Batas HP sebelum Hero defeated.</span></div>
-          <div><b>3. Class Icon</b><span>Ikon Class Hero.</span></div><div><b>4. Race, Class, dan Rank</b><span>Menentukan Trait dan Skill legal.</span></div>
-          <div><b>5. Hero Quote</b><span>Kalimat karakter Hero.</span></div><div><b>6. EXP Requirement</b><span>EXP untuk Rank Hero ini.</span></div>
-          <div><b>7. Racial Trait</b><span>Kemampuan berdasarkan Race.</span></div><div><b>8. Class Ability</b><span>Kemampuan khusus Hero.</span></div>
-          <div><b>9. Rank Up Bonus</b><span>Bonus saat mencapai Rank.</span></div><div><b>10. Card ID</b><span>Kode identitas kartu.</span></div>
-        </div>
-        <p><strong>Gunakan Class dan Rank pada Hero untuk menentukan Skill yang dapat dimainkan.</strong></p>
-        <h3>Exhaust dan Racial Token</h3>
-        <div class="two-col"><div class="rule-card"><h3>Ready</h3><p>Hero dapat menggunakan kartu atau kemampuan yang legal.</p><p><strong>Exhausted:</strong> Hero tidak dapat menggunakan Skill atau kemampuan aktif normal.</p></div><div class="rule-card"><h3>Kembali Ready</h3><p>Hero biasanya kembali Ready pada Draw Phase miliknya. Hero yang masih Casting tetap Exhausted.</p><p><strong>Racial Token:</strong> pool maksimum 2. Pemain dapat menggunakan maksimal 1 Racial Token selama satu turn aktif.</p></div></div>
-        <div class="callout"><strong>Racial Trait</strong> yang legal tetap dapat digunakan saat Hero Exhausted, kecuali kartu menyatakan berbeda.</div>
-      </section>
-
-      <section class="doc-section" id="chapter-6" data-page="8" data-tags="tribute exp rank up rank ii rank iii 300 700 ultimate reform mana regen draw bonus">
-        <div class="eyebrow">PERKEMBANGAN HERO · PAGE 8</div>
-        <h2>6. Tribute dan Rank Up</h2>
-        <h3>Tribute</h3>
-        <p>Tribute mengubah 1 Skill Card dari Hand menjadi EXP untuk Hero pilihan.</p>
-        <div class="table-wrap"><table><thead><tr><th>Aturan Tribute</th><th>Penjelasan</th></tr></thead><tbody><tr><td>Timing</td><td>Reform Phase.</td></tr><tr><td>Batas</td><td>Maksimal 1 Tribute normal setiap Reform Phase.</td></tr><tr><td>Mana</td><td>Mana Cost pada Skill tidak dibayar.</td></tr><tr><td>Nilai EXP</td><td>Skill normal bernilai 100 EXP. Ultimate bernilai 200 EXP.</td></tr><tr><td>Ultimate</td><td>Hanya dapat diberikan kepada Hero pemilik yang tertulis pada kartu.</td></tr></tbody></table></div>
-        <h3>Rank Up</h3>
-        <p>Ketika jumlah EXP Hero mencapai kebutuhan Rank berikutnya, ganti Hero Card dengan kartu Rank yang sesuai.</p>
-        <div class="table-wrap"><table><thead><tr><th>EXP</th><th>Rank baru</th><th>Bonus Rank Up</th></tr></thead><tbody><tr><td>300</td><td>Rank II</td><td>Draw 2 kartu dan Mana Regen +1.</td></tr><tr><td>700</td><td>Rank III</td><td>Draw 3 kartu dan Mana Regen +1.</td></tr></tbody></table></div>
-        <p>Saat Rank Up, semua EXP Card di bawah Hero dipindahkan ke Discard Pile. Damage yang sudah diterima tetap dihitung terhadap Max HP baru. Status, Attachment, Casting, dan Exhaust tetap mengikuti Hero. Mana Pool tidak langsung bertambah.</p>
-        <div class="callout info">Mengurangi EXP tidak membuat Hero turun Rank. Hero Rank III tidak dapat Rank Up lagi.</div>
-      </section>
-
-      <section class="doc-section" id="chapter-7" data-page="9" data-tags="legacy card defeated defeat revive legacy ability deploy reform skill cost no mana three heroes lose attachment status exp">
-        <div class="eyebrow">LEGACY DECK · PAGE 9</div>
-        <h2>7. Legacy Card, Defeat, dan Revive</h2>
-        <h3>Apa itu Legacy?</h3>
-        <p>Ketika Hero defeated, pilih Legacy Card yang sesuai dan legal untuk menempati posisi Hero tersebut. Legacy bukan Hero. Legacy tidak memiliki HP, Class, Rank, EXP, status, Exhaust, atau Attachment Slot. Legacy tidak dapat ditarget sebagai Hero, tetapi dapat bertukar posisi dengan Hero.</p>
-        <p>Legacy menjaga Skill Card terkait Hero yang defeated tetap berguna sebagai biaya. Gunakan Skill Card yang diminta sebagai biaya tanpa membayar Mana, lalu jalankan efek Legacy Ability yang tertulis.</p>
-        <div class="callout"><strong>Timing Legacy:</strong> Legacy Ability hanya dapat digunakan pada Deploy Phase atau Reform Phase. Setiap Legacy dapat menggunakan Ability sekali per turn dan tidak menjadi Exhausted.</div>
-        <h3>Hero Defeated</h3>
-        <ul><li>Attachment masuk Discard.</li><li>Status dibersihkan.</li><li>EXP Card dipindahkan sesuai aturan defeat.</li><li>Jika ketiga Hero defeated, pemain kalah.</li></ul>
-        <h3>Revive</h3>
-        <ul><li>Legacy kembali ke Legacy Deck.</li><li>Hero kembali ke posisi tersebut.</li><li>HP, EXP, status, dan Exhaust mengikuti kartu revive.</li></ul>
-      </section>
-
-      <section class="doc-section" id="chapter-8" data-page="10" data-tags="main deck skill card lineage fallback effect class rank ultimate mana cost target 60 item event discard attachment">
-        <div class="eyebrow">MAIN DECK · PAGE 10</div>
-        <h2>8. Main Deck dan Membaca Skill Card</h2>
-        <p>Main Deck berisi 60 kartu yang terdiri dari Skill, Item, dan Event Card. Pemain bebas menentukan jumlah tiap jenis. Kartu yang selesai biasanya masuk Discard, kecuali menjadi Attachment atau dipindahkan oleh efek lain.</p>
-        <h3>Lineage dan Fallback Efek</h3>
-        <p><strong>Lineage</strong> adalah jalur perkembangan Class Hero dari Rank I ke Rank II dan Rank III. Hero dapat menggunakan Skill dari Class sebelumnya dalam Lineage yang sama.</p>
-        <p>Gunakan baris efek yang sesuai dengan Class dan Rank Hero. Jika tidak ada baris yang tepat, gunakan baris efek tertinggi sebelumnya pada Lineage tersebut.</p>
-        <div class="callout info"><strong>Contoh:</strong> Conqueror Rank III masih dapat memakai Deflect dari Lineage Warrior → Gladiator → Conqueror. Karena Deflect memiliki baris Warrior Rank I dan Gladiator Rank II, gunakan efek Gladiator Rank II.</div>
-        <p>Sebelum memainkan Skill, periksa Mana Cost, jenis Skill, timing, Class, Rank, Lineage, target, dan teks efek.</p>
-      </section>
-
-      <section class="doc-section" id="chapter-9" data-page="11" data-tags="physical magical area attack range casting defense support tactical item event timing target symbol skill">
-        <div class="eyebrow">SIMBOL KARTU · PAGE 11</div>
-        <h2>9. Simbol Skill, Jenis Skill, Item, dan Event</h2>
-        <div class="rule-grid">
-          <div class="rule-card"><h3>Physical Attack</h3><p>Harus memilih target di dalam Area of Attack dan memberikan Physical damage.</p></div>
-          <div class="rule-card"><h3>Magical Attack</h3><p>Harus memilih target di dalam Area of Attack dan memberikan Magical damage.</p></div>
-          <div class="rule-card"><h3>Area Attack</h3><p>Mengenai semua Hero lawan di dalam Area of Attack tanpa memilih target satu per satu.</p></div>
-          <div class="rule-card"><h3>Range Attack</h3><p>Harus memilih target, tetapi tidak dibatasi Area of Attack normal berdasarkan posisi Hero.</p></div>
-          <div class="rule-card"><h3>Casting</h3><p>Pilih posisi target saat dimainkan. Posisi tetap terkunci sampai Casting diselesaikan pada Battle Phase.</p></div>
-          <div class="rule-card"><h3>Defense</h3><p>Digunakan saat Response untuk Block, Dodge, Negate, redirect, atau perlindungan lain.</p></div>
-          <div class="rule-card"><h3>Support</h3><p>Healing, recovery, atau bantuan lain untuk Hero. Timing mengikuti kartu.</p></div>
-          <div class="rule-card"><h3>Tactical</h3><p>Persiapan, Reposition, buff, draw, atau mengganggu lawan. Timing mengikuti kartu.</p></div>
-        </div>
-        <div class="callout">Jumlah target mengikuti teks pada kartu.</div>
-        <h3>Timing Umum Skill</h3>
-        <div class="table-wrap"><table><thead><tr><th>Jenis</th><th>Timing umum</th><th>Fungsi</th></tr></thead><tbody><tr><td>Attack</td><td>Battle Phase</td><td>Menyerang Hero lawan.</td></tr><tr><td>Defense</td><td>Saat Response</td><td>Melindungi Hero atau menghentikan Attack.</td></tr><tr><td>Tactical</td><td>Deploy Phase atau sesuai kartu</td><td>Menyiapkan strategi dan mengubah keadaan permainan.</td></tr><tr><td>Support</td><td>Deploy atau Reform sesuai kartu</td><td>Healing, recovery, atau bantuan lain.</td></tr></tbody></table></div>
-        <div class="two-col"><div class="rule-card"><h3>Item Card</h3><p>Memberikan healing, buff, modifier, atau fungsi khusus. Dapat langsung selesai atau menjadi Attachment bila efeknya tetap aktif.</p></div><div class="rule-card"><h3>Event Card</h3><p>Mewakili kejadian yang memengaruhi permainan. Tidak selalu membutuhkan Hero sebagai pengguna.</p></div></div>
-      </section>
-
-      <section class="doc-section" id="chapter-10" data-page="12" data-tags="response block dodge redirect negate cancel attachment slot casting target position stun exhausted counter multi target">
-        <div class="eyebrow">PENYELESAIAN KARTU · PAGE 12</div>
-        <h2>10. Response, Attachment, dan Casting</h2>
-        <h3>Response</h3>
-        <p>Setelah aksi dimainkan dan biaya dibayar, lawan mendapat kesempatan Response. Jika Response dibalas lagi, efek diselesaikan dari kartu yang paling terakhir dimainkan sampai kembali ke aksi awal.</p>
-        <div class="table-wrap"><table><thead><tr><th>Hasil pertahanan</th><th>Arti</th></tr></thead><tbody><tr><td>Block</td><td>Mengurangi damage, termasuk sampai 0.</td></tr><tr><td>Dodge</td><td>Hero menghindari Attack.</td></tr><tr><td>Redirect</td><td>Mengalihkan target Attack sesuai teks kartu.</td></tr><tr><td>Negate / Cancel</td><td>Menghentikan kartu atau efek sesuai teks kartu.</td></tr></tbody></table></div>
-        <div class="callout info"><strong>Area dan multi-target:</strong> setiap Hero yang terkena mendapat kesempatan Response sendiri.</div>
-        <h3>Attachment</h3>
-        <ul><li>Setiap Hero memiliki 2 Attachment Slot.</li><li>Kartu menjadi Attachment jika efeknya masih aktif setelah kartu dimainkan dan perlu dipertahankan untuk timing berikutnya.</li><li>Efek yang langsung selesai tidak ditempatkan di Attachment Slot.</li><li>Slot harus tersedia sebelum kartu yang memerlukan Attachment dimainkan.</li><li>Attachment mengikuti Hero saat Reposition.</li><li>Gunakan counter yang sama untuk menandai sisa turn atau jumlah penggunaan.</li><li>Saat efek berakhir, digunakan, atau Hero defeated, kartu masuk Discard.</li></ul>
-        <h3>Casting</h3>
-        <div class="callout warning"><strong>Casting mengunci posisi target, bukan Hero.</strong> Pilih posisi lawan saat Casting dimainkan. Saat dilepaskan, Casting mengenai Hero yang sedang berada di posisi tersebut.</div>
-        <ul><li>Jika posisi target berisi Legacy Card saat Casting dilepaskan, Attack selesai tanpa memberikan damage.</li><li>Semua Casting hanya dilepaskan dan diselesaikan pada Battle Phase.</li><li>Casting menggunakan Attachment Slot dan membuat Hero pengguna Exhausted.</li><li>Jika Hero pengguna berpindah posisi atau terkena Stun sebelum Casting dilepaskan, Casting dibatalkan.</li><li>Casting normal mengurangi counter pada awal Battle Phase berikutnya.</li><li>Saat counter mencapai 0 pada Battle Phase, Attack dilepaskan dan lawan mendapat Response.</li><li>Setelah Casting selesai, Hero pengguna tetap Exhausted sampai Draw Phase berikutnya.</li></ul>
-      </section>
-
-      <section class="doc-section" id="chapter-11" data-page="13" data-tags="status bleed burn freeze poison stun healing taunt duration end phase dodge reposition attachment max hp">
-        <div class="eyebrow">REFERENSI PENUNJANG · PAGE 13</div>
-        <h2>11. Status dan Healing</h2>
-        <p>Status melekat pada Hero dan ikut berpindah saat Reposition. Legacy tidak dapat menerima status Hero.</p>
-        <div class="table-wrap"><table><thead><tr><th>Status</th><th>Efek</th></tr></thead><tbody>
-          <tr><td>Bleed</td><td>Hero tidak dapat menerima healing selama Bleed masih aktif. Bleed tidak memberikan damage tambahan.</td></tr>
-          <tr><td>Burn</td><td>Jika Hero dengan Burn menerima damage dari Attack, Attack tersebut memberikan 10 damage tambahan.</td></tr>
-          <tr><td>Freeze</td><td>Hero tidak dapat berpindah posisi, baik melalui Reposition normal maupun efek Skill, dan tidak dapat menggunakan Dodge.</td></tr>
-          <tr><td>Poison</td><td>Memberikan 10 damage pada End Phase pemilik Hero untuk setiap turn durasinya.</td></tr>
-          <tr><td>Stun</td><td>Hero tidak dapat dipilih sebagai pengguna atau sumber untuk Skill, Item, Event, Ability, atau efek aktif selama Stun masih aktif.</td></tr>
-        </tbody></table></div>
-        <div class="callout"><strong>Durasi Status:</strong> durasi berkurang pada End Phase pemilik Hero dan status berakhir ketika durasinya mencapai 0. Poison memberikan damage sebelum durasinya berkurang.</div>
-        <h3>Healing</h3>
-        <ul><li>Healing tidak dapat melebihi Max HP.</li><li>Single-target healing membutuhkan Hero yang terluka dan tidak memiliki Bleed.</li><li>Pada healing beberapa target, Hero yang full HP, defeated, atau memiliki Bleed dilewati.</li><li>Modifier Healing Done dan Healing Received diterapkan bila ada.</li></ul>
-        <div class="callout info"><strong>Taunt</strong> adalah efek Attachment yang membatasi pilihan Attack, bukan salah satu status di atas.</div>
-      </section>
-
-      <section class="doc-section" id="chapter-12" data-page="14" data-tags="quick reference ringkasan menang deck out turn area range reposition tribute rank up attachment legacy racial token hand search attack defeat">
-        <div class="eyebrow">QUICK REFERENCE · PAGE 14</div>
-        <h2>12. Ringkasan Cepat</h2>
-        <div class="table-wrap"><table><thead><tr><th>Topik</th><th>Aturan singkat</th></tr></thead><tbody>
-          <tr><td>Menang</td><td>Defeat 3 Hero lawan.</td></tr><tr><td>Deck-out</td><td>Kalah hanya ketika draw wajib pada Draw Phase gagal.</td></tr><tr><td>Turn</td><td>Draw → Deploy → Battle → Reform → End.</td></tr><tr><td>Area of Attack</td><td>Left: Left/Center; Center: semua; Right: Center/Right.</td></tr><tr><td>Range</td><td>Harus memilih target tanpa dibatasi Area of Attack normal.</td></tr><tr><td>Posisi</td><td>Membatasi target Attack pada Battle Phase; kartu di luar Battle Phase tidak dibatasi posisi kecuali tertulis.</td></tr><tr><td>Reposition</td><td>Hero berpindah bersama HP, EXP, status, Attachment, Casting, dan Exhaust.</td></tr><tr><td>Tribute</td><td>1 Skill menjadi EXP pada Reform Phase.</td></tr><tr><td>Rank Up</td><td>300 EXP ke Rank II; 700 EXP ke Rank III; semua EXP Card masuk Discard saat Rank Up.</td></tr><tr><td>Attachment</td><td>2 slot per Hero; digunakan bila efek tetap aktif setelah kartu dimainkan.</td></tr><tr><td>Legacy</td><td>Menggunakan Skill tertentu sebagai biaya untuk menjalankan Legacy Ability pada Deploy atau Reform.</td></tr><tr><td>Racial Token</td><td>Maksimum 2; gunakan maksimal 1 selama satu turn aktif.</td></tr>
-        </tbody></table></div>
-        <h3>Tiga Alur Utama</h3>
-        <div class="flow-list"><div><b>Attack</b><span>Pilih kartu → pilih Hero → pilih target → bayar Mana → Response → selesaikan.</span></div><div><b>Rank Up</b><span>Tribute → kumpulkan EXP → capai 300/700 → EXP ke Discard → ganti Hero → dapatkan bonus.</span></div><div><b>Defeat</b><span>HP 0 → periksa efek yang mencegah defeat → Hero defeated → pilih Legacy.</span></div></div>
-        <h3>Hand dan Search</h3>
-        <ul><li>Hand bersifat privat.</li><li>Setelah mencari atau melihat Main Deck, kocok kecuali kartu menyatakan berbeda.</li><li>Effect draw mengambil kartu sebanyak yang tersedia, termasuk 0, tanpa langsung kalah.</li></ul>
-        <div class="end-mark">END OF PLAYER RULEBOOK</div>
-      </section>
-    </main>
-  </div>
-
-  <div class="search-modal" id="search-modal" hidden>
-    <button class="search-backdrop" type="button" aria-label="Tutup pencarian"></button>
-    <div class="search-panel" role="dialog" aria-modal="true" aria-labelledby="search-title">
-      <div class="search-input-row"><span>⌕</span><input id="search-input" type="search" autocomplete="off" placeholder="Cari aturan, mis. Casting, Poison, Rank Up..." aria-label="Cari rulebook"><kbd>Esc</kbd></div>
-      <div class="search-results" id="search-results"><p class="empty-state" id="search-title">Ketik untuk mencari di seluruh Player Rulebook.</p></div>
-    </div>
-  </div>
-
-  <button class="arvon-launcher" id="arvon-launcher" type="button" aria-expanded="false" aria-controls="arvon-panel">
-    <span class="arvon-avatar">A</span><span class="arvon-launch-copy"><b>Arvon</b><small>Ask the Rulebook</small></span>
-  </button>
-  <section class="arvon-panel" id="arvon-panel" hidden aria-label="Arvon Rulebook Assistant">
-    <header><div><span class="arvon-avatar">A</span><div><b>Arvon</b><small>Rulebook Guide · Player Rulebook v1</small></div></div><button id="arvon-close" type="button" aria-label="Tutup Arvon">×</button></header>
-    <div class="arvon-messages" id="arvon-messages" aria-live="polite">
-      <div class="chat-row bot"><div class="bubble">Saya Arvon. Tanyakan aturan Grandis Legacy yang ada di Player Rulebook v1. Saya akan menunjuk chapter dan page sumbernya.</div></div>
-    </div>
-    <form class="arvon-form" id="arvon-form"><input id="arvon-input" type="text" maxlength="300" autocomplete="off" placeholder="Tanya soal rulebook..."><button type="submit">Send</button></form>
-    <div class="arvon-note">Rulebook-only · jika sumber tidak mendukung jawabannya, Arvon tidak akan membuat aturan baru.</div>
-  </section>
-
-  <script src="js/rulebook.js?v=1.0.0"></script>
+<header class="docs-topbar">
+<div class="docs-brand">
+<a aria-label="Grandis Legacy Home" class="docs-logo-link" href="../"><img alt="Grandis Legacy" src="../assets/site/grandis-legacy-logo.webp"/></a>
+<span aria-hidden="true" class="brand-divider"></span>
+<strong data-ui="brand-title">Player Rulebook</strong>
+</div>
+<button aria-expanded="false" aria-label="Buka navigasi" class="sidebar-toggle" type="button">☰</button>
+<button aria-label="Cari rulebook" class="search-trigger" type="button"><span class="search-icon">⌕</span><span data-ui="search-trigger-text">Cari rulebook...</span><kbd>Ctrl K</kbd></button>
+<div class="topbar-actions"><div aria-label="Language" class="language-switch" role="group"><button aria-pressed="true" data-lang="en" type="button">EN</button><button aria-pressed="false" data-lang="id" type="button">ID</button></div><a class="pdf-button" data-pdf-button="" href="assets/Grandis_Legacy_Player_Rulebook_v2_EN.pdf" rel="noopener" target="_blank">PDF</a></div>
+</header>
+<div class="docs-shell">
+<aside aria-label="Rulebook navigation" class="docs-sidebar" id="docs-sidebar">
+<div class="sidebar-scroll">
+<a class="sidebar-home" data-ui="sidebar-home" href="#overview">Rulebook Season 1</a>
+<div class="nav-group">
+<div class="nav-label" data-nav-group="0">GETTING STARTED</div>
+<a data-nav-link="chapter-1" href="#chapter-1"><span>01</span>Mengenal Grandis Legacy</a>
+<a data-nav-link="chapter-2" href="#chapter-2"><span>02</span>Persiapan, Turn, Mana</a>
+<a data-nav-link="chapter-3" href="#chapter-3"><span>03</span>Hero &amp; Pertarungan</a>
+<a data-nav-link="chapter-4" href="#chapter-4"><span>04</span>Positioning System</a>
+</div>
+<div class="nav-group">
+<div class="nav-label" data-nav-group="1">HERO &amp; LEGACY</div>
+<a data-nav-link="chapter-5" href="#chapter-5"><span>05</span>Hero Card &amp; Exhaust</a>
+<a data-nav-link="chapter-6" href="#chapter-6"><span>06</span>Tribute &amp; Rank Up</a>
+<a data-nav-link="chapter-7" href="#chapter-7"><span>07</span>Legacy, Defeat, Revive</a>
+</div>
+<div class="nav-group">
+<div class="nav-label" data-nav-group="2">CARDS &amp; RESOLUTION</div>
+<a data-nav-link="chapter-8" href="#chapter-8"><span>08</span>Main Deck &amp; Skill Card</a>
+<a data-nav-link="chapter-9" href="#chapter-9"><span>09</span>Simbol &amp; Jenis Skill</a>
+<a data-nav-link="chapter-10" href="#chapter-10"><span>10</span>Response, Attachment, Casting</a>
+</div>
+<div class="nav-group">
+<div class="nav-label" data-nav-group="3">REFERENCE</div>
+<a data-nav-link="chapter-11" href="#chapter-11"><span>11</span>Status &amp; Healing</a>
+<a data-nav-link="chapter-12" href="#chapter-12"><span>12</span>Ringkasan Cepat</a>
+</div>
+<div class="sidebar-footer">
+<a data-ui="home-link" href="../">← Grandis Legacy Home</a>
+<a href="https://discord.gg/xg6zTeRCBP">Discord</a>
+</div>
+</div>
+</aside>
+<main class="docs-content" id="docs-content">
+<section class="doc-section hero-doc" data-page="1-2" data-tags="rulebook season 1 panduan navigasi daftar isi" id="overview">
+<div class="eyebrow">GRANDIS LEGACY · SEASON 1</div>
+<h1>Player Rulebook</h1>
+<p class="lead">Panduan bermain Grandis Legacy Season 1 untuk pertarungan TCG 3 vs 3 Hero.</p>
+<div class="hero-actions">
+<a class="primary-action" href="#chapter-1">Mulai membaca</a>
+<a class="secondary-action" data-pdf-button="" href="assets/Grandis_Legacy_Player_Rulebook_v2_EN.pdf" rel="noopener" target="_blank">Buka PDF asli</a>
+</div>
+<div class="callout info"><strong>Urutan membaca:</strong> Chapter 1-8 menjelaskan fungsi utama permainan. Chapter berikutnya digunakan ketika simbol Skill, Response, Attachment, Casting, Status, atau Healing muncul.</div>
+</section>
+<section class="doc-section" data-page="3" data-tags="menang battlefield legacy deck main deck mana pool hand racial token attachment discard deck out kalah" id="chapter-1">
+<div class="eyebrow">DASAR PERMAINAN · PAGE 3</div>
+<h2>1. Mengenal Grandis Legacy dan Battlefield</h2>
+<p>Grandis Legacy adalah Trading Card Game dengan pertarungan <strong>3 Hero melawan 3 Hero</strong>. Pemain mengatur posisi Hero, menggunakan kartu dari Main Deck, menaikkan Rank, dan memakai Legacy untuk menjaga strategi setelah Hero defeated.</p>
+<div class="two-col">
+<div class="rule-card"><h3>Cara utama untuk menang</h3><p>Kalahkan seluruh 3 Hero lawan.</p></div>
+<div class="rule-card"><h3>Deck-out</h3><p>Jika Main Deck kosong dan draw wajib pada Draw Phase tidak dapat dilakukan, pemain kalah.</p></div>
+</div>
+<div class="callout"><strong>Dua poin berbeda:</strong> mengalahkan 3 Hero adalah tujuan untuk menang. Menjaga Main Deck adalah syarat agar kamu tidak kalah saat Draw Phase.</div>
+<h3>Area Battlefield</h3>
+<div class="table-wrap"><table><thead><tr><th>Area</th><th>Fungsi</th></tr></thead><tbody>
+<tr><td>Hero Left / Center / Right</td><td>Tempat Hero atau Legacy.</td></tr>
+<tr><td>Attachment Slot</td><td>Dua slot efek aktif per Hero.</td></tr>
+<tr><td>Legacy Deck</td><td>Hero Rank I-III dan Legacy Card.</td></tr>
+<tr><td>Racial Token</td><td>Digunakan untuk Racial Trait.</td></tr>
+<tr><td>Main Deck</td><td>Sumber Skill, Item, dan Event.</td></tr>
+<tr><td>Discard Pile</td><td>Tempat kartu yang selesai atau dibuang.</td></tr>
+<tr><td>Mana Pool</td><td>Tempat Mana Shard tersedia.</td></tr>
+<tr><td>Hand</td><td>Kartu privat milik pemain.</td></tr>
+</tbody></table></div>
+<p><strong>Legacy Deck:</strong> tiga paket perkembangan Hero. Setiap paket berisi Hero Rank I, Rank II, Rank III, dan 1 Legacy Card. <strong>Main Deck:</strong> berisi Skill, Item, dan Event Card; Main Deck diacak dan menjadi sumber kartu di Hand.</p>
+</section>
+<section class="doc-section" data-page="4" data-tags="setup opening hand 60 card mana shard mana regen draw deploy battle reform end first player turn pertama hand limit" id="chapter-2">
+<div class="eyebrow">SEBELUM BERMAIN · PAGE 4</div>
+<h2>2. Persiapan, Struktur Turn, dan Mana</h2>
+<h3>Persiapan permainan</h3>
+<ol class="steps">
+<li>Pilih tiga paket Hero untuk Legacy Deck.</li>
+<li>Letakkan Hero Rank I pada Left, Center, dan Right.</li>
+<li>Kocok Main Deck.</li>
+<li>Ambil 6 kartu sebagai opening hand.</li>
+<li>Mulai dengan 2 Mana Shard, Mana Regen 1, dan 2 Racial Token.</li>
+<li>Tentukan pemain pertama dan mulai pada Draw Phase.</li>
+</ol>
+<div class="table-wrap"><table><thead><tr><th>Bagian</th><th>Aturan</th></tr></thead><tbody>
+<tr><td>Main Deck</td><td>60 kartu yang terdiri dari Skill, Item, dan Event. Jumlah tiap jenis bebas.</td></tr>
+<tr><td>Legacy Deck</td><td>12 kartu: tiga paket Hero dan Legacy.</td></tr>
+<tr><td>Batas nama</td><td>Kartu normal maksimal 2; Ultimate maksimal 1.</td></tr>
+<tr><td>Hand limit</td><td>Maksimum 8 pada akhir turn.</td></tr>
+</tbody></table></div>
+<h3>Struktur Turn</h3><figure class="source-figure infographic"><img alt="Grandis Legacy Turn Structure" src="assets/turn-structure.png"/><figcaption>Turn Structure — referensi visual.</figcaption></figure>
+<div aria-label="Turn order" class="phase-strip"><span>DRAW</span><span>DEPLOY</span><span>BATTLE</span><span>REFORM</span><span>END</span></div>
+<ul>
+<li><strong>Draw:</strong> Ready Hero, draw wajib 1 kartu, lalu dapatkan Mana.</li>
+<li><strong>Deploy:</strong> Tactical, Item, Event, Ability, Racial Trait, Legacy Ability, Reposition.</li>
+<li><strong>Battle:</strong> Attack, Response, dan Casting yang sudah siap.</li>
+<li><strong>Reform:</strong> Support, Tribute, Legacy Ability, Reposition.</li>
+<li><strong>End:</strong> Status dan efek akhir turn, kurangi Hand sampai 8, lalu ganti pemain.</li>
+</ul>
+<h3>Mana</h3>
+<p>Mana Shard membayar kartu dan kemampuan. Mana tersedia disimpan di Mana Pool. <strong>Mana Pool maksimum 12.</strong> Mana Cost adalah jumlah Mana yang dibayar. Mana Regen adalah Mana yang didapat saat Draw Phase dan dapat meningkat sampai 6.</p>
+<div class="callout warning"><strong>Timing:</strong> kartu hanya dapat digunakan pada fase atau kesempatan yang tertulis pada kartu. <strong>Pemain pertama tidak dapat menyerang pada turn pertamanya.</strong></div>
+</section>
+<section class="doc-section" data-page="5" data-tags="attack target area of attack range attack area attack reposition hp exp target normal left center right response damage" id="chapter-3">
+<div class="eyebrow">BAGIAN INTI · PAGE 5</div>
+<h2>3. Hero dan Dasar Pertarungan</h2>
+<h3>Formasi dan Area of Attack</h3>
+<div class="table-wrap"><table><thead><tr><th>Posisi penyerang</th><th>Target normal</th></tr></thead><tbody>
+<tr><td>Left</td><td>Left atau Center</td></tr>
+<tr><td>Center</td><td>Left, Center, atau Right</td></tr>
+<tr><td>Right</td><td>Center atau Right</td></tr>
+</tbody></table></div>
+<div class="two-col">
+<div class="rule-card"><h3>Range Attack</h3><p>Serangan yang tidak dibatasi oleh Area of Attack normal berdasarkan posisi Hero.</p></div>
+<div class="rule-card"><h3>Area Attack</h3><p>Tidak memilih target satu per satu. Attack mengenai semua Hero lawan di dalam Area of Attack Hero pengguna.</p></div>
+</div>
+<h3>Cara menggunakan Attack Skill</h3>
+<ol class="steps"><li>Pilih Attack Skill dari Hand.</li><li>Pilih Hero yang memenuhi Class, Rank, dan syarat kartu.</li><li>Pilih target yang legal bila diperlukan.</li><li>Konfirmasi, bayar Mana, dan Exhaust Hero bila diperlukan.</li><li>Lawan mendapat kesempatan Response.</li><li>Selesaikan damage dan efek kartu.</li></ol>
+<h3>Reposition</h3>
+<p>Reposition menukar dua posisi yang bersebelahan. Left bersebelahan dengan Center; Right bersebelahan dengan Center.</p>
+<div class="table-wrap"><table><thead><tr><th>Pertukaran</th><th>Hasil</th></tr></thead><tbody><tr><td>Hero ↔ Hero</td><td>Keduanya Exhausted.</td></tr><tr><td>Hero ↔ Legacy</td><td>Hanya Hero Exhausted.</td></tr><tr><td>Legacy ↔ Legacy</td><td>Tidak legal.</td></tr></tbody></table></div>
+<p>HP, EXP, status, Attachment, Casting, dan Exhaust ikut berpindah bersama Hero. Reposition dari efek kartu tidak otomatis Exhaust kecuali tertulis.</p>
+<ul><li>Semua Attack non-Area harus memilih target, kecuali kartu menentukan target sendiri atau menyatakan tidak memakai target.</li><li>Jumlah target mengikuti teks kartu.</li><li>Attack yang memilih beberapa posisi mengikuti pilihan pada kartu; setiap Hero yang terkena mendapat Response sendiri.</li><li>Legacy bukan target Hero, kecuali kartu secara khusus memilih posisi dan mengizinkan Legacy.</li></ul>
+<div class="callout info"><strong>Pengaruh posisi:</strong> posisi Hero membatasi target Attack pada Battle Phase. Penggunaan kartu di luar Battle Phase tidak dibatasi posisi, kecuali kartu menyatakan berbeda.</div>
+</section>
+<section class="doc-section visual-section" data-page="6" data-tags="positioning system left center right attack range safer positioning focused pressure highest influence highest risk" id="chapter-4">
+<div class="eyebrow">POSITIONING SYSTEM · PAGE 6</div>
+<h2>4. Positioning System</h2>
+<p>Hero bertarung sebagai bagian dari formasi battlefield. Posisi menentukan Hero lawan yang dapat diserang.</p>
+<figure class="source-figure"><img alt="Grandis Legacy Positioning System" src="assets/positioning-system-v2.png"/><figcaption>Positioning System — referensi visual.</figcaption></figure>
+</section>
+<section class="doc-section" data-page="7" data-tags="hero card anatomy nama hero hp class icon race rank quote exp requirement racial trait class ability rank up bonus card id ready exhausted racial token" id="chapter-5">
+<div class="eyebrow">LEGACY DECK - HERO · PAGE 7</div>
+<h2>5. Membaca Hero Card dan Exhaust</h2>
+<figure class="source-figure anatomy"><img alt="Grandis Legacy Hero Card detail" src="assets/hero-detail.png"/><figcaption>Detail Hero Card — referensi visual.</figcaption></figure>
+<div class="anatomy-grid">
+<div><b>1. Nama Hero</b><span>Identitas Hero.</span></div><div><b>2. Total HP</b><span>Batas HP sebelum Hero defeated.</span></div>
+<div><b>3. Class Icon</b><span>Ikon Class Hero.</span></div><div><b>4. Race, Class, dan Rank</b><span>Menentukan Trait dan Skill legal.</span></div>
+<div><b>5. Hero Quote</b><span>Kalimat karakter Hero.</span></div><div><b>6. EXP Requirement</b><span>EXP untuk Rank Hero ini.</span></div>
+<div><b>7. Racial Trait</b><span>Kemampuan berdasarkan Race.</span></div><div><b>8. Class Ability</b><span>Kemampuan khusus Hero.</span></div>
+<div><b>9. Rank Up Bonus</b><span>Bonus saat mencapai Rank.</span></div><div><b>10. Card ID</b><span>Kode identitas kartu.</span></div>
+</div>
+<p><strong>Gunakan Class dan Rank pada Hero untuk menentukan Skill yang dapat dimainkan.</strong></p>
+<h3>Exhaust dan Racial Token</h3>
+<div class="two-col"><div class="rule-card"><h3>Ready</h3><p>Hero dapat menggunakan kartu atau kemampuan yang legal.</p><p><strong>Exhausted:</strong> Hero tidak dapat menggunakan Skill atau kemampuan aktif normal.</p></div><div class="rule-card"><h3>Kembali Ready</h3><p>Hero biasanya kembali Ready pada Draw Phase miliknya. Hero yang masih Casting tetap Exhausted.</p><p><strong>Racial Token:</strong> pool maksimum 2. Pemain dapat menggunakan maksimal 1 Racial Token selama satu turn aktif.</p></div></div>
+<div class="callout"><strong>Racial Trait</strong> yang legal tetap dapat digunakan saat Hero Exhausted, kecuali kartu menyatakan berbeda.</div>
+</section>
+<section class="doc-section" data-page="8" data-tags="tribute exp rank up rank ii rank iii 300 700 ultimate reform mana regen draw bonus" id="chapter-6">
+<div class="eyebrow">PERKEMBANGAN HERO · PAGE 8</div>
+<h2>6. Tribute dan Rank Up</h2>
+<h3>Tribute</h3>
+<p>Tribute mengubah 1 Skill Card dari Hand menjadi EXP untuk Hero pilihan.</p>
+<div class="table-wrap"><table><thead><tr><th>Aturan Tribute</th><th>Penjelasan</th></tr></thead><tbody><tr><td>Timing</td><td>Reform Phase.</td></tr><tr><td>Batas</td><td>Maksimal 1 Tribute normal setiap Reform Phase.</td></tr><tr><td>Mana</td><td>Mana Cost pada Skill tidak dibayar.</td></tr><tr><td>Nilai EXP</td><td>Skill normal bernilai 100 EXP. Ultimate bernilai 200 EXP.</td></tr><tr><td>Ultimate</td><td>Hanya dapat diberikan kepada Hero pemilik yang tertulis pada kartu.</td></tr></tbody></table></div>
+<figure class="source-figure infographic"><img alt="Grandis Legacy Rank Up detail" src="assets/rank-up-detail.png"/><figcaption>Detail Rank Up — referensi visual.</figcaption></figure><h3>Rank Up</h3>
+<p>Ketika jumlah EXP Hero mencapai kebutuhan Rank berikutnya, ganti Hero Card dengan kartu Rank yang sesuai.</p>
+<div class="table-wrap"><table><thead><tr><th>EXP</th><th>Rank baru</th><th>Bonus Rank Up</th></tr></thead><tbody><tr><td>300</td><td>Rank II</td><td>Draw 2 kartu dan Mana Regen +1.</td></tr><tr><td>700</td><td>Rank III</td><td>Draw 3 kartu dan Mana Regen +1.</td></tr></tbody></table></div>
+<p>Saat Rank Up, semua EXP Card di bawah Hero dipindahkan ke Discard Pile. Damage yang sudah diterima tetap dihitung terhadap Max HP baru. Status, Attachment, Casting, dan Exhaust tetap mengikuti Hero. Mana Pool tidak langsung bertambah.</p>
+<div class="callout info">Mengurangi EXP tidak membuat Hero turun Rank. Hero Rank III tidak dapat Rank Up lagi.</div>
+</section>
+<section class="doc-section" data-page="9" data-tags="legacy card defeated defeat revive legacy ability deploy reform skill cost no mana three heroes lose attachment status exp" id="chapter-7">
+<div class="eyebrow">LEGACY DECK · PAGE 9</div>
+<h2>7. Legacy Card, Defeat, dan Revive</h2>
+<h3>Apa itu Legacy?</h3>
+<p>Ketika Hero defeated, pilih Legacy Card yang sesuai dan legal untuk menempati posisi Hero tersebut. Legacy bukan Hero. Legacy tidak memiliki HP, Class, Rank, EXP, status, Exhaust, atau Attachment Slot. Legacy tidak dapat ditarget sebagai Hero, tetapi dapat bertukar posisi dengan Hero.</p>
+<p>Legacy menjaga Skill Card terkait Hero yang defeated tetap berguna sebagai biaya. Gunakan Skill Card yang diminta sebagai biaya tanpa membayar Mana, lalu jalankan efek Legacy Ability yang tertulis.</p>
+<div class="callout"><strong>Timing Legacy:</strong> Legacy Ability hanya dapat digunakan pada Deploy Phase atau Reform Phase. Setiap Legacy dapat menggunakan Ability sekali per turn dan tidak menjadi Exhausted.</div>
+<h3>Hero Defeated</h3>
+<ul><li>Attachment masuk Discard.</li><li>Status dibersihkan.</li><li>EXP Card dipindahkan sesuai aturan defeat.</li><li>Jika ketiga Hero defeated, pemain kalah.</li></ul>
+<h3>Revive</h3>
+<ul><li>Legacy kembali ke Legacy Deck.</li><li>Hero kembali ke posisi tersebut.</li><li>HP, EXP, status, dan Exhaust mengikuti kartu revive.</li></ul>
+</section>
+<section class="doc-section" data-page="10" data-tags="main deck skill card lineage fallback effect class rank ultimate mana cost target 60 item event discard attachment" id="chapter-8">
+<div class="eyebrow">MAIN DECK · PAGE 10</div>
+<h2>8. Main Deck dan Membaca Skill Card</h2>
+<p>Main Deck berisi 60 kartu yang terdiri dari Skill, Item, dan Event Card. Pemain bebas menentukan jumlah tiap jenis. Kartu yang selesai biasanya masuk Discard, kecuali menjadi Attachment atau dipindahkan oleh efek lain.</p><div class="visual-pair"><figure class="source-figure"><img alt="Grandis Legacy Skill Card detail" src="assets/skill-card.png"/><figcaption>Detail Skill Card — referensi visual.</figcaption></figure><figure class="source-figure"><img alt="Grandis Legacy Ultimate Skill Card detail" src="assets/ultimate-skill-card.png"/><figcaption>Detail Ultimate Skill Card — referensi visual.</figcaption></figure></div>
+<h3>Lineage dan Fallback Efek</h3>
+<p><strong>Lineage</strong> adalah jalur perkembangan Class Hero dari Rank I ke Rank II dan Rank III. Hero dapat menggunakan Skill dari Class sebelumnya dalam Lineage yang sama.</p>
+<p>Gunakan baris efek yang sesuai dengan Class dan Rank Hero. Jika tidak ada baris yang tepat, gunakan baris efek tertinggi sebelumnya pada Lineage tersebut.</p>
+<div class="callout info"><strong>Contoh:</strong> Conqueror Rank III masih dapat memakai Deflect dari Lineage Warrior → Gladiator → Conqueror. Karena Deflect memiliki baris Warrior Rank I dan Gladiator Rank II, gunakan efek Gladiator Rank II.</div>
+<p>Sebelum memainkan Skill, periksa Mana Cost, jenis Skill, timing, Class, Rank, Lineage, target, dan teks efek.</p>
+</section>
+<section class="doc-section" data-page="11" data-tags="physical magical area attack range casting defense support tactical item event timing target symbol skill" id="chapter-9">
+<div class="eyebrow">SIMBOL KARTU · PAGE 11</div>
+<h2>9. Simbol Skill, Jenis Skill, Item, dan Event</h2>
+<div class="rule-grid">
+<div class="rule-card"><h3>Physical Attack</h3><p>Harus memilih target di dalam Area of Attack dan memberikan Physical damage.</p></div>
+<div class="rule-card"><h3>Magical Attack</h3><p>Harus memilih target di dalam Area of Attack dan memberikan Magical damage.</p></div>
+<div class="rule-card"><h3>Area Attack</h3><p>Mengenai semua Hero lawan di dalam Area of Attack tanpa memilih target satu per satu.</p></div>
+<div class="rule-card"><h3>Range Attack</h3><p>Harus memilih target, tetapi tidak dibatasi Area of Attack normal berdasarkan posisi Hero.</p></div>
+<div class="rule-card"><h3>Casting</h3><p>Pilih posisi target saat dimainkan. Posisi tetap terkunci sampai Casting diselesaikan pada Battle Phase.</p></div>
+<div class="rule-card"><h3>Defense</h3><p>Digunakan saat Response untuk Block, Dodge, Negate, redirect, atau perlindungan lain.</p></div>
+<div class="rule-card"><h3>Support</h3><p>Healing, recovery, atau bantuan lain untuk Hero. Timing mengikuti kartu.</p></div>
+<div class="rule-card"><h3>Tactical</h3><p>Persiapan, Reposition, buff, draw, atau mengganggu lawan. Timing mengikuti kartu.</p></div>
+</div>
+<div class="callout">Jumlah target mengikuti teks pada kartu.</div>
+<h3>Timing Umum Skill</h3>
+<div class="table-wrap"><table><thead><tr><th>Jenis</th><th>Timing umum</th><th>Fungsi</th></tr></thead><tbody><tr><td>Attack</td><td>Battle Phase</td><td>Menyerang Hero lawan.</td></tr><tr><td>Defense</td><td>Saat Response</td><td>Melindungi Hero atau menghentikan Attack.</td></tr><tr><td>Tactical</td><td>Deploy Phase atau sesuai kartu</td><td>Menyiapkan strategi dan mengubah keadaan permainan.</td></tr><tr><td>Support</td><td>Deploy atau Reform sesuai kartu</td><td>Healing, recovery, atau bantuan lain.</td></tr></tbody></table></div>
+<div class="two-col"><div class="rule-card"><h3>Item Card</h3><p>Memberikan healing, buff, modifier, atau fungsi khusus. Dapat langsung selesai atau menjadi Attachment bila efeknya tetap aktif.</p></div><div class="rule-card"><h3>Event Card</h3><p>Mewakili kejadian yang memengaruhi permainan. Tidak selalu membutuhkan Hero sebagai pengguna.</p></div></div>
+</section>
+<section class="doc-section" data-page="12" data-tags="response block dodge redirect negate cancel attachment slot casting target position stun exhausted counter multi target" id="chapter-10">
+<div class="eyebrow">PENYELESAIAN KARTU · PAGE 12</div>
+<h2>10. Response, Attachment, dan Casting</h2>
+<h3>Response</h3>
+<p>Setelah aksi dimainkan dan biaya dibayar, lawan mendapat kesempatan Response. Jika Response dibalas lagi, efek diselesaikan dari kartu yang paling terakhir dimainkan sampai kembali ke aksi awal.</p>
+<div class="table-wrap"><table><thead><tr><th>Hasil pertahanan</th><th>Arti</th></tr></thead><tbody><tr><td>Block</td><td>Mengurangi damage, termasuk sampai 0.</td></tr><tr><td>Dodge</td><td>Hero menghindari Attack.</td></tr><tr><td>Redirect</td><td>Mengalihkan target Attack sesuai teks kartu.</td></tr><tr><td>Negate / Cancel</td><td>Menghentikan kartu atau efek sesuai teks kartu.</td></tr></tbody></table></div>
+<div class="callout info"><strong>Area dan multi-target:</strong> setiap Hero yang terkena mendapat kesempatan Response sendiri.</div>
+<h3>Attachment</h3>
+<ul><li>Setiap Hero memiliki 2 Attachment Slot.</li><li>Kartu menjadi Attachment jika efeknya masih aktif setelah kartu dimainkan dan perlu dipertahankan untuk timing berikutnya.</li><li>Efek yang langsung selesai tidak ditempatkan di Attachment Slot.</li><li>Slot harus tersedia sebelum kartu yang memerlukan Attachment dimainkan.</li><li>Attachment mengikuti Hero saat Reposition.</li><li>Gunakan counter yang sama untuk menandai sisa turn atau jumlah penggunaan.</li><li>Saat efek berakhir, digunakan, atau Hero defeated, kartu masuk Discard.</li></ul>
+<h3>Casting</h3>
+<div class="callout warning"><strong>Casting mengunci posisi target, bukan Hero.</strong> Pilih posisi lawan saat Casting dimainkan. Saat dilepaskan, Casting mengenai Hero yang sedang berada di posisi tersebut.</div>
+<ul><li>Jika posisi target berisi Legacy Card saat Casting dilepaskan, Attack selesai tanpa memberikan damage.</li><li>Semua Casting hanya dilepaskan dan diselesaikan pada Battle Phase.</li><li>Casting menggunakan Attachment Slot dan membuat Hero pengguna Exhausted.</li><li>Jika Hero pengguna berpindah posisi atau terkena Stun sebelum Casting dilepaskan, Casting dibatalkan.</li><li>Casting normal mengurangi counter pada awal Battle Phase berikutnya.</li><li>Saat counter mencapai 0 pada Battle Phase, Attack dilepaskan dan lawan mendapat Response.</li><li>Setelah Casting selesai, Hero pengguna tetap Exhausted sampai Draw Phase berikutnya.</li></ul>
+</section>
+<section class="doc-section" data-page="13" data-tags="status bleed burn freeze poison stun healing taunt duration end phase dodge reposition attachment max hp" id="chapter-11">
+<div class="eyebrow">REFERENSI PENUNJANG · PAGE 13</div>
+<h2>11. Status dan Healing</h2>
+<p>Status melekat pada Hero dan ikut berpindah saat Reposition. Legacy tidak dapat menerima status Hero.</p>
+<div class="table-wrap"><table><thead><tr><th>Status</th><th>Efek</th></tr></thead><tbody>
+<tr><td>Bleed</td><td>Hero tidak dapat menerima healing selama Bleed masih aktif. Bleed tidak memberikan damage tambahan.</td></tr>
+<tr><td>Burn</td><td>Jika Hero dengan Burn menerima damage dari Attack, Attack tersebut memberikan 10 damage tambahan.</td></tr>
+<tr><td>Freeze</td><td>Hero tidak dapat berpindah posisi, baik melalui Reposition normal maupun efek Skill, dan tidak dapat menggunakan Dodge.</td></tr>
+<tr><td>Poison</td><td>Memberikan 10 damage pada End Phase pemilik Hero untuk setiap turn durasinya.</td></tr>
+<tr><td>Stun</td><td>Hero tidak dapat dipilih sebagai pengguna atau sumber untuk Skill, Item, Event, Ability, atau efek aktif selama Stun masih aktif.</td></tr>
+</tbody></table></div>
+<div class="callout"><strong>Durasi Status:</strong> durasi berkurang pada End Phase pemilik Hero dan status berakhir ketika durasinya mencapai 0. Poison memberikan damage sebelum durasinya berkurang.</div>
+<h3>Healing</h3>
+<ul><li>Healing tidak dapat melebihi Max HP.</li><li>Single-target healing membutuhkan Hero yang terluka dan tidak memiliki Bleed.</li><li>Pada healing beberapa target, Hero yang full HP, defeated, atau memiliki Bleed dilewati.</li><li>Modifier Healing Done dan Healing Received diterapkan bila ada.</li></ul>
+<div class="callout info"><strong>Taunt</strong> adalah efek Attachment yang membatasi pilihan Attack, bukan salah satu status di atas.</div>
+</section>
+<section class="doc-section" data-page="14" data-tags="quick reference ringkasan menang deck out turn area range reposition tribute rank up attachment legacy racial token hand search attack defeat" id="chapter-12">
+<div class="eyebrow">QUICK REFERENCE · PAGE 14</div>
+<h2>12. Ringkasan Cepat</h2>
+<div class="table-wrap"><table><thead><tr><th>Topik</th><th>Aturan singkat</th></tr></thead><tbody>
+<tr><td>Menang</td><td>Defeat 3 Hero lawan.</td></tr><tr><td>Deck-out</td><td>Kalah hanya ketika draw wajib pada Draw Phase gagal.</td></tr><tr><td>Turn</td><td>Draw → Deploy → Battle → Reform → End.</td></tr><tr><td>Area of Attack</td><td>Left: Left/Center; Center: semua; Right: Center/Right.</td></tr><tr><td>Range</td><td>Harus memilih target tanpa dibatasi Area of Attack normal.</td></tr><tr><td>Posisi</td><td>Membatasi target Attack pada Battle Phase; kartu di luar Battle Phase tidak dibatasi posisi kecuali tertulis.</td></tr><tr><td>Reposition</td><td>Hero berpindah bersama HP, EXP, status, Attachment, Casting, dan Exhaust.</td></tr><tr><td>Tribute</td><td>1 Skill menjadi EXP pada Reform Phase.</td></tr><tr><td>Rank Up</td><td>300 EXP ke Rank II; 700 EXP ke Rank III; semua EXP Card masuk Discard saat Rank Up.</td></tr><tr><td>Attachment</td><td>2 slot per Hero; digunakan bila efek tetap aktif setelah kartu dimainkan.</td></tr><tr><td>Legacy</td><td>Menggunakan Skill tertentu sebagai biaya untuk menjalankan Legacy Ability pada Deploy atau Reform.</td></tr><tr><td>Racial Token</td><td>Maksimum 2; gunakan maksimal 1 selama satu turn aktif.</td></tr>
+</tbody></table></div>
+<h3>Tiga Alur Utama</h3>
+<div class="flow-list"><div><b>Attack</b><span>Pilih kartu → pilih Hero → pilih target → bayar Mana → Response → selesaikan.</span></div><div><b>Rank Up</b><span>Tribute → kumpulkan EXP → capai 300/700 → EXP ke Discard → ganti Hero → dapatkan bonus.</span></div><div><b>Defeat</b><span>HP 0 → periksa efek yang mencegah defeat → Hero defeated → pilih Legacy.</span></div></div>
+<h3>Hand dan Search</h3>
+<ul><li>Hand bersifat privat.</li><li>Setelah mencari atau melihat Main Deck, kocok kecuali kartu menyatakan berbeda.</li><li>Effect draw mengambil kartu sebanyak yang tersedia, termasuk 0, tanpa langsung kalah.</li></ul>
+<div class="end-mark">END OF PLAYER RULEBOOK</div>
+</section>
+</main>
+</div>
+<div class="search-modal" hidden="" id="search-modal">
+<button aria-label="Tutup pencarian" class="search-backdrop" type="button"></button>
+<div aria-labelledby="search-title" aria-modal="true" class="search-panel" role="dialog">
+<div class="search-input-row"><span>⌕</span><input aria-label="Cari rulebook" autocomplete="off" data-ui="search-input" id="search-input" placeholder="Cari aturan, mis. Casting, Poison, Rank Up..." type="search"/><kbd>Esc</kbd></div>
+<div class="search-results" id="search-results"><p class="empty-state" data-ui="search-empty" id="search-title">Ketik untuk mencari di seluruh Player Rulebook.</p></div>
+</div>
+</div>
+<button aria-controls="arvon-panel" aria-expanded="false" class="arvon-launcher" id="arvon-launcher" type="button">
+<span class="arvon-avatar"><img alt="" src="assets/general-arvon-halfbody.webp"/></span><span class="arvon-launch-copy"><b>Arvon</b><small data-ui="arvon-launch-sub">Ask the Rulebook</small></span>
+</button>
+<section aria-label="Arvon Rulebook Assistant" class="arvon-panel" hidden="" id="arvon-panel">
+<header><div><span class="arvon-avatar"><img alt="" src="assets/general-arvon-halfbody.webp"/></span><div><b>Arvon</b><small data-ui="arvon-panel-sub">Rulebook Guide · Player Rulebook v1</small></div></div><button aria-label="Close Arvon" id="arvon-close" type="button">×</button></header>
+<div aria-live="polite" class="arvon-messages" id="arvon-messages">
+<div class="chat-row bot"><div class="bubble" data-ui="arvon-welcome">Saya Arvon. Tanyakan aturan Grandis Legacy yang ada di Player Rulebook v1. Saya akan menunjuk chapter dan page sumbernya.</div></div>
+</div>
+<form class="arvon-form" id="arvon-form"><input autocomplete="off" data-ui="arvon-input" id="arvon-input" maxlength="300" placeholder="Tanya soal rulebook..." type="text"/><button type="submit">Send</button></form>
+<div class="arvon-note" data-ui="arvon-note">Rulebook-only · jika sumber tidak mendukung jawabannya, Arvon tidak akan membuat aturan baru.</div>
+</section>
+<script src="js/rulebook.js?v=1.3.0"></script>
 </body>
 </html>

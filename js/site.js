@@ -24,15 +24,17 @@
   let index = 0;
   let timer = null;
 
-  const isCompact = () => window.matchMedia('(max-width: 900px)').matches;
+  const isMobile = () => window.matchMedia('(max-width: 820px)').matches;
   const render = () => {
     slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
-    const gap = isCompact() ? 20 : 40;
-    const width = isCompact() ? Math.max(0, window.innerWidth - 48) : 1160;
-    if (isCompact()) {
+    if (!slides.length) return;
+    const width = slides[0].getBoundingClientRect().width;
+    const styles = getComputedStyle(track);
+    const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+    if (isMobile()) {
       track.style.transform = `translateX(${-index * (width + gap)}px)`;
     } else {
-      track.style.transform = `translateX(calc(-580px - ${index * (width + gap)}px))`;
+      track.style.transform = `translateX(${-width / 2 - index * (width + gap)}px)`;
     }
   };
 
@@ -40,14 +42,11 @@
     index = (index + direction + slides.length) % slides.length;
     render();
   };
+  const stop = () => { if (timer) window.clearInterval(timer); timer = null; };
   const start = () => {
     stop();
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     timer = window.setInterval(() => go(1), 6500);
-  };
-  const stop = () => {
-    if (timer) window.clearInterval(timer);
-    timer = null;
   };
 
   next?.addEventListener('click', () => { go(1); start(); });
