@@ -7,7 +7,7 @@
   <meta name="description" content="Grandis Legacy — a 3 vs 3 Hero trading card game for digital and tabletop play.">
   <title>Grandis Legacy</title>
   <link rel="preload" href="assets/site/fonts/NotoSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/site.css?v=1.3.0">
+  <link rel="stylesheet" href="css/site.css?v=1.4.0">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVQCYF8PKQ"></script>
   <script>
@@ -55,8 +55,17 @@
     </nav>
   </header>
 
+
+  <nav class="section-dots" aria-label="Homepage sections">
+    <button type="button" class="section-dot is-active" data-section-target="hero" aria-label="Hero" aria-current="true"></button>
+    <button type="button" class="section-dot" data-section-target="discover" aria-label="Discover"></button>
+    <button type="button" class="section-dot" data-section-target="features" aria-label="Features"></button>
+    <button type="button" class="section-dot" data-section-target="build" aria-label="Build Your Perfect Deck"></button>
+    <button type="button" class="section-dot" data-section-target="play" aria-label="Play Grandis Legacy Today"></button>
+  </nav>
+
   <main>
-    <section class="hero-section frame frame-wide" aria-labelledby="hero-title">
+    <section id="hero" class="hero-section frame frame-wide" aria-labelledby="hero-title">
       <div class="hero-copy">
         <h1 id="hero-title">Create your own Legacy in <span>Grandis Legacy</span></h1>
         <p>Search cards, build decks, browse community lists, or <strong>Start</strong> a game.</p>
@@ -74,7 +83,7 @@
       </div>
     </section>
 
-    <section class="discover-section" aria-labelledby="discover-title">
+    <section id="discover" class="discover-section" aria-labelledby="discover-title">
       <div class="section-heading fixed-1160">
         <h2 id="discover-title">Discover the World We've Created</h2>
         <p>Step into a world of legendary heroes, ancient magic, and unforgettable battles through our growing collection of concept artwork.</p>
@@ -93,7 +102,7 @@
       </div>
     </section>
 
-    <section class="feature-band" aria-label="Grandis Legacy features">
+    <section id="features" class="feature-band" aria-label="Grandis Legacy features">
       <img class="feature-band-bg" src="assets/site/art/relentless-leveling-hd.png" alt="">
       <div class="feature-band-overlay" aria-hidden="true"></div>
       <div class="frame frame-wide feature-grid">
@@ -112,7 +121,7 @@
       </div>
     </section>
 
-    <section class="build-section fixed-1160" aria-labelledby="build-title">
+    <section id="build" class="build-section fixed-1160" aria-labelledby="build-title">
       <div class="deck-card-fan" aria-label="Grandis Legacy deck cards">
         <img class="deck-card deck-1" src="shared/season1/v1/cards/thumbs/S1-ITM-005.webp" alt="Mana Catalyst card">
         <img class="deck-card deck-2" src="shared/season1/v1/cards/thumbs/S1-EVT-002.webp" alt="Market Bargain card">
@@ -126,7 +135,7 @@
       </div>
     </section>
 
-    <section class="play-section frame frame-wide" aria-labelledby="play-title">
+    <section id="play" class="play-section frame frame-wide" aria-labelledby="play-title">
       <div class="play-panel">
         <div class="play-copy">
           <h2 id="play-title">Play Grandis Legacy Today</h2>
@@ -160,6 +169,6 @@
     </div>
   </footer>
 
-  <script src="js/site.js?v=1.3.0"></script>
+  <script src="js/site.js?v=1.4.0"></script>
 </body>
 </html>

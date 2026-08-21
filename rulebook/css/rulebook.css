@@ -14,7 +14,7 @@
 .visual-pair .source-figure{margin:0}
 .source-figure.infographic img{background:#f3f0e6}
 .arvon-avatar{overflow:hidden;background:#23232c;border:1px solid rgba(236,208,135,.35)}
-.arvon-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top;transform:scale(1.16);transform-origin:center top}
+.arvon-avatar img{width:100%;height:100%;object-fit:cover;object-position:center center;transform:none}
 .arvon-panel .arvon-avatar{width:38px;height:38px}
 .docs-logo-link img{width:154px;max-height:50px;object-fit:contain}
 
@@ -38,3 +38,9 @@
   .search-trigger{right:76px}
   .language-switch button{min-width:27px}
 }
+
+/* v1.4 Rulebook visual alignment */
+.skill-symbol-grid .rule-card{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px}
+.skill-symbol-grid .rule-card p{margin:0}
+.skill-symbol-badge{display:block;width:auto;height:38px;max-width:100%;object-fit:contain;object-position:left center}
+@media(max-width:520px){.skill-symbol-badge{height:34px}}

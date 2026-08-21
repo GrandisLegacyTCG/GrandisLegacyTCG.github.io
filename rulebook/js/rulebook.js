@@ -101,11 +101,11 @@
       <h2>5. Reading a Hero Card and Exhaust</h2>
       <figure class="source-figure anatomy"><img src="assets/hero-detail.png" alt="Grandis Legacy Hero Card detail"><figcaption>Hero Card detail — visual reference.</figcaption></figure>
       <div class="anatomy-grid">
-        <div><b>1. Hero Name</b><span>Hero identity.</span></div><div><b>2. Total HP</b><span>HP limit before the Hero is defeated.</span></div>
-        <div><b>3. Class Icon</b><span>The Hero's Class icon.</span></div><div><b>4. Race, Class, and Rank</b><span>Determines legal Traits and Skills.</span></div>
-        <div><b>5. Hero Quote</b><span>Character quote.</span></div><div><b>6. EXP Requirement</b><span>EXP requirement for the Hero's Rank.</span></div>
-        <div><b>7. Racial Trait</b><span>Ability based on Race.</span></div><div><b>8. Class Ability</b><span>Hero-specific ability.</span></div>
-        <div><b>9. Rank Up Bonus</b><span>Bonus gained when reaching a Rank.</span></div><div><b>10. Card ID</b><span>Card identification code.</span></div>
+        <div><b>Hero Name</b><span>Hero identity.</span></div><div><b>Total HP</b><span>HP limit before the Hero is defeated.</span></div>
+        <div><b>Class Detail</b><span>Shows the Hero's Race, Class, and Rank.</span></div><div><b>Hero Quote</b><span>Character quote.</span></div>
+        <div><b>EXP</b><span>EXP requirement for the Hero's Rank.</span></div><div><b>Racial Trait</b><span>Ability based on Race.</span></div>
+        <div><b>Class Ability</b><span>Hero-specific ability.</span></div><div><b>Rank Up Bonus</b><span>Bonus gained when reaching a Rank.</span></div>
+        <div><b>Card Codex</b><span>Card identification code.</span></div>
       </div>
       <p><strong>Use the Hero's Class and Rank to determine which Skills can be played.</strong></p>
       <h3>Exhaust and Racial Token</h3>
@@ -154,15 +154,15 @@
     'chapter-9': `
       <div class="eyebrow">CARD SYMBOLS · PAGE 11</div>
       <h2>9. Skill Symbols, Skill Types, Items, and Events</h2>
-      <div class="rule-grid">
-        <div class="rule-card"><h3>Physical Attack</h3><p>Must choose a target inside Area of Attack and deals Physical damage.</p></div>
-        <div class="rule-card"><h3>Magical Attack</h3><p>Must choose a target inside Area of Attack and deals Magical damage.</p></div>
-        <div class="rule-card"><h3>Area Attack</h3><p>Affects all opposing Heroes inside Area of Attack without choosing targets one by one.</p></div>
-        <div class="rule-card"><h3>Range Attack</h3><p>Must choose a target, but is not restricted by normal Area of Attack based on Hero position.</p></div>
-        <div class="rule-card"><h3>Casting</h3><p>Choose the target position when played. That position stays locked until Casting resolves during the Battle Phase.</p></div>
-        <div class="rule-card"><h3>Defense</h3><p>Used during Response for Block, Dodge, Negate, redirect, or other protection.</p></div>
-        <div class="rule-card"><h3>Support</h3><p>Healing, recovery, or other help for a Hero. Timing follows the card.</p></div>
-        <div class="rule-card"><h3>Tactical</h3><p>Setup, Reposition, buff, draw, or disruption. Timing follows the card.</p></div>
+      <div class="rule-grid skill-symbol-grid">
+        <div class="rule-card"><img class="skill-symbol-badge" src="assets/badges/physical-attack.png" alt="Physical Attack"><p>Must choose a target inside Area of Attack and deals Physical damage.</p></div>
+        <div class="rule-card"><img class="skill-symbol-badge" src="assets/badges/magical-attack.png" alt="Magical Attack"><p>Must choose a target inside Area of Attack and deals Magical damage.</p></div>
+        <div class="rule-card"><img class="skill-symbol-badge" src="assets/badges/area-attack.png" alt="Area Attack"><p>Affects all opposing Heroes inside Area of Attack without choosing targets one by one.</p></div>
+        <div class="rule-card"><img class="skill-symbol-badge" src="assets/badges/range-attack.png" alt="Range Attack"><p>Must choose a target, but is not restricted by normal Area of Attack based on Hero position.</p></div>
+        <div class="rule-card"><img class="skill-symbol-badge" src="assets/badges/casting-attack.png" alt="Casting Attack"><p>Choose the target position when played. That position stays locked until Casting resolves during the Battle Phase.</p></div>
+        <div class="rule-card"><img class="skill-symbol-badge" src="assets/badges/defend-skill.png" alt="Defend Skill"><p>Used during Response for Block, Dodge, Negate, redirect, or other protection.</p></div>
+        <div class="rule-card"><img class="skill-symbol-badge" src="assets/badges/support-skill.png" alt="Support Skill"><p>Healing, recovery, or other help for a Hero. Timing follows the card.</p></div>
+        <div class="rule-card"><img class="skill-symbol-badge" src="assets/badges/tactical-skill.png" alt="Tactical Skill"><p>Setup, Reposition, buff, draw, or disruption. Timing follows the card.</p></div>
       </div>
       <div class="callout">The number of targets follows the card text.</div>
       <h3>General Skill Timing</h3>
