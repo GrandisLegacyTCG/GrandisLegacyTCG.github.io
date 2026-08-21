@@ -23,6 +23,9 @@
     const prev = carousel.querySelector('.carousel-prev');
     let index = 0;
     let timer = null;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let lastSwipeAt = 0;
 
     const isMobile = () => window.matchMedia('(max-width: 820px)').matches;
     const render = () => {
@@ -47,8 +50,24 @@
       timer = window.setInterval(() => go(1), 6500);
     };
 
-    next?.addEventListener('click', () => { go(1); start(); });
-    prev?.addEventListener('click', () => { go(-1); start(); });
+    next?.addEventListener('click', () => { if (Date.now() - lastSwipeAt < 450) return; go(1); start(); });
+    prev?.addEventListener('click', () => { if (Date.now() - lastSwipeAt < 450) return; go(-1); start(); });
+    carousel.addEventListener('touchstart', (event) => {
+      if (!isMobile() || !event.touches[0]) return;
+      touchStartX = event.touches[0].clientX;
+      touchStartY = event.touches[0].clientY;
+      stop();
+    }, { passive: true });
+    carousel.addEventListener('touchend', (event) => {
+      if (!isMobile() || !event.changedTouches[0]) return;
+      const dx = event.changedTouches[0].clientX - touchStartX;
+      const dy = event.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) >= 42 && Math.abs(dx) > Math.abs(dy) * 1.15) {
+        lastSwipeAt = Date.now();
+        go(dx < 0 ? 1 : -1);
+      }
+      start();
+    }, { passive: true });
     carousel.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowRight') { event.preventDefault(); go(1); start(); }
       if (event.key === 'ArrowLeft') { event.preventDefault(); go(-1); start(); }
@@ -69,8 +88,22 @@
       if (active) dot.setAttribute('aria-current', 'true'); else dot.removeAttribute('aria-current');
     });
   };
+  const landingSelectors = {
+    hero: '#hero',
+    discover: '#discover .section-heading',
+    features: '#features .feature-grid',
+    build: '#build .deck-card-fan',
+    play: '#play .play-panel'
+  };
   dots.forEach(dot => dot.addEventListener('click', () => {
-    document.getElementById(dot.dataset.sectionTarget)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const id = dot.dataset.sectionTarget;
+    const target = document.querySelector(landingSelectors[id] || `#${id}`);
+    if (!target) return;
+    const header = document.querySelector('.site-header');
+    const headerHeight = header?.getBoundingClientRect().height || 0;
+    const gap = window.matchMedia('(max-width: 820px)').matches ? 8 : 14;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - gap;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   }));
   if (sections.length && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
