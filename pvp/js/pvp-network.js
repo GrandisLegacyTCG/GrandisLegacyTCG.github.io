@@ -1,8 +1,8 @@
-/* Grandis Legacy PvP v3.05 network adapter.
-   Two fixed Northflank services share one repository. Lobby v0.5 is productionized; battlefield consumes the VS AI v6.1 shared UI/runtime contract. */
+/* Grandis Legacy PvP v3.07 network adapter.
+   Two fixed Northflank services share one repository. Lobby v0.5 is preserved; battlefield consumes the VS AI v6.9 shared UI/runtime contract. */
 (function(){
   'use strict';
-  var VERSION='Grandis Legacy PvP v3.05 · VS AI v6.1 battlefield · Lobby Design Lock v0.5 · 2 Players + 4 Spectators';
+  var VERSION='Grandis Legacy PvP v3.07 · VS AI v6.9 battlefield · Lobby Design Lock v0.5 · 2 Players + 4 Spectators';
   var STORE_KEY='grandis_legacy_pvp_v20_client_id';
   var ROOM_KEY='grandis_legacy_pvp_v20_room';
   var NAME_KEY='grandis_legacy_pvp_v20_name';
@@ -42,7 +42,7 @@
   function starterDeckData(key){var o=starterObject(key);return o&&o.deck?o.deck:null;}
   function cardLookup(id){var defs=window.GL_CARD_DEFINITIONS;if(!defs)return null;if(!cardLookup._map){var map={};if(Array.isArray(defs.cards))defs.cards.forEach(function(c){if(c&&c.card_id)map[c.card_id]=c;});else Object.keys(defs.families||{}).forEach(function(f){((defs.families[f]&&defs.families[f].cards)||[]).forEach(function(c){if(c&&c.card_id)map[c.card_id]=c;});});cardLookup._map=map;}return cardLookup._map[id]||null;}
   function cardDisplayName(id){var c=cardLookup(id);return (c&&(c.name||c.card_name))||id||'Unknown';}
-  function thumbFor(id){var p;if(id==='__HIDDEN_CARD_BACK__'||id==='__HIDDEN_CARD__')p='https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Main-Deck.webp';else{var root=window.GL_ASSET_MANIFEST||{};var m=(root.cards&&root.cards[id])||root[id];p=(m&&(m.local_thumb_path||m.local_full_path||m.thumb_url||m.full_url))||'https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Main-Deck.webp';}return p+(p.indexOf('?')===-1?'?':'&')+'v=gl-pvp-3.05';}
+  function thumbFor(id){var p;if(id==='__HIDDEN_CARD_BACK__'||id==='__HIDDEN_CARD__')p='https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Main-Deck.webp';else{var root=window.GL_ASSET_MANIFEST||{};var m=(root.cards&&root.cards[id])||root[id];p=(m&&(m.local_thumb_path||m.local_full_path||m.thumb_url||m.full_url))||'https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Main-Deck.webp';}return p+(p.indexOf('?')===-1?'?':'&')+'v=gl-pvp-3.07';}
   function currentSelectedDeckData(){return state.customDeck||starterDeckData(state.deckKey)||starterDeckData(activeLoadedDeckKey());}
   function deckFormationHtml(){var d=currentSelectedDeckData();var form=d&&d.default_formation||{};var lanes=['LEFT','CENTER','RIGHT'];if(!d)return '<div class="pvp-empty-deck">Choose and load a starter deck first.</div>';return lanes.map(function(lane){var id=form[lane]||'';return '<div class="pvp-formation-card"><b>'+esc(lane)+'</b><strong>'+esc(cardDisplayName(id))+'</strong><small>'+esc(id)+'</small></div>';}).join('');}
   function localPlayer(){return state.snapshot&&state.snapshot.local||null;}
@@ -52,8 +52,8 @@
   function selfLabel(){var me=localPlayer();return me&&me.name?me.name:(localSeat()===2?'Player 2':'Player 1');}
   function sideLabel(side){return side==='AI'?opponentLabel():(side==='PLAYER'?selfLabel():side);}
   function humanizeRuntimeText(v){return String(v==null?'':v).replace(/\bAI\b/g,opponentLabel()).replace(/\bPLAYER\b/g,selfLabel());}
-  var COIN_HEAD_SRC='https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Racial-Token-Head.webp?v=gl-pvp-3.05';
-  var COIN_TAIL_SRC='https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Racial-Token-Tail.webp?v=gl-pvp-3.05';
+  var COIN_HEAD_SRC='https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Racial-Token-Head.webp?v=gl-pvp-3.07';
+  var COIN_TAIL_SRC='https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Racial-Token-Tail.webp?v=gl-pvp-3.07';
   function coinFaceSrc(face){return String(face||'').toUpperCase()==='TAILS'?COIN_TAIL_SRC:COIN_HEAD_SRC;}
   function coinFaceLabel(face){return String(face||'').toUpperCase()==='TAILS'?'Tails':'Heads';}
   function coinChoiceButton(id,face,scope){var label=coinFaceLabel(face);return '<button id="'+id+'" class="pvp-coin-choice '+(scope||'')+'" type="button" aria-label="Choose '+label+'"><img src="'+coinFaceSrc(face)+'" alt="'+label+'"></button>';}
@@ -203,7 +203,7 @@
   function pendingDecisionSide(p){if(!p)return null;return p.decision_side||p.response_owner||p.side||p.source_side||(p.type==='hand_limit_discard'?'PLAYER':null)||(p.type==='manual_reposition'?'PLAYER':null);}
   function localOwnsPending(){var s=appState(),p=s&&s.pending;if(!p)return true;return pendingDecisionSide(p)==='PLAYER';}
   function localOwnsResponse(){var s=appState(),rw=s&&s.responseWindow;if(!rw)return true;return rw.response_owner==='PLAYER';}
-  function intentNeedsPendingOwner(intent){return ['chooseHeroFromBoard','setArrowBarrageSpend','selectStatusRemovalChoice','selectSaintPurifyChoice','resolveStonebloodChoice','selectScoutingExpChoice','moveCrystalBallOrder','performDualArrowPairChoice','toggleDiscardIndex','selectCardSearchChoice','selectLegacyDefeatChoice','selectLegacyCostChoice','selectLegacyCardChoice','commitDrawReplacementChoice','confirmDrawReplacement','commitMagicalSurgeChoice','commitResponseExtraDiscardChoice','selectOpponentHandChoice','commitOpponentHandChoice','selectResponseExtraDiscardChoice','performOptionalSwapDecision','performOptionalTargetSwapDecision','resolveSecondChanceChoice','performManualReposition','handleChoiceConfirm'].indexOf(intent)!==-1;}
+  function intentNeedsPendingOwner(intent){return ['chooseHeroFromBoard','setArrowBarrageSpend','selectStatusRemovalChoice','selectSaintPurifyChoice','resolveStonebloodChoice','selectScoutingExpChoice','moveCrystalBallOrder','performDualArrowPairChoice','toggleDiscardIndex','selectCardSearchChoice','selectLegacyDefeatChoice','selectLegacyCostChoice','selectLegacyCardChoice','commitDrawReplacementChoice','confirmDrawReplacement','commitMagicalSurgeChoice','commitResponseExtraDiscardChoice','selectOpponentHandChoice','commitOpponentHandChoice','selectResponseExtraDiscardChoice','performOptionalSwapDecision','performOptionalTargetSwapDecision','performManualReposition','handleChoiceConfirm'].indexOf(intent)!==-1;}
   function intentNeedsResponseOwner(intent){return ['responseSelectNoStuck','confirmSelectedResponse','responsePassNoStuck'].indexOf(intent)!==-1;}
   function runtimeIntent(intent,args){var me=state.snapshot&&state.snapshot.local;if(!me||me.role!=='player'){setStatus('offline','Spectator is read-only.');return false;}var m=match();if(!m||m.status!=='started'){setStatus('offline','Start server match first.');return false;}if(state.applyingServer){setStatus('connecting','Applying the latest server board. Please try again.');return false;}if(state.intentInFlight){setStatus('connecting','Waiting for the server to resolve '+(state.intentName||'the previous action')+'...');return false;}if(intentNeedsResponseOwner(intent)&&!localOwnsResponse()){setStatus('online','Waiting for opponent response.');return false;}if(intentNeedsPendingOwner(intent)&&!localOwnsPending()){setStatus('online','Waiting for opponent decision.');return false;}var base=currentRevision();var ok=send('runtime-intent',{intent:intent,args:args||[],baseRevision:base});if(ok){state.intentInFlight=true;state.intentBaseRevision=base;state.intentName=intent;state.intentSentAt=Date.now();armIntentTimeout();}return ok;}
   function prevent(ev){ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();}
@@ -220,7 +220,7 @@
   function pendingClosePolicy(s,p){
     if(!p)return 'CLOSE_ONLY';
     var bridgePolicy=bridge()&&bridge().getPendingClosePolicy;try{if(bridgePolicy){var x=bridgePolicy();if(x)return x;}}catch(e){}
-    if(p.type==='optional_swap'||p.type==='optional_target_swap'||p.type==='post_attack_reposition_choice'||p.type==='racial_second_chance')return 'POST_RESOLUTION_DECLINE';
+    if(p.type==='optional_swap'||p.type==='optional_target_swap'||p.type==='post_attack_reposition_choice')return 'POST_RESOLUTION_DECLINE';
     if(['legacy_defeat_choice','hand_limit_discard','draw_replacement_choice','response_window'].indexOf(p.type)!==-1)return 'MANDATORY_NO_CANCEL';
     if(pendingRevealsHiddenInformation(p)||(s&&s.responseWindow))return 'MANDATORY_NO_CANCEL';
     if(['source_selection','target_selection','optional_magical_surge','mana_spend_choice','scouting_target_selection','scouting_exp_selection','status_removal_choice','tribute_target','racial_target_selection','hero_ability_target_selection','legacy_cost_selection','legacy_hero_target_selection','manual_reposition','lane_pair_selection'].indexOf(p.type)!==-1)return 'PRE_COMMIT_CANCEL';
@@ -261,14 +261,13 @@
     if((node=t.closest('[data-pvp-draw-review]'))){prevent(ev);return runtimeIntent('confirmDrawReplacement',[node.getAttribute('data-pvp-draw-review')]);}
     if((node=t.closest('[data-draw-replacement-choice]'))){prevent(ev);return runtimeIntent('confirmDrawReplacement',[node.getAttribute('data-draw-replacement-choice')==='redraw'?'redraw':'keep']);}
     if((node=t.closest('[data-magical-surge-choice]'))){prevent(ev);return runtimeIntent('commitMagicalSurgeChoice',[node.getAttribute('data-magical-surge-choice')==='yes']);}
-    if((node=t.closest('[data-second-chance-choice]'))){prevent(ev);return runtimeIntent('resolveSecondChanceChoice',[node.getAttribute('data-second-chance-choice')==='use']);}
     if((node=t.closest('[data-opponent-hand-choice]'))){prevent(ev);return runtimeIntent('selectOpponentHandChoice',[Number(node.getAttribute('data-opponent-hand-choice'))]);}
     if((node=t.closest('[data-response-extra-discard-index]'))){prevent(ev);return runtimeIntent('selectResponseExtraDiscardChoice',[Number(node.getAttribute('data-response-extra-discard-index'))]);}
     if((node=t.closest('[data-source-swap-lane]'))){prevent(ev);return runtimeIntent('performOptionalSwapDecision',[node.getAttribute('data-source-swap-lane')]);}
     if((node=t.closest('#repositionButton'))){prevent(ev);return runtimeIntent('openManualRepositionChoice',[]);}
     if((node=t.closest('[data-play-index]'))){prevent(ev);return runtimeIntent('beginPlayFromHand',[Number(node.getAttribute('data-play-index'))]);}
     if((node=t.closest('[data-tribute-index]'))){prevent(ev);return runtimeIntent('beginTributeFromHand',[Number(node.getAttribute('data-tribute-index'))]);}
-    if((node=t.closest('.hero-panel'))){var s=appState(); if(s&&s.pending&&['source_selection','target_selection','exact_two_target_selection','scouting_target_selection','tribute_target','racial_target_selection','hero_ability_target_selection','legacy_hero_target_selection'].indexOf(s.pending.type)!==-1){prevent(ev);return runtimeIntent('chooseHeroFromBoard',[node.getAttribute('data-side'),node.getAttribute('data-lane')]);}}
+    if((node=t.closest('.hero-panel'))){var s=appState(); if(s&&s.pending&&['source_selection','target_selection','exact_two_target_selection','scouting_target_selection','tribute_target','racial_target_selection','hero_ability_target_selection','legacy_hero_target_selection','double_casting_target_selection'].indexOf(s.pending.type)!==-1){prevent(ev);return runtimeIntent('chooseHeroFromBoard',[node.getAttribute('data-side'),node.getAttribute('data-lane')]);}}
     if((node=t.closest('[data-mana-spend]'))){prevent(ev);return runtimeIntent('setArrowBarrageSpend',[Number(node.getAttribute('data-mana-spend'))]);}
     if((node=t.closest('[data-status-removal-index]'))){prevent(ev);return runtimeIntent('selectStatusRemovalChoice',[Number(node.getAttribute('data-status-removal-index'))]);}
     if((node=t.closest('[data-saint-status-index]'))){prevent(ev);return runtimeIntent('selectSaintPurifyChoice',[Number(node.getAttribute('data-saint-status-index'))]);}
@@ -299,7 +298,6 @@
       if(policy==='PRE_COMMIT_CANCEL')return runtimeIntent('cancelPendingAction',[]);
       if(policy==='POST_RESOLUTION_DECLINE'){
         if(closePending.type==='optional_target_swap')return runtimeIntent('performOptionalTargetSwapDecision',[null]);
-        if(closePending.type==='racial_second_chance')return runtimeIntent('resolveSecondChanceChoice',[false]);
         if(closePending.type==='post_attack_reposition_choice')return runtimeIntent('performOptionalSwapDecision',[false]);
         return runtimeIntent('performOptionalSwapDecision',[false]);
       }

@@ -1,0 +1,28 @@
+Grandis Legacy Website v1.7
+Release date: 2026-08-24
+
+1. SOURCE STACK ADOPTION
+- Adopted One Source Authority v1.6.0, Season 1 cards runtime v0.13.0, and Hero Component Authority v1.0.0.
+- Locked canonical card registry f6560b21206a4f50670d9801442933d026768c3c704215f443d58a568980a3db and Hero Component registry 487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9.
+
+2. GAMEPLAY / CARD CHANGES
+- Rebuilt Arvon's 198-card local index from current authority, including all 30 revised IDs and S1-THF-010 Back Slash.
+- Added shared Race-based Racial Trait, Class-based Class Ability, Hero profile, and resolved Hero composition data.
+- Updated the embedded public PvP frontend to the v3.06 package.
+
+3. BUG FIXES
+- Replaced both stale packaged Rulebook PDFs with byte-identical current English and Indonesian Rulebook v2 files.
+- Removed the old Arvon assumption that answer language must follow only the EN/ID page toggle.
+
+4. UI CHANGES
+- Reduced only desktop whitespace above the homepage Hero content; Hero typography, cards, horizontal layout, internal spacing, bottom spacing, and mobile layout remain locked.
+- Added deterministic same-language Arvon presentation for English, Indonesian, Japanese, Spanish, and Simplified Chinese, with English fallback when language is uncertain.
+
+5. PRESERVED BEHAVIOR
+- Preserved GA4, navigation, same-tab internal links, Discord behavior, dark visual design, Rulebook layout, Arvon UI, circular Discover carousel, Venom Binding wrap, and mobile swipe.
+- Official game terms and card names remain untranslated when translation could introduce ambiguity; translation is presentation-only.
+
+6. QA RESULTS
+- Passed card-count/hash, 30-revision, Back Slash, Hero Component composition, PDF hash, multilingual routing, source-lock, PvP embed, syntax, homepage preservation, and four-viewport desktop layout checks.
+- Desktop QA viewports: 1600x900, 1440x900, 1366x768, and 1280x720; no fixed-header overlap.
+

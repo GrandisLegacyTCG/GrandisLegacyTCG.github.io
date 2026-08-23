@@ -349,6 +349,14 @@
   launcher?.addEventListener('click',openArvon); closeBtn?.addEventListener('click',closeArvon);
   const addMessage=(who,html)=>{const row=document.createElement('div');row.className=`chat-row ${who}`;const b=document.createElement('div');b.className='bubble';b.innerHTML=html;row.appendChild(b);messages.appendChild(row);messages.scrollTop=messages.scrollHeight;return row};
   const cardIndex = Array.isArray(window.GRANDIS_RULEBOOK_CARD_INDEX) ? window.GRANDIS_RULEBOOK_CARD_INDEX : [];
+  const componentAuthority = window.GRANDIS_HERO_COMPONENT_AUTHORITY || {};
+  const cardAuthority = window.GRANDIS_RULEBOOK_AUTHORITY || {};
+  const arvonCore = window.GrandisArvonCore || null;
+  const arvonAuthority = {
+    cards: cardIndex,
+    components: componentAuthority,
+    registryHash: cardAuthority.hero_component_registry_hash || componentAuthority.registry_hash || ''
+  };
   const findMentionedCards=(q)=>{
     const nq=normalize(q);
     const hits=cardIndex.filter(card=>{
@@ -425,6 +433,9 @@
     return null;
   };
   const localAnswer=(q)=>{
+    const routed=arvonCore?.answer(q,arvonAuthority);
+    if(routed && routed.kind!=='missing')return routed;
+    if(routed && routed.language!==currentLang)return routed;
     const t=ui[currentLang];
     const cardAnswer=localCardAnswer(q);
     if(cardAnswer)return cardAnswer;
@@ -436,18 +447,25 @@
     text+=`<a class="source-link" href="#${top.section.id}">${escapeHTML(t.sourceWord)} · Page ${escapeHTML(top.section.page)} →</a>`;
     return {html:text};
   };
-  const askRemote=async(q)=>{
+  const askRemote=async(q,language)=>{
     const endpoint=window.GRANDIS_ARVON_ENDPOINT;
     if (!endpoint) return null;
     try{
-      const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,language:currentLang,source:'Grandis Legacy Rulebook v2 + Season 1 Cards',requestedSources:['rulebook','season1_cards','authority']})});
+      const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        question:q,
+        language,
+        source:'Grandis Legacy Rulebook v2 + Season 1 cards v0.13.0 + Hero Component Authority v1.0.0',
+        requestedSources:['rulebook','season1_cards','hero_components','authority'],
+        translationPolicy:{presentationOnly:true,preserveOfficialTerms:arvonCore?.OFFICIAL_TERMS||[],preserveCardNames:true,uncertainLanguageFallback:'en'}
+      })});
       if(!r.ok) return null; const d=await r.json(); if(!d?.answer) return null; return {text:d.answer,source:d.source||''};
     }catch{return null;}
   };
   form?.addEventListener('submit',async e=>{
     e.preventDefault(); const q=input.value.trim(); if(!q)return; input.value=''; addMessage('user',escapeHTML(q));
+    const answerLanguage=arvonCore?.detectLanguage(q)||'en';
     const wait=addMessage('bot',escapeHTML(ui[currentLang].arvonSearching));
-    const remote=await askRemote(q); wait.remove();
+    const remote=await askRemote(q,answerLanguage); wait.remove();
     if(remote){addMessage('bot',`${escapeHTML(remote.text)}${remote.source?`<span class="source-link">${escapeHTML(remote.source)}</span>`:''}`);return;}
     const ans=localAnswer(q); addMessage('bot',ans.html||escapeHTML(ans.text));
   });

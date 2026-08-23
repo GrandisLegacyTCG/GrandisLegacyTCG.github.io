@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "website_version": "1.8",
+  "generated_at": "2026-08-24",
+  "source_stack": {
+    "one_source_authority": "1.6.1",
+    "season1_cards": "0.13.1",
+    "hero_components": "1.0.0",
+    "canonical_registry_hash": "b185307752fd523d6c1e4a450f8bdd82b96b4d4cbfbb884fca8a619e8c5c8057",
+    "hero_component_registry_hash": "487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9"
+  },
+  "contracts": {
+    "card_count": 198,
+    "revised_card_count": 30,
+    "renamed_card": {
+      "card_id": "S1-THF-010",
+      "current_name": "Back Slash",
+      "retired_name": "Back Stab"
+    },
+    "hero_component_counts": {
+      "racial_traits": 6,
+      "class_abilities": 16,
+      "hero_profiles": 10,
+      "hero_compositions": 30
+    }
+  },
+  "files": {
+    "authority/season1/cards.runtime.v0.13.1.json": "9cd12d776fac7ea3b2d19e79f95faaefb5f1eae8847b9ccbde6c7967d4418768",
+    "authority/season1/hero-components.runtime.v1.0.0.json": "a83013797330e67b9afff60fa053946123e5f4aae65154dbbeb8cbc55374ed81",
+    "rulebook/js/card-index.js": "802044ba87feccef9f0cd52d987c7a40f88e97b7c63c4ecfe9cc753b170153dd",
+    "rulebook/js/hero-components.js": "c926a2dbe7631095930ae20a467a5988627670ecded7605800192f598d76323d"
+  },
+  "revised_card_ids": [
+    "S1-ARC-011",
+    "S1-ARC-012",
+    "S1-ARC-014",
+    "S1-CLE-003",
+    "S1-CLE-011",
+    "S1-CLE-015",
+    "S1-CLE-022",
+    "S1-CLE-H004",
+    "S1-CLE-H005",
+    "S1-CLE-H006",
+    "S1-ITM-005",
+    "S1-ITM-007",
+    "S1-ITM-012",
+    "S1-MAG-004",
+    "S1-MAG-005",
+    "S1-MAG-012",
+    "S1-THF-011",
+    "S1-THF-015",
+    "S1-THF-021",
+    "S1-THF-022",
+    "S1-THF-H001",
+    "S1-THF-H002",
+    "S1-THF-H003",
+    "S1-WAR-003",
+    "S1-WAR-011",
+    "S1-WAR-012",
+    "S1-WAR-022",
+    "S1-WAR-H004",
+    "S1-WAR-H005",
+    "S1-WAR-H006"
+  ]
+}
