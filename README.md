@@ -1,6 +1,12 @@
-# Grandis Legacy Website v1.9
+# Grandis Legacy Website v1.10
 
-Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/General Arvon experience, and embedded PvP v3.08 client.
+Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/General Arvon experience, and embedded PvP v3.09 client.
+
+## v1.10 mobile navigation patch
+
+- Routes every Homepage Deck Builder action to Style 2 on mobile while preserving the existing desktop destinations.
+- Embeds the PvP v3.09 mobile cross-app hamburger navigation.
+- No gameplay, card data, Rulebook, Arvon, or desktop layout changes are included.
 
 ## v1.9 card-art and audio asset sync
 
@@ -17,7 +23,7 @@ Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/
 - Resolves 6 shared Racial Traits, 16 shared Class Abilities, 10 Hero profiles, and 30 Hero compositions.
 - Supports deterministic same-language answers in English, Indonesian, Japanese, Spanish, and Simplified Chinese, with presentation-only translation fallback for other reliably detected languages.
 - Includes the exact Player Rulebook v2 EN/ID PDFs supplied for this release.
-- Embeds the PvP v3.08 public client while preserving hidden-information, seat authority, and read-only spectator behavior.
+- Embeds the PvP v3.09 public client while preserving hidden-information, seat authority, and read-only spectator behavior.
 - Preserves existing navigation, analytics, Discord link, carousel/swipe behavior, mobile Hero layout, and unrelated homepage sections.
 
 The approved v1.7 desktop Hero top-whitespace refinement is preserved byte-for-byte in the stylesheet. Deterministic layout QA covers 1600×900, 1440×900, 1366×768, and 1280×720. No unrelated UI change is included.

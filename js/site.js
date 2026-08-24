@@ -1,4 +1,13 @@
 (() => {
+  const mobileDeckBuilderQuery = window.matchMedia('(max-width: 760px)');
+  const syncMobileDeckBuilderLinks = () => {
+    document.querySelectorAll('[data-mobile-deck-builder]').forEach((link) => {
+      link.href = mobileDeckBuilderQuery.matches ? 'Grandis-Legacy-Deck-Builder/style-2/' : 'Grandis-Legacy-Deck-Builder/style-1/';
+    });
+  };
+  syncMobileDeckBuilderLinks();
+  if (mobileDeckBuilderQuery.addEventListener) mobileDeckBuilderQuery.addEventListener('change', syncMobileDeckBuilderLinks);
+  else if (mobileDeckBuilderQuery.addListener) mobileDeckBuilderQuery.addListener(syncMobileDeckBuilderLinks);
   const menuButton = document.querySelector('.mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
   if (menuButton && mobileMenu) {

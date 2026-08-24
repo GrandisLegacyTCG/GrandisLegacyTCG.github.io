@@ -5,7 +5,7 @@
   'use strict';
   var GL_APP_MODE=String((typeof window!=='undefined'&&window.GL_APP_MODE)||'LOCAL_AI').toUpperCase();
   var IS_PVP_APP=GL_APP_MODE==='PVP';
-  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.08 · VS AI v6.10 Battlefield · One Source v1.6.1 · Runtime Data v0.13.1 · Foundation v1.85 · Core v0.53':'Grandis Legacy VS AI v6.10 · Shared Gameplay Bundle v3.1 · One Source v1.6.1 · Runtime Data v0.13.1 · Foundation v1.85 · Core v0.53';
+  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.09 · VS AI v6.11 Battlefield · One Source v1.6.1 · Runtime Data v0.13.1 · Foundation v1.85 · Core v0.53':'Grandis Legacy VS AI v6.11 · Shared Gameplay Bundle v3.1 · One Source v1.6.1 · Runtime Data v0.13.1 · Foundation v1.85 · Core v0.53';
   var PHASES=['Draw','Deploy','Battle','Reform','End'];
   var LANE_ORDER=['LEFT','CENTER','RIGHT'];
   var EXP_MAX_TOTAL=700;

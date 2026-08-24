@@ -25,4 +25,4 @@ for (const rel of walk(root)) {
   rows.push(`${rel},${crypto.createHash('sha256').update(data).digest('hex')},${data.length}`);
 }
 fs.writeFileSync(path.join(root, 'FILE_MANIFEST_SHA256.csv'), `${rows.join('\n')}\n`);
-console.log(`PASS: Website v1.9 manifest generated for ${rows.length - 1} files.`);
+console.log(`PASS: Website v1.10 manifest generated for ${rows.length - 1} files.`);
