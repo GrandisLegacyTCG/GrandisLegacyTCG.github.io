@@ -1,6 +1,21 @@
-# Grandis Legacy Website v1.10
+# Grandis Legacy Website v1.12
 
 Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/General Arvon experience, and embedded PvP v3.09 client.
+
+
+## v1.12 Embedded PvP v3.12 synchronization
+
+- Public `/pvp/` frontend synchronized to standalone PvP v3.12 while preserving Website production WebSocket config and mobile Deck Builder Style 2 routing.
+- Embedded PvP now uses canonical revised-card Defense values (including Mana Shield Block 60).
+- Embedded PvP Game Result Back to Lobby uses authoritative reset then same-page reload.
+- Embedded PvP mobile cross-app hamburger is fixed on the right and opens above lobby/battle overlays.
+
+## v1.11 embedded PvP mobile hamburger alignment
+
+- Moves the embedded `/pvp/` mobile cross-app hamburger from the left side of the PvP lobby header to the right side.
+- Moves the opened mobile application menu to the same right edge.
+- Preserves VS AI / PVP / DECK BUILDER choices and the Style 2 mobile Deck Builder destination.
+- No gameplay, card authority, Rulebook, Arvon, homepage layout, or desktop PvP navigation changes.
 
 ## v1.10 mobile navigation patch
 

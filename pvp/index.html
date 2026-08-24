@@ -12,10 +12,17 @@
     gtag('js', new Date());
     gtag('config', 'G-6JD5Q48SXN');
   </script>
-  <link rel="stylesheet" href="css/app.css?v=gl-pvp-3.09">
+  <link rel="stylesheet" href="css/app.css?v=gl-pvp-3.12">
   <style>body.pvp-booting #app{display:none!important}</style>
 </head>
 <body class="pvp-booting">
+  <button id="glMobileAppMenuButton" class="gl-mobile-app-menu-button" type="button" aria-expanded="false" aria-controls="glMobileAppMenu" aria-label="Open Grandis Legacy menu"><span></span><span></span><span></span></button>
+  <nav id="glMobileAppMenu" class="gl-mobile-app-menu" aria-label="Grandis Legacy applications" hidden>
+    <a href="https://grandislegacytcg.github.io/Grandis-Legacy-VS-AI/">VS AI</a>
+    <a href="https://grandislegacytcg.github.io/pvp/">PVP</a>
+    <a href="https://grandislegacytcg.github.io/Grandis-Legacy-Deck-Builder/style-2/">DECK BUILDER</a>
+  </nav>
+
   <div id="app" aria-live="polite"><noscript>Grandis Legacy PvP requires JavaScript enabled.</noscript></div>
   <div id="choiceOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Card Choice"><section class="choice-panel"><header class="choice-head"><h2 id="choiceTitle">Choice</h2><button id="choiceClose" type="button">Close</button></header><div id="choiceBody" class="choice-body"></div><footer class="choice-foot"><button id="choiceConfirm" type="button">Confirm</button></footer></section></div>
   <div id="infoOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Information"><section class="info-panel"><header class="info-head"><h2 id="infoTitle">Info</h2><button id="infoClose" type="button">Close</button></header><div id="infoBody" class="info-body"></div></section></div>
@@ -24,10 +31,11 @@
   <div id="hoverCardZoom" class="hover-card-zoom" hidden aria-hidden="true"><img id="hoverCardZoomImage" src="" alt="Card zoom"></div>
   <div id="glAnimationLayer" class="gl-animation-layer" aria-hidden="true"></div>
   <script>window.GL_APP_MODE="PVP";</script>
-  <script src="config.js?v=gl-pvp-3.09"></script>
-<script src="js/static-data.js?v=gl-pvp-3.09"></script>
-  <script src="js/runtime-authority.js?v=gl-pvp-3.09"></script>
-  <script src="js/app.bundle.js?v=gl-pvp-3.09"></script>
-  <script src="js/pvp-network.js?v=gl-pvp-3.09"></script>
+  <script src="config.js?v=gl-pvp-3.12"></script>
+<script src="js/static-data.js?v=gl-pvp-3.12"></script>
+  <script src="js/runtime-authority.js?v=gl-pvp-3.12"></script>
+  <script src="js/app.bundle.js?v=gl-pvp-3.12"></script>
+  <script src="js/pvp-network.js?v=gl-pvp-3.12"></script>
+  <script src="js/mobile-app-nav.js?v=gl-pvp-3.12"></script>
 </body>
 </html>
