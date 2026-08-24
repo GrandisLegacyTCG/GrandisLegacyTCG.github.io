@@ -9,7 +9,7 @@ const cardsPath = path.join(root, 'authority/season1/cards.runtime.v0.13.1.json'
 const componentsPath = path.join(root, 'authority/season1/hero-components.runtime.v1.0.0.json');
 const cardsOut = path.join(root, 'rulebook/js/card-index.js');
 const componentsOut = path.join(root, 'rulebook/js/hero-components.js');
-const lockOut = path.join(root, 'sync/website-source-lock.v1.8.json');
+const lockOut = path.join(root, 'sync/website-source-lock.v1.9.json');
 
 const CARD_HASH = 'b185307752fd523d6c1e4a450f8bdd82b96b4d4cbfbb884fca8a619e8c5c8057';
 const HERO_HASH = '487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9';
@@ -98,7 +98,7 @@ const cardIndex = data.cards.map(card => ({
 }));
 
 const meta = {
-  website_version: '1.8',
+  website_version: '1.9',
   source_stack: 'Grandis Legacy One Source Authority v1.6.1',
   cards_version: '0.13.1',
   hero_components_version: '1.0.0',
@@ -115,7 +115,7 @@ fs.writeFileSync(componentsOut, `window.GRANDIS_HERO_COMPONENT_AUTHORITY=${JSON.
 
 const lock = {
   schema_version: '1.0.0',
-  website_version: '1.8',
+  website_version: '1.9',
   generated_at: '2026-08-24',
   source_stack: {
     one_source_authority: '1.6.1',
@@ -134,7 +134,11 @@ const lock = {
     'authority/season1/cards.runtime.v0.13.1.json': fileDigest(cardsPath),
     'authority/season1/hero-components.runtime.v1.0.0.json': fileDigest(componentsPath),
     'rulebook/js/card-index.js': fileDigest(cardsOut),
-    'rulebook/js/hero-components.js': fileDigest(componentsOut)
+    'rulebook/js/hero-components.js': fileDigest(componentsOut),
+    'shared/season1/v1/manifest.json': fileDigest(path.join(root, 'shared/season1/v1/manifest.json')),
+    'pvp/assets/audio/Coin Flip.mp3': fileDigest(path.join(root, 'pvp/assets/audio/Coin Flip.mp3')),
+    'pvp/assets/audio/Card Sound.mp3': fileDigest(path.join(root, 'pvp/assets/audio/Card Sound.mp3')),
+    'pvp/js/app.bundle.js': fileDigest(path.join(root, 'pvp/js/app.bundle.js'))
   },
   revised_card_ids: REVISED_IDS
 };

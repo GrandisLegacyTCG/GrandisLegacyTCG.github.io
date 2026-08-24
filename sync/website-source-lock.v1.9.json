@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "website_version": "1.8",
+  "website_version": "1.9",
   "generated_at": "2026-08-24",
   "source_stack": {
     "one_source_authority": "1.6.1",
@@ -27,8 +27,12 @@
   "files": {
     "authority/season1/cards.runtime.v0.13.1.json": "9cd12d776fac7ea3b2d19e79f95faaefb5f1eae8847b9ccbde6c7967d4418768",
     "authority/season1/hero-components.runtime.v1.0.0.json": "a83013797330e67b9afff60fa053946123e5f4aae65154dbbeb8cbc55374ed81",
-    "rulebook/js/card-index.js": "802044ba87feccef9f0cd52d987c7a40f88e97b7c63c4ecfe9cc753b170153dd",
-    "rulebook/js/hero-components.js": "c926a2dbe7631095930ae20a467a5988627670ecded7605800192f598d76323d"
+    "rulebook/js/card-index.js": "5593871309987e734f64b69700f7da9a43e0c90d01422b3a5304d6cd3ee25ebc",
+    "rulebook/js/hero-components.js": "c926a2dbe7631095930ae20a467a5988627670ecded7605800192f598d76323d",
+    "shared/season1/v1/manifest.json": "e619c9a0b848943476ae3775d8c0a6158c14818909907ac407a19eb0f8a82642",
+    "pvp/assets/audio/Coin Flip.mp3": "b4842f9a3f2d25004223313f5473bef74afd79915b6af9bdb35c70f6df8c2b50",
+    "pvp/assets/audio/Card Sound.mp3": "1c04e41918b392a643c22d6c02ef34eeab0341c70d46b7d517078725b79d8ee4",
+    "pvp/js/app.bundle.js": "16084b39165617da19db89d8ae3e3b22e606eca4babcf42329ab3d9f226442f6"
   },
   "revised_card_ids": [
     "S1-ARC-011",

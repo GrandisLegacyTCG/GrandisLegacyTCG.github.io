@@ -1,11 +1,11 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.8 GitHub Pages package — corrected Source Stack and Arvon index",
+  "description": "Grandis Legacy Website v1.9 GitHub Pages package — canonical physical card-art sync and safe embedded PvP audio rename",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
-    "test": "node tests/run-v18-website.cjs",
+    "test": "node tests/run-v19-website.cjs",
     "manifest": "node tools/build-file-manifest.cjs",
     "verify:manifest": "node tools/verify-file-manifest.cjs",
     "verify": "npm run build:arvon && npm run qa:layout && npm test && npm run manifest && npm run verify:manifest && npm test",
