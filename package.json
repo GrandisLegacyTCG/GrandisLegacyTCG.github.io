@@ -1,8 +1,8 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.12 GitHub Pages package \u2014 mobile Deck Builder Style 2 routing plus embedded PvP v3.12 canonical Defense/result lifecycle and right-edge cross-app hamburger.",
+  "description": "Grandis Legacy Website v1.13 — Source Stack v1.7.1 synchronized Arvon authority and embedded PvP v3.13.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
     "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v112-embedded-pvp-sync.cjs",

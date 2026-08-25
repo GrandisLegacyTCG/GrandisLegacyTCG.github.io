@@ -454,7 +454,7 @@
       const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
         question:q,
         language,
-        source:'Grandis Legacy Rulebook v2 + Season 1 cards v0.13.0 + Hero Component Authority v1.0.0',
+        source:'Grandis Legacy Rulebook v2 + Season 1 cards v0.13.1 + Hero Component Authority v1.0.0',
         requestedSources:['rulebook','season1_cards','hero_components','authority'],
         translationPolicy:{presentationOnly:true,preserveOfficialTerms:arvonCore?.OFFICIAL_TERMS||[],preserveCardNames:true,uncertainLanguageFallback:'en'}
       })});

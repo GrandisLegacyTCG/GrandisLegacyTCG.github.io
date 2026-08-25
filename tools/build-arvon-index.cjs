@@ -5,13 +5,13 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const cardsPath = path.join(root, 'authority/season1/cards.runtime.v0.13.1.json');
+const cardsPath = path.join(root, 'authority/season1/cards.runtime.v0.14.1.json');
 const componentsPath = path.join(root, 'authority/season1/hero-components.runtime.v1.0.0.json');
 const cardsOut = path.join(root, 'rulebook/js/card-index.js');
 const componentsOut = path.join(root, 'rulebook/js/hero-components.js');
 const lockOut = path.join(root, 'sync/website-source-lock.v1.9.json');
 
-const CARD_HASH = 'b185307752fd523d6c1e4a450f8bdd82b96b4d4cbfbb884fca8a619e8c5c8057';
+const CARD_HASH = '8ee6bb98c22dc66ee72f49fa88b4f7fd05fce1c96a2932e28a1a8667c9d3932e';
 const HERO_HASH = '487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9';
 const REVISED_IDS = [
   'S1-ARC-011','S1-ARC-012','S1-ARC-014','S1-CLE-003','S1-CLE-011','S1-CLE-015','S1-CLE-022',
@@ -131,7 +131,7 @@ const lock = {
     hero_component_counts: { racial_traits: 6, class_abilities: 16, hero_profiles: 10, hero_compositions: 30 }
   },
   files: {
-    'authority/season1/cards.runtime.v0.13.1.json': fileDigest(cardsPath),
+    'authority/season1/cards.runtime.v0.14.1.json': fileDigest(cardsPath),
     'authority/season1/hero-components.runtime.v1.0.0.json': fileDigest(componentsPath),
     'rulebook/js/card-index.js': fileDigest(cardsOut),
     'rulebook/js/hero-components.js': fileDigest(componentsOut),

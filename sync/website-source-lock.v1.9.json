@@ -6,7 +6,7 @@
     "one_source_authority": "1.6.1",
     "season1_cards": "0.13.1",
     "hero_components": "1.0.0",
-    "canonical_registry_hash": "b185307752fd523d6c1e4a450f8bdd82b96b4d4cbfbb884fca8a619e8c5c8057",
+    "canonical_registry_hash": "8ee6bb98c22dc66ee72f49fa88b4f7fd05fce1c96a2932e28a1a8667c9d3932e",
     "hero_component_registry_hash": "487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9"
   },
   "contracts": {
@@ -25,14 +25,14 @@
     }
   },
   "files": {
-    "authority/season1/cards.runtime.v0.13.1.json": "9cd12d776fac7ea3b2d19e79f95faaefb5f1eae8847b9ccbde6c7967d4418768",
+    "authority/season1/cards.runtime.v0.14.1.json": "b5ae4ae31e2beae7e9c0cf2a1e2c5740ac8af5730715917fa928e877959a6661",
     "authority/season1/hero-components.runtime.v1.0.0.json": "a83013797330e67b9afff60fa053946123e5f4aae65154dbbeb8cbc55374ed81",
-    "rulebook/js/card-index.js": "5593871309987e734f64b69700f7da9a43e0c90d01422b3a5304d6cd3ee25ebc",
+    "rulebook/js/card-index.js": "39ecd895fef2b8c770d8aa0b5f3a66ef4cbf1850cf5f6b180e504dcbd91c9b86",
     "rulebook/js/hero-components.js": "c926a2dbe7631095930ae20a467a5988627670ecded7605800192f598d76323d",
     "shared/season1/v1/manifest.json": "e619c9a0b848943476ae3775d8c0a6158c14818909907ac407a19eb0f8a82642",
     "pvp/assets/audio/Coin Flip.mp3": "b4842f9a3f2d25004223313f5473bef74afd79915b6af9bdb35c70f6df8c2b50",
     "pvp/assets/audio/Card Sound.mp3": "1c04e41918b392a643c22d6c02ef34eeab0341c70d46b7d517078725b79d8ee4",
-    "pvp/js/app.bundle.js": "034a2a5b01a2089f3ffeb9b9339b25afb6eb6618211ecea5047c6ffc10657f86"
+    "pvp/js/app.bundle.js": "f862406270c6320e9a8a5a6e96994bac0de0839ad1c4dee1ef6b372469a78c3c"
   },
   "revised_card_ids": [
     "S1-ARC-011",
