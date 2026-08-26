@@ -1,8 +1,8 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.13 — Source Stack v1.7.1 synchronized Arvon authority and embedded PvP v3.13.",
+  "description": "Grandis Legacy Website v1.14 — embedded PvP synchronized to v3.14 Cover Up/Redirect hotfix and pending Attack direction indicator.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
     "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v112-embedded-pvp-sync.cjs",

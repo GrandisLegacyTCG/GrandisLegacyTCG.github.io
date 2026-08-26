@@ -1,10 +1,10 @@
-/* Grandis Legacy PvP v3.09 — static GitHub Pages frontend config.
+/* Grandis Legacy PvP v3.14 — static GitHub Pages frontend config.
    Northflank remains the authoritative Room 1 / Room 2 WebSocket backend. */
 (function(){
   'use strict';
   window.GL_APP_MODE='PVP';
   window.GL_CONFIG={
-    version:'Grandis Legacy PvP v3.09 — GitHub Pages frontend bridge',
+    version:'Grandis Legacy PvP v3.14 — GitHub Pages frontend bridge',
     mode:'server-authoritative-human-vs-human',
     wsPath:'/ws',
     publicFrontendUrl:'https://grandislegacytcg.github.io/pvp/',
@@ -12,6 +12,7 @@
     room1WsBase:'wss://p01--grandis-legacy-pvp--2kwws8nzlcc2.code.run',
     room2WsBase:'wss://p01--grandis-legacy-pvp-room2--2kwws8nzlcc2.code.run',
     deckBuilderUrl:'https://grandislegacytcg.github.io/Grandis-Legacy-Deck-Builder/style-1/',
+    mobileDeckBuilderUrl:'https://grandislegacytcg.github.io/Grandis-Legacy-Deck-Builder/style-2/',
     aiLobbyUrl:'https://grandislegacytcg.github.io/Grandis-Legacy-VS-AI/',
     maxPlayers:2,
     maxSpectators:4,

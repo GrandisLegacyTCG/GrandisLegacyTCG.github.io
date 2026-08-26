@@ -8,7 +8,7 @@ const vm = require('vm');
 const Arvon = require('../rulebook/js/arvon-core.js');
 
 const root = path.resolve(__dirname, '..');
-const CARD_HASH = 'b185307752fd523d6c1e4a450f8bdd82b96b4d4cbfbb884fca8a619e8c5c8057';
+const CARD_HASH = '8ee6bb98c22dc66ee72f49fa88b4f7fd05fce1c96a2932e28a1a8667c9d3932e';
 const HERO_HASH = '487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9';
 const EN_PDF_HASH = '333a5991040cb67777b147f30a86bbfabc7c71c36c116e24068003f26838e0c7';
 const ID_PDF_HASH = '45737c52ae3dabf489cc68e154390ac69a35d7956382e87da34dbadb4c8d0859';
@@ -58,7 +58,7 @@ vm.runInNewContext(read('rulebook/js/hero-components.js'), browser);
 const cards = plain(browser.window.GRANDIS_RULEBOOK_CARD_INDEX);
 const meta = plain(browser.window.GRANDIS_RULEBOOK_AUTHORITY);
 const components = plain(browser.window.GRANDIS_HERO_COMPONENT_AUTHORITY);
-const source = json('authority/season1/cards.runtime.v0.13.1.json');
+const source = json('authority/season1/cards.runtime.v0.14.1.json');
 const sourceById = new Map(source.cards.map(card => [card.card_id, card]));
 const indexById = new Map(cards.map(card => [card.card_id, card]));
 const runtimeBrowser = {};
@@ -66,7 +66,7 @@ vm.runInNewContext(read('pvp/js/static-data.js'), runtimeBrowser);
 const canonicalAssets = plain(runtimeBrowser.GL_ASSET_MANIFEST);
 const sharedManifest = json('shared/season1/v1/manifest.json');
 
-assert.strictEqual(require('../package.json').version, '1.12.0');
+assert.strictEqual(require('../package.json').version, '1.14.0');
 assert.strictEqual(meta.website_version, '1.9');
 assert.strictEqual(meta.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(meta.hero_component_registry_hash, HERO_HASH);
@@ -170,7 +170,7 @@ assert.ok(homeJs.includes("touchstart") && homeJs.includes('normalizeLoopEdge'),
 assert.match(css, /\/\* v1\.7 desktop Hero top-whitespace refinement \*\/[\s\S]*@media\(min-width:821px\)[\s\S]*\.hero-section\{padding-top:clamp\(48px,3\.4vw,56px\)\}/);
 assert.ok(css.includes('.hero-section{padding:44px 18px 56px}'), 'Mobile Hero layout changed unexpectedly.');
 assert.ok(rulebook.includes('hero-components.js?v=1.0.0') && rulebook.includes('arvon-core.js?v=1.9.0') && rulebook.includes('card-index.js?v=0.13.1'));
-assert.ok(read('pvp/index.html').includes('gl-pvp-3.12'), 'Embedded public PvP package is not v3.09.');
+assert.ok(read('pvp/index.html').includes('gl-pvp-3.14'), 'Embedded public PvP package is not v3.09.');
 const embeddedNetwork = read('pvp/js/pvp-network.js');
 for (const retired of ['racial_second_chance','resolveSecondChanceChoice','data-second-chance-choice']) assert.ok(!embeddedNetwork.includes(retired), `${retired} remains in embedded PvP routing.`);
 for (const name of fs.readdirSync(path.join(root, 'pvp/starter_deck_examples')).filter(file => file.endsWith('.json'))) {
@@ -208,4 +208,4 @@ for (const [rel, expected] of Object.entries(lock.files)) assert.strictEqual(dig
 for (const rel of ['js/site.js','rulebook/js/arvon-core.js','rulebook/js/rulebook.js','tools/build-arvon-index.cjs','tools/build-file-manifest.cjs']) {
   new Function(read(rel));
 }
-console.log('PASS Website v1.12: 198 canonical physical artworks, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2, v1.7 homepage layout, PvP v3.12 embed, and source lock.');
+console.log('PASS Website v1.14: 198 canonical physical artworks, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2, v1.7 homepage layout, PvP v3.14 embed, and source lock.');
