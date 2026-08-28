@@ -1,11 +1,11 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.14 — embedded PvP synchronized to v3.14 Cover Up/Redirect hotfix and pending Attack direction indicator.",
+  "description": "Grandis Legacy Website v1.15 — embedded PvP v3.15 mobile vertical-scroll touch hotfix.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
-    "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v112-embedded-pvp-sync.cjs",
+    "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v115-mobile-scroll-touch.cjs && node tests/run-v112-embedded-pvp-sync.cjs",
     "manifest": "node tools/build-file-manifest.cjs",
     "verify:manifest": "node tools/verify-file-manifest.cjs",
     "verify": "npm run build:arvon && npm run qa:layout && npm test && npm run manifest && npm run verify:manifest && npm test",
