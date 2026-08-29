@@ -1,11 +1,11 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.20 — updated card showcase and favicon; embedded PvP v3.20 native mobile document scrolling; Source Stack v1.7.3 gameplay preserved.",
+  "description": "Grandis Legacy Website v1.21 — restores the homepage Cards.png showcase to the previous visual card scale; embedded PvP v3.20 native mobile document scrolling and Source Stack v1.7.3 gameplay preserved.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
-    "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v112-embedded-pvp-sync.cjs && node tests/run-v120-update.cjs",
+    "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v112-embedded-pvp-sync.cjs && node tests/run-v121-showcase-scale.cjs",
     "manifest": "node tools/build-file-manifest.cjs",
     "verify:manifest": "node tools/verify-file-manifest.cjs",
     "verify": "npm run build:arvon && npm run qa:layout && npm test && npm run manifest && npm run verify:manifest && npm test",
