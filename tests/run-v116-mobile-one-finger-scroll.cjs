@@ -7,6 +7,6 @@ assert(/html,body\{max-width:100%;overflow-x:clip;touch-action:auto\}/.test(site
 assert(css.includes('Mobile one-finger page-scroll fail-safe'),'embedded PvP mobile fail-safe block missing');
 assert(/html\.gl-animation-scroll-locked,body\.gl-animation-scroll-locked\{[\s\S]{0,240}overflow-y:auto!important/.test(css),'embedded PvP stale animation lock is not overridden');
 assert(app.includes('var shouldLock=(!isMobileViewport())&&animationBusy()&&GL_PAGE_SCROLL_LOCK_REQUESTED;'),'embedded PvP mobile animation page lock still possible');
-assert(fs.readFileSync(path.join(root,'pvp/index.html'),'utf8').includes('gl-pvp-3.16'),'embedded PvP cache-bust revision missing');
-assert.strictEqual(require('../package.json').version,'1.16.0');
-console.log('PASS Website v1.16 one-finger mobile document scroll and embedded PvP v3.16 fail-safe.');
+assert(fs.readFileSync(path.join(root,'pvp/index.html'),'utf8').includes('gl-pvp-3.17'),'embedded PvP cache-bust revision missing');
+assert.strictEqual(require('../package.json').version,'1.17.0');
+console.log('PASS Website v1.17 one-finger mobile document scroll and embedded PvP v3.17 fail-safe.');

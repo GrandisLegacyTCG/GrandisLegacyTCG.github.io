@@ -32,7 +32,7 @@
     "shared/season1/v1/manifest.json": "e619c9a0b848943476ae3775d8c0a6158c14818909907ac407a19eb0f8a82642",
     "pvp/assets/audio/Coin Flip.mp3": "b4842f9a3f2d25004223313f5473bef74afd79915b6af9bdb35c70f6df8c2b50",
     "pvp/assets/audio/Card Sound.mp3": "1c04e41918b392a643c22d6c02ef34eeab0341c70d46b7d517078725b79d8ee4",
-    "pvp/js/app.bundle.js": "a49a4ebaaa28c4d0726550a6b648e3f71fce28fd8cdba5e07c3a4e67689b8327"
+    "pvp/js/app.bundle.js": "10f393cc5d5c832a3cfc95bdd8f5ae08b2b69e4ca89f9c7f322a308fd4b0850b"
   },
   "revised_card_ids": [
     "S1-ARC-011",
