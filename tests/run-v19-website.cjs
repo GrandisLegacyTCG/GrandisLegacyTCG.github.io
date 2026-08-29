@@ -170,7 +170,7 @@ assert.ok(homeJs.includes("touchstart") && homeJs.includes('normalizeLoopEdge'),
 assert.match(css, /\/\* v1\.7 desktop Hero top-whitespace refinement \*\/[\s\S]*@media\(min-width:821px\)[\s\S]*\.hero-section\{padding-top:clamp\(48px,3\.4vw,56px\)\}/);
 assert.ok(css.includes('.hero-section{padding:44px 18px 56px}'), 'Mobile Hero layout changed unexpectedly.');
 assert.ok(rulebook.includes('hero-components.js?v=1.0.0') && rulebook.includes('arvon-core.js?v=1.9.0') && rulebook.includes('card-index.js?v=0.14.2'));
-assert.ok(read('pvp/index.html').includes('gl-pvp-3.19'), 'Embedded public PvP package is not v3.09.');
+assert.ok(read('pvp/index.html').includes('gl-pvp-3.20-mobile-hf1'), 'Embedded public PvP package is not v3.09.');
 const embeddedNetwork = read('pvp/js/pvp-network.js');
 for (const retired of ['racial_second_chance','resolveSecondChanceChoice','data-second-chance-choice']) assert.ok(!embeddedNetwork.includes(retired), `${retired} remains in embedded PvP routing.`);
 for (const name of fs.readdirSync(path.join(root, 'pvp/starter_deck_examples')).filter(file => file.endsWith('.json'))) {
