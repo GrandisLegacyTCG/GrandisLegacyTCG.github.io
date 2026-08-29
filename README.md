@@ -1,12 +1,6 @@
-# Grandis Legacy Website v1.17
+# Grandis Legacy Website v1.12
 
 Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/General Arvon experience, and embedded PvP v3.09 client.
-
-## v1.17 Embedded PvP mobile-scroll hotfix
-
-- Embedded `/pvp/` is synchronized to standalone PvP v3.17.
-- Fixes vertical page scrolling from the Player Hand/card area while preserving horizontal Hand swipe.
-- Non-PvP Website pages and gameplay authority are unchanged.
 
 
 ## v1.12 Embedded PvP v3.12 synchronization
