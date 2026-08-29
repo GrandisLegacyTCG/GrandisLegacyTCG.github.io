@@ -66,8 +66,8 @@ vm.runInNewContext(read('pvp/js/static-data.js'), runtimeBrowser);
 const canonicalAssets = plain(runtimeBrowser.GL_ASSET_MANIFEST);
 const sharedManifest = json('shared/season1/v1/manifest.json');
 
-assert.strictEqual(require('../package.json').version, '1.19.0');
-assert.strictEqual(meta.website_version, '1.19');
+assert.strictEqual(require('../package.json').version, '1.20.0');
+assert.strictEqual(meta.website_version, '1.20');
 assert.strictEqual(meta.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(meta.hero_component_registry_hash, HERO_HASH);
 assert.strictEqual(cards.length, 198);
@@ -177,7 +177,7 @@ for (const name of fs.readdirSync(path.join(root, 'pvp/starter_deck_examples')).
   const content = read(`pvp/starter_deck_examples/${name}`);
   assert.ok(!content.includes('Back Stab'), `${name}: retired card name remains in embedded PvP preset.`);
   assert.ok(!content.includes('Public Deck Builder v2.1'), `${name}: stale Deck Builder format metadata remains.`);
-  assert.ok(content.includes('Public Deck Builder v1.16'), `${name}: current Deck Builder format metadata is missing.`);
+  assert.ok(content.includes('Starter60 v1.4'), `${name}: current Starter60 v1.4 metadata is missing.`);
   assert.ok(content.includes(CARD_HASH), `${name}: current registry hash is missing.`);
 }
 
@@ -198,8 +198,8 @@ for (const old of ['freesound_community-coin-flip-37787','freesound_community-fl
   assert.ok(!fs.readdirSync(path.join(root, 'pvp/assets/audio')).some(name => name.includes(old)), `Stale embedded audio file remains: ${old}.`);
 }
 
-const lock = json('sync/website-source-lock.v1.19.json');
-assert.strictEqual(lock.website_version, '1.19');
+const lock = json('sync/website-source-lock.v1.20.json');
+assert.strictEqual(lock.website_version, '1.20');
 assert.strictEqual(lock.source_stack.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(lock.source_stack.hero_component_registry_hash, HERO_HASH);
 assert.deepStrictEqual(lock.contracts.hero_component_counts, { racial_traits:6, class_abilities:16, hero_profiles:10, hero_compositions:30 });
@@ -208,4 +208,4 @@ for (const [rel, expected] of Object.entries(lock.files)) assert.strictEqual(dig
 for (const rel of ['js/site.js','rulebook/js/arvon-core.js','rulebook/js/rulebook.js','tools/build-arvon-index.cjs','tools/build-file-manifest.cjs']) {
   new Function(read(rel));
 }
-console.log('PASS Website v1.19: 198 canonical physical artworks, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2, v1.7 homepage layout, PvP v3.19 embed, and source lock.');
+console.log('PASS Website v1.20: 198 canonical physical artworks, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2, v1.7 homepage layout, PvP v3.20 embed, and source lock.');

@@ -8,11 +8,11 @@ assert(html.includes('glMobileAppMenuButton')&&html.includes('glMobileAppMenu'),
 assert(html.includes('js/mobile-app-nav.js?v=gl-pvp-3.19'),'embedded mobile navigation controller not loaded');
 assert(css.includes('right:12px!important')&&css.includes('z-index:2147483001'),'embedded hamburger/menu right-edge layer contract missing');
 assert(nav.includes('menu.hidden = false')&&nav.includes('window.innerWidth - rect.right'),'embedded hamburger controller incomplete');
-assert(app.includes('Grandis Legacy PvP v3.19')&&app.includes('VS AI v6.22'),'embedded shared gameplay marker stale');
+assert(app.includes('Grandis Legacy PvP v3.20')&&app.includes('VS AI v6.23'),'embedded shared gameplay marker stale');
 assert(app.includes('GL_V615_CANONICAL_DEFENSE_QA_SELF_TEST'),'embedded canonical Defense self-test missing');
 assert(!/S1-MAG-004[^\n]{0,160}amount\s*:\s*40/.test(app),'embedded Mana Shield stale 40 override remains');
 assert(net.includes('reloadAfterRoomReset:false')&&net.includes("typeof location.reload==='function')location.reload()"),'embedded result reload lifecycle missing');
 assert(cfg.includes("mobileDeckBuilderUrl:'https://grandislegacytcg.github.io/Grandis-Legacy-Deck-Builder/style-2/'"),'production mobile Deck Builder Style 2 config lost');
 assert(cfg.includes('wss://p01--grandis-legacy-pvp'),'production PvP WebSocket config lost');
-assert.strictEqual(require('../package.json').version,'1.19.0');
-console.log('PASS Website v1.19 embedded PvP v3.19 sync: canonical Defense, result reload, right-edge hamburger, production config preserved.');
+assert.strictEqual(require('../package.json').version,'1.20.0');
+console.log('PASS Website v1.20 embedded PvP v3.20 sync: canonical Defense, result reload, right-edge hamburger, production config preserved.');

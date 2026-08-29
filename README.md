@@ -1,14 +1,14 @@
-# Grandis Legacy Website v1.19
+# Grandis Legacy Website v1.20
 
 Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/General Arvon experience, and embedded PvP v3.09 client.
 
 
-## v1.19 Source Stack v1.7.3 + embedded PvP v3.19
+## v1.20 Source Stack v1.7.3 + embedded PvP v3.19
 
 - Synchronizes Hero HP and Season 1 physical artwork to the v1.2.1 revised card source.
 - Embeds PvP v3.19 with the permanent `#app` mobile scroll contract.
 - Preserves Cover Up/Redirect and the pending Attack Direction Indicator.
-- Updates homepage cache revision to v1.19.0.
+- Updates homepage cache revision to v1.20.0.
 
 
 ## v1.12 Embedded PvP v3.12 synchronization
