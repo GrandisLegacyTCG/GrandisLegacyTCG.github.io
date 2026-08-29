@@ -5,13 +5,13 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const cardsPath = path.join(root, 'authority/season1/cards.runtime.v0.14.1.json');
+const cardsPath = path.join(root, 'authority/season1/cards.runtime.v0.14.2.json');
 const componentsPath = path.join(root, 'authority/season1/hero-components.runtime.v1.0.0.json');
 const cardsOut = path.join(root, 'rulebook/js/card-index.js');
 const componentsOut = path.join(root, 'rulebook/js/hero-components.js');
-const lockOut = path.join(root, 'sync/website-source-lock.v1.9.json');
+const lockOut = path.join(root, 'sync/website-source-lock.v1.19.json');
 
-const CARD_HASH = '8ee6bb98c22dc66ee72f49fa88b4f7fd05fce1c96a2932e28a1a8667c9d3932e';
+const CARD_HASH = '5d362f3c1dd785af82f12297d6ab1ecea4f6c43508a7b0f48319e846dd61139c';
 const HERO_HASH = '487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9';
 const REVISED_IDS = [
   'S1-ARC-011','S1-ARC-012','S1-ARC-014','S1-CLE-003','S1-CLE-011','S1-CLE-015','S1-CLE-022',
@@ -98,9 +98,9 @@ const cardIndex = data.cards.map(card => ({
 }));
 
 const meta = {
-  website_version: '1.9',
-  source_stack: 'Grandis Legacy One Source Authority v1.6.1',
-  cards_version: '0.13.1',
+  website_version: '1.19',
+  source_stack: 'Grandis Legacy One Source Authority v1.7.3',
+  cards_version: '0.14.2',
   hero_components_version: '1.0.0',
   canonical_registry_hash: CARD_HASH,
   hero_component_registry_hash: HERO_HASH,
@@ -115,11 +115,11 @@ fs.writeFileSync(componentsOut, `window.GRANDIS_HERO_COMPONENT_AUTHORITY=${JSON.
 
 const lock = {
   schema_version: '1.0.0',
-  website_version: '1.9',
-  generated_at: '2026-08-24',
+  website_version: '1.19',
+  generated_at: '2026-08-30',
   source_stack: {
-    one_source_authority: '1.6.1',
-    season1_cards: '0.13.1',
+    one_source_authority: '1.7.3',
+    season1_cards: '0.14.2',
     hero_components: '1.0.0',
     canonical_registry_hash: CARD_HASH,
     hero_component_registry_hash: HERO_HASH
@@ -131,7 +131,7 @@ const lock = {
     hero_component_counts: { racial_traits: 6, class_abilities: 16, hero_profiles: 10, hero_compositions: 30 }
   },
   files: {
-    'authority/season1/cards.runtime.v0.14.1.json': fileDigest(cardsPath),
+    'authority/season1/cards.runtime.v0.14.2.json': fileDigest(cardsPath),
     'authority/season1/hero-components.runtime.v1.0.0.json': fileDigest(componentsPath),
     'rulebook/js/card-index.js': fileDigest(cardsOut),
     'rulebook/js/hero-components.js': fileDigest(componentsOut),
@@ -143,4 +143,4 @@ const lock = {
   revised_card_ids: REVISED_IDS
 };
 fs.writeFileSync(lockOut, `${JSON.stringify(lock, null, 2)}\n`);
-console.log('PASS: Arvon index built from cards v0.13.1 and Hero Component Authority v1.0.0.');
+console.log('PASS: Arvon index built from cards v0.14.2 and Hero Component Authority v1.0.0.');

@@ -1,11 +1,11 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.18.0",
+  "version": "1.19.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.18 \u2014 embedded PvP synchronized to v3.18 clean native mobile scroll fix; homepage behavior unchanged.",
+  "description": "Grandis Legacy Website v1.19 \u2014 Source Stack v1.7.3 Hero HP synchronization, updated Season 1 v1.2.1 card artwork, and embedded PvP v3.19 mobile one-finger scroll fix.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
-    "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v112-embedded-pvp-sync.cjs",
+    "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v112-embedded-pvp-sync.cjs && node tests/run-v119-source-hp-scroll.cjs",
     "manifest": "node tools/build-file-manifest.cjs",
     "verify:manifest": "node tools/verify-file-manifest.cjs",
     "verify": "npm run build:arvon && npm run qa:layout && npm test && npm run manifest && npm run verify:manifest && npm test",

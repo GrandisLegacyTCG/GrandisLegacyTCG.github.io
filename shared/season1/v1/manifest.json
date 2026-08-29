@@ -124,18 +124,18 @@
     },
     "S1-ARC-H001": {
       "file": "S1-ARC-H001.webp",
-      "sha256": "9c92f2224b99e8597878c9b2c5d309d1621ff01f9a0f0f3c7ebaa933c65b4178",
-      "bytes": 72974
+      "sha256": "3fda8979176906f1ba0e91d025e68217d093cd31537074df6e6778def7b248f4",
+      "bytes": 72946
     },
     "S1-ARC-H002": {
       "file": "S1-ARC-H002.webp",
-      "sha256": "3c90ffeec9be78ec0f15bda6286bd5d2d8e34c90617cd9497ec8410b5775481c",
-      "bytes": 76466
+      "sha256": "49ecf2fd2f825c6dd761e02b772b1c0cc8ce026c811aecf26c3e4ab7f7b6a124",
+      "bytes": 76434
     },
     "S1-ARC-H003": {
       "file": "S1-ARC-H003.webp",
-      "sha256": "290b531ef825d925b47d464aea739158891dbc4cb6d24ef95e48210962eb7cbe",
-      "bytes": 87380
+      "sha256": "8c5b1cd30032e689d7478792f091f76ae15f08946c9bc5643d263f68e16f3f86",
+      "bytes": 87366
     },
     "S1-ARC-H004": {
       "file": "S1-ARC-H004.webp",
@@ -954,8 +954,8 @@
     },
     "S1-WAR-H001": {
       "file": "S1-WAR-H001.webp",
-      "sha256": "2f0c2045bd8ed9771f325503781361042ca10d9f245151f101f1a2748c3dd442",
-      "bytes": 74206
+      "sha256": "89d3c40b9f7ad7a47a638b8371d68156f51a991fd9eed9a5929e4978c55f208e",
+      "bytes": 74164
     },
     "S1-WAR-H002": {
       "file": "S1-WAR-H002.webp",
@@ -964,23 +964,23 @@
     },
     "S1-WAR-H003": {
       "file": "S1-WAR-H003.webp",
-      "sha256": "c14dd83da1a6659ab859d93b4ef39a7da75c3795b94e91b85af6260e810ad334",
-      "bytes": 87534
+      "sha256": "53855eecca77b3a81a6f46ca8e7932e4d4dba4372ee630f37b6f47344e15eafd",
+      "bytes": 87514
     },
     "S1-WAR-H004": {
       "file": "S1-WAR-H004.webp",
-      "sha256": "3f72825fbf83ff5c2c0eb7b84266eab84aa7abda2ffd30e4ecca3e412babf441",
-      "bytes": 78242
+      "sha256": "565779a9f44567232232f58b8fe717dc90c720458c33461defe4e641ca8e5b8b",
+      "bytes": 78304
     },
     "S1-WAR-H005": {
       "file": "S1-WAR-H005.webp",
-      "sha256": "dcf91ca78ebf59ea1a3d2fb2fdd592c2ce1b7b2a7ae7413f46ddf7a12e1338b3",
-      "bytes": 88628
+      "sha256": "5b783fed3d150fb8f3a35db60eaecdd68928c10f54e151aa8caabb8ed2d14d1e",
+      "bytes": 88678
     },
     "S1-WAR-H006": {
       "file": "S1-WAR-H006.webp",
-      "sha256": "7835f5dc13328773f496f7a3037278c180dcaf5ad2c7b2a1a166ef0e93d90baa",
-      "bytes": 93778
+      "sha256": "e537a579f4270334bbbd90180f2972315ba3623419d6f1fd6b2a4894cfed243a",
+      "bytes": 93724
     },
     "S1-WAR-L001": {
       "file": "S1-WAR-L001.webp",
