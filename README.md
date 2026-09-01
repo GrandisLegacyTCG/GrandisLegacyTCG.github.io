@@ -1,4 +1,4 @@
-# Grandis Legacy Website v1.21
+# Grandis Legacy Website v1.22
 
 Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/General Arvon experience, and embedded PvP v3.09 client.
 

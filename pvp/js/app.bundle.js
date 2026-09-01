@@ -5,7 +5,7 @@
   'use strict';
   var GL_APP_MODE=String((typeof window!=='undefined'&&window.GL_APP_MODE)||'LOCAL_AI').toUpperCase();
   var IS_PVP_APP=GL_APP_MODE==='PVP';
-  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.20 · VS AI v6.23 Battlefield · One Source v1.7.3 · Runtime Data v0.14.2 · Foundation v1.89 · Core v0.57':'Grandis Legacy VS AI v6.23 · Shared Gameplay Bundle v3.1 · One Source v1.7.3 · Runtime Data v0.14.2 · Foundation v1.89 · Core v0.57';
+  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.22 · VS AI v6.24 Battlefield · One Source v1.7.3 · Runtime Data v0.14.2 · Foundation v1.89 · Core v0.57':'Grandis Legacy VS AI v6.24 · Shared Gameplay Bundle v3.1 · One Source v1.7.3 · Runtime Data v0.14.2 · Foundation v1.89 · Core v0.57';
   var PHASES=['Draw','Deploy','Battle','Reform','End'];
   var LANE_ORDER=['LEFT','CENTER','RIGHT'];
   var EXP_MAX_TOTAL=700;
@@ -327,8 +327,9 @@
       svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
       svg.id='glPendingAttackDirectionLayer';svg.classList.add('gl-pending-attack-direction-layer');svg.setAttribute('aria-hidden','true');
       var defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
-      var marker=document.createElementNS('http://www.w3.org/2000/svg','marker');marker.id='glPendingAttackArrow';marker.setAttribute('markerWidth','8');marker.setAttribute('markerHeight','8');marker.setAttribute('refX','6.5');marker.setAttribute('refY','4');marker.setAttribute('orient','auto');marker.setAttribute('markerUnits','strokeWidth');
-      var path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d','M0,0 L8,4 L0,8 Z');path.setAttribute('class','gl-pending-attack-arrow');marker.appendChild(path);defs.appendChild(marker);svg.appendChild(defs);document.body.appendChild(svg);
+      var marker=document.createElementNS('http://www.w3.org/2000/svg','marker');marker.id='glPendingAttackArrow';marker.setAttribute('markerWidth','24');marker.setAttribute('markerHeight','24');marker.setAttribute('viewBox','0 0 24 24');marker.setAttribute('refX','18');marker.setAttribute('refY','12');marker.setAttribute('orient','auto');marker.setAttribute('markerUnits','userSpaceOnUse');
+      var swordGroup=document.createElementNS('http://www.w3.org/2000/svg','g');swordGroup.setAttribute('transform','rotate(-45 12 12)');
+      var sword=document.createElementNS('http://www.w3.org/2000/svg','image');sword.setAttribute('href','assets/sword_4490822.png');sword.setAttributeNS('http://www.w3.org/1999/xlink','href','assets/sword_4490822.png');sword.setAttribute('x','2');sword.setAttribute('y','2');sword.setAttribute('width','20');sword.setAttribute('height','20');sword.setAttribute('preserveAspectRatio','xMidYMid meet');sword.setAttribute('class','gl-pending-attack-sword');swordGroup.appendChild(sword);marker.appendChild(swordGroup);defs.appendChild(marker);svg.appendChild(defs);document.body.appendChild(svg);
     }
     svg.setAttribute('viewBox','0 0 '+Math.max(1,window.innerWidth||1)+' '+Math.max(1,window.innerHeight||1));
     return svg;
@@ -933,9 +934,10 @@
     }
     if((d.legacy_deck_expanded||[]).length!==12) errors.push('Deck validation failed: legacy_deck_expanded must contain 12 cards, found '+(d.legacy_deck_expanded||[]).length+'.');
     var mainIds=deckEntriesToIds(d.main_deck);
-    if(!mainIds.length) errors.push('Deck validation failed: main_deck must contain playable cards.');
-    var ultimateCounts={}; mainIds.forEach(function(id){ var c=CARD_BY_ID[id]; if(c && isUltimateCard(c)){ var key=(c.name||id).toLowerCase(); ultimateCounts[key]=(ultimateCounts[key]||0)+1; } });
+    if([50,60].indexOf(mainIds.length)===-1) errors.push('Deck validation failed: main_deck must contain exactly 50 or 60 cards, found '+mainIds.length+'.');
+    var ultimateCounts={},normalCounts={}; mainIds.forEach(function(id){ var c=CARD_BY_ID[id]; if(!c)return; if(isUltimateCard(c)){ var key=(c.name||id).toLowerCase(); ultimateCounts[key]=(ultimateCounts[key]||0)+1; } else { normalCounts[id]=(normalCounts[id]||0)+1; } });
     Object.keys(ultimateCounts).forEach(function(k){ if(ultimateCounts[k]>1) errors.push('Deck validation failed: Ultimate card max 1 per name. Duplicate: '+k+' x'+ultimateCounts[k]+'.'); });
+    Object.keys(normalCounts).forEach(function(id){ if(normalCounts[id]>3) errors.push('Deck validation failed: normal card max 3 copies. Duplicate: '+id+' x'+normalCounts[id]+'.'); });
     var allIds=[]; expectedSlots.forEach(function(slot){ if(formation[slot]) allIds.push(formation[slot]); }); allIds=allIds.concat(mainIds,d.legacy_deck_expanded||[]);
     var missingIds=[]; allIds.forEach(function(id,idx){ if(typeof id!=='string' || !id.trim()) missingIds.push('allIds['+idx+']'); else if(!CARD_BY_ID[id]) missingIds.push(id); });
     if(missingIds.length) errors.push('Deck validation failed: unknown card_id '+missingIds.slice(0,12).join(', ')+(missingIds.length>12?'…':'')+'.');
@@ -3694,6 +3696,15 @@
     state.legacyDefeatSequence=Number(state.legacyDefeatSequence||0)+1;
     var choiceId='LEGACY:'+side+':'+lane+':'+defeatedHero.card_id+':'+Number(state.round||0)+':'+state.legacyDefeatSequence;
     var pending={type:'legacy_defeat_choice',side:side,decision_side:side,lane:lane,defeated_snapshot:clone(defeatedHero),defeated_card_id:defeatedHero.card_id,candidates:candidates.slice(),selected_index:null,choice_id:choiceId,committing:false};
+    // A confirmed defeat is an immediate mandatory gate. Defer any older non-Legacy pending
+    // continuation behind this choice instead of delaying Legacy selection until a later turn.
+    if(state.pending && state.pending.type!=='legacy_defeat_choice'){
+      // A Response Window that just caused this defeat is not a future continuation; the
+      // response resolver will attach its real post-resolution continuation to the Legacy gate.
+      // Other pending choices are genuine older work and must resume after Legacy selection.
+      if(state.pending.type!=='response_window') pending.after_legacy_deferred_pending=clone(state.pending);
+      state.pending=null;
+    }
     var opened=window.GL_RUNTIME_AUTHORITY.openMandatoryChoice(state,pending);
     if(!opened.opened){
       if(opened.same) return true;
@@ -3740,6 +3751,7 @@
       var afterReposition=p.after_legacy_reposition?clone(p.after_legacy_reposition):null;
       var afterDouble=p.after_legacy_double_casting?clone(p.after_legacy_double_casting):null;
       var afterStoneblood=p.after_legacy_stoneblood_response?clone(p.after_legacy_stoneblood_response):null;
+      var afterDeferredPending=p.after_legacy_deferred_pending?clone(p.after_legacy_deferred_pending):null;
       window.GL_RUNTIME_AUTHORITY.finishChoiceCommit(appState,p.choice_id);
       closeChoice();
       checkGameEnd(appState);
@@ -3749,6 +3761,9 @@
         if(afterReposition && appState.pending && appState.pending.type==='legacy_defeat_choice') appState.pending.after_legacy_reposition=afterReposition;
         if(afterDouble && appState.pending && appState.pending.type==='legacy_defeat_choice') appState.pending.after_legacy_double_casting=afterDouble;
         if(afterStoneblood && appState.pending && appState.pending.type==='legacy_defeat_choice') appState.pending.after_legacy_stoneblood_response=afterStoneblood;
+        if(afterDeferredPending && appState.pending && appState.pending.type==='legacy_defeat_choice' && !appState.pending.after_legacy_deferred_pending) appState.pending.after_legacy_deferred_pending=afterDeferredPending;
+      } else if(!appState.gameOver && afterDeferredPending){
+        appState.pending=afterDeferredPending;
       } else if(!appState.gameOver && afterMulti){
         if(Number(afterMulti.next_index||0)<(afterMulti.affected_lanes||[]).length){
           openMultiTargetResponseWindow(appState,afterMulti.action,afterMulti.post,afterMulti.affected_lanes,afterMulti.next_index,afterMulti.total_damage,afterMulti.poison_vial_applied,afterMulti.connected_hits);
@@ -4019,9 +4034,16 @@
 
     if(rw.multi_sequence){
       var seq=rw.multi_sequence, nextIndex=Number(seq.index||0)+1, totalSoFar=Number(seq.total_damage||0)+Number(result&&result.damage||0), poisonSoFar=!!seq.poison_vial_applied || !!(result&&result.poison_vial_applied), connectedSoFar=Number(seq.connected_hits||0)+(result&&result.connected?1:0);
-      appState.responseWindow=null; appState.pending=null; closeResponseWindowUI();
+      appState.responseWindow=null; closeResponseWindowUI();
+      var multiContinuation={action:clone(rw.action||action),post:clone(post||{}),affected_lanes:(seq.affected_lanes||[]).slice(),next_index:nextIndex,total_damage:totalSoFar,poison_vial_applied:poisonSoFar,connected_hits:connectedSoFar};
+      if(isDefeatGatePending(appState.pending)){
+        appState.pending.after_legacy_multi_sequence=multiContinuation;
+        delete appState.pending.after_legacy_deferred_pending;
+        syncCounts(appState); render(); return true;
+      }
+      appState.pending=null;
       if(activateNextLegacyDefeatChoice(appState)){
-        appState.pending.after_legacy_multi_sequence={action:clone(rw.action||action),post:clone(post||{}),affected_lanes:(seq.affected_lanes||[]).slice(),next_index:nextIndex,total_damage:totalSoFar,poison_vial_applied:poisonSoFar,connected_hits:connectedSoFar};
+        appState.pending.after_legacy_multi_sequence=multiContinuation;
         syncCounts(appState); render(); return true;
       }
       if(nextIndex < (seq.affected_lanes||[]).length){
@@ -4040,7 +4062,13 @@
       if(source && !rw.negated && !rw.canceled) applySourcePostAttackEffects(appState,rw.card_id,source,rw.source_side,rw.source_lane,rw.target_side,rw.target_lane,result);
       var doubleContinuation={rw:clone(rw),action:clone(action),post:clone(post),first_result:clone(result||{})};
       if(rw.return_to_source_hand) doubleContinuation.post.return_to_source_hand_after_double_casting=true;
-      appState.responseWindow=null; appState.pending=null; closeResponseWindowUI();
+      appState.responseWindow=null; closeResponseWindowUI();
+      if(isDefeatGatePending(appState.pending)){
+        appState.pending.after_legacy_double_casting=doubleContinuation;
+        delete appState.pending.after_legacy_deferred_pending;
+        syncCounts(appState); render(); return true;
+      }
+      appState.pending=null;
       if(!appState.gameOver) checkGameEnd(appState);
       if(!appState.gameOver && activateNextLegacyDefeatChoice(appState)){
         if(appState.pending&&appState.pending.type==='legacy_defeat_choice') appState.pending.after_legacy_double_casting=doubleContinuation;
@@ -4057,6 +4085,11 @@
     // Open that mandatory choice before post-attack continuation or AI resume.
     if(!appState.pending) activateNextLegacyDefeatChoice(appState);
     if(!appState.gameOver && !isDefeatGatePending(appState.pending)) checkGameEnd(appState);
+    if(isDefeatGatePending(appState.pending)){
+      appState.pending.after_legacy_reposition={action:clone(action),post:clone(post||{}),result:clone(result||{})};
+      delete appState.pending.after_legacy_deferred_pending;
+      syncCounts(appState); render(); return true;
+    }
     if(appState.pending&&appState.pending.type==='racial_stoneblood'){ appState.pending.after_stoneblood_response={action:clone(action),post:clone(post||{}),result:clone(result||{})}; syncCounts(appState); render(); return true; }
     if(result && (result.dodged||result.dodged_any) && (post.defer_reposition_discard || post.deferred_discard_card_id)) finalizeDeferredRepositionDiscard(appState,post,action.source_side,action.card_id);
     if(resolvePostAttackChoices(appState, action, post, result)){ syncCounts(appState); render(); return true; }
@@ -4076,6 +4109,12 @@
     refreshResponseWindowOptions(appState,rw);
     var idx=rw.selected, opt=(typeof idx==='number') && rw.options && rw.options[idx];
     if(!opt){ showInfo('Response Window','Select a response card first, then confirm.'); return false; }
+    // Additional discard costs are an explicit mandatory interaction. Open the selector before
+    // resolving so Spectral Grappling Hook / Escape Arrow can never silently skip or stall here.
+    var selectedCard=card(opt.card_id);
+    if(responseExtraDiscardCount(selectedCard)>0 && !Number.isInteger(Number(opt.selected_extra_discard_index))){
+      return openResponseExtraDiscardChoice(appState,rw,clone(opt));
+    }
     return resolveResponseWindow(opt);
   }
   function hideResponseReasonTooltip(){var tip=document.getElementById('responseReasonTooltip');if(tip){tip.hidden=true;tip.textContent='';}}
@@ -5901,7 +5940,10 @@ function getActivatedHeroAbilities(state, side, lane){
   }
   function v520ChainStepsForGroup(group){
     var explicit=(group&&group.chainEvents||[]).slice().sort(function(a,b){return v520EventTime(b.event)-v520EventTime(a.event);}).map(function(x){var e=x.event;return{card_id:e.card_id,title:e.title||cardName(card(e.card_id)),label:e.label,text:cleanDisplayText(e.action_line||normalizeLines(e.result_lines||e.summary)[0]||'','')};});
-    var seen={};explicit.forEach(function(x){seen[x.card_id]=true;});var inferred=[];normalizeLines(group&&group.event&&(group.event.response_lines||group.event.chain_lines)).forEach(function(line){v520KnownCardMatches(line).forEach(function(x){if(!seen[x.card_id]){seen[x.card_id]=true;inferred.push(x);}});});return explicit.concat(inferred);
+    // Explicit response events are authoritative. Never synthesize an extra Resolution from
+    // text inside an already-recorded response (for example, “Deflect Arrow” containing “Deflect”).
+    if(explicit.length) return explicit;
+    var seen={},inferred=[];normalizeLines(group&&group.event&&(group.event.response_lines||group.event.chain_lines)).forEach(function(line){v520KnownCardMatches(line).forEach(function(x){if(!seen[x.card_id]){seen[x.card_id]=true;inferred.push(x);}});});return inferred;
   }
   function v96CombinedPlayedEvents(state){
     var raw=v94EventsForSide(state,'PLAYER').map(function(e){return{side:'PLAYER',event:e};}).concat(v94EventsForSide(state,'AI').map(function(e){return{side:'AI',event:e};}));
@@ -8395,6 +8437,13 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
   }
   function glPvpImportAnimationPlan(previous,next){if(!next||!animationDocumentReady())return null;var known=glPvpEventIdSet(previous),events=[];['PLAYER','AI'].forEach(function(side){((next.pvpActionEventsBySide||{})[side]||[]).forEach(function(e){if(e&&e.id&&!known[e.id])events.push(e);});});events.sort(function(a,b){return Number(a.timestamp||0)-Number(b.timestamp||0);});var motions=[];events.forEach(function(e){if(!e.card_id||['TICK','RESOLVE','REPOSITION','ABILITY','RACIAL','LEGACY','RANK UP','TRIBUTE'].indexOf(String(e.label||'').toUpperCase())!==-1)return;var side=e.source_side==='AI'?'AI':'PLAYER',hand=sideHand(previous||{},side)||[],handIndex=hand.lastIndexOf(e.card_id);if(side==='PLAYER'&&handIndex<0)return;var snap=capturePlayedCardMotion(e.card_id,side,{hand_index:handIndex,source_side:side,source_lane:e.source_lane,target_side:e.target_side,target_lane:e.target_lane});if(snap&&snap.from)motions.push({snapshot:snap,side:side,card_id:e.card_id,source_lane:e.source_lane});});var previousDraw={};((previous&&previous.presentationEvents)||[]).forEach(function(e){if(e&&e.id)previousDraw[e.id]=true;});var drawEvents=((next.presentationEvents)||[]).filter(function(e){return e&&e.type==='CARD_DRAWN'&&!previousDraw[e.id];});var legacies=[];['PLAYER','AI'].forEach(function(side){LANE_ORDER.forEach(function(lane){var a=sideHeroes(previous||{},side)[lane],b=sideHeroes(next,side)[lane];if(b&&isLegacyModeHero(b)&&(!a||!isLegacyModeHero(a)||a.active_legacy_card_id!==b.active_legacy_card_id))legacies.push({side:side,lane:lane,card_id:b.active_legacy_card_id||b.card_id});});});var moved=[];if(previous)['PLAYER','AI'].forEach(function(side){var beforeById={},afterById={};LANE_ORDER.forEach(function(l){var a=sideHeroes(previous,side)[l],b=sideHeroes(next,side)[l];if(a&&a.card_id)beforeById[a.card_id]=l;if(b&&b.card_id)afterById[b.card_id]=l;});Object.keys(afterById).forEach(function(id){if(beforeById[id]&&beforeById[id]!==afterById[id])moved.push({side:side,lane:afterById[id]});});});var feedback=glPvpImportBattleFeedback(previous,next,events);return{motions:motions,drawEvents:drawEvents,legacies:legacies,moved:moved,feedback:feedback};}
   function glPvpRunImportAnimations(plan,state){if(!plan||!animationDocumentReady())return;(plan.motions||[]).forEach(function(m){var att=(state.activeAttachments||[]).find(function(a){return a&&a.card_id===m.card_id&&a.side===m.side&&(m.source_lane?a.lane===m.source_lane:true);});commitPlayedCardMotion(m.snapshot,!!att,att&&att.side,att&&att.lane,att&&att.slot);});if((plan.drawEvents||[]).length)queueDrawEvents(plan.drawEvents,state);(plan.legacies||[]).forEach(function(x){queueLegacyDeckToFieldMotion(x.side,x.lane,x.card_id);});(plan.moved||[]).forEach(function(x){var el=document.querySelector('.hero-panel[data-side="'+x.side+'"][data-lane="'+x.lane+'"]');if(el){el.classList.add('gl-pvp-reposition-flash');setTimeout(function(){el.classList.remove('gl-pvp-reposition-flash');},720);}});(plan.feedback||[]).forEach(function(evt){queueBattleFeedback(evt);});if((plan.feedback||[]).length)flushBattleFeedbackQueue();}
+  function glPvpPlayStateDeltaPresentation(previous,next){
+    if(!previous||!next||!animationDocumentReady())return false;
+    var known=glPvpEventIdSet(previous),events=[];['PLAYER','AI'].forEach(function(side){((next.pvpActionEventsBySide||{})[side]||[]).forEach(function(e){if(e&&e.id&&!known[e.id])events.push(e);});});
+    var feedback=glPvpImportBattleFeedback(previous,next,events);feedback.forEach(function(evt){queueBattleFeedback(evt);});if(feedback.length)flushBattleFeedbackQueue();
+    ['PLAYER','AI'].forEach(function(side){var beforeById={},afterById={};LANE_ORDER.forEach(function(l){var a=sideHeroes(previous,side)[l],b=sideHeroes(next,side)[l];if(a&&a.card_id)beforeById[a.card_id]=l;if(b&&b.card_id)afterById[b.card_id]=l;});Object.keys(afterById).forEach(function(id){if(beforeById[id]&&beforeById[id]!==afterById[id]){var el=document.querySelector('.hero-panel[data-side="'+side+'"][data-lane="'+afterById[id]+'"]');if(el){el.classList.add('gl-pvp-reposition-flash');setTimeout(function(){el.classList.remove('gl-pvp-reposition-flash');},720);}}});});
+    return !!feedback.length;
+  }
   function glPvpBridgeImport(payload, opts){
     opts=opts||{};
     if(!payload) return false;
@@ -8690,7 +8739,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
     var oldApp=appState, oldMatch=matchStarted, oldSuppress=SUPPRESS_RENDER; SUPPRESS_RENDER=true; matchStarted=true;
     try{
       var stack=window.GL_SOURCE_STACK||{};
-      if(stack.runtime_data!=='v0.14.2' || stack.effect_checkpoint!=='v0.13.2' || stack.effect_recipe!=='v0.13.2' || stack.runtime_core!=='v0.57' || stack.runtime_foundation!=='v1.89' || stack.shared_manual!=='v1.45' || stack.local_ai!=='v6.23') return {ok:false, reason:'Source stack metadata mismatch', stack:stack};
+      if(stack.runtime_data!=='v0.14.2' || stack.effect_checkpoint!=='v0.13.2' || stack.effect_recipe!=='v0.13.2' || stack.runtime_core!=='v0.57' || stack.runtime_foundation!=='v1.89' || stack.shared_manual!=='v1.45' || stack.local_ai!=='v6.24') return {ok:false, reason:'Source stack metadata mismatch', stack:stack};
       if(CARDS.length!==198) return {ok:false, reason:'Season 1 card count mismatch', count:CARDS.length};
       var uncovered=CARDS.filter(function(c){ return !(c.card_text || c.effect_text || (Array.isArray(c.effect)&&c.effect.length) || c.attack || c.ability || c.class_ability || c.racial_ability || c.runtime_mode_rules); }).map(function(c){return c.card_id;});
       if(uncovered.length) return {ok:false, reason:'Cards without readable/executable runtime coverage', uncovered:uncovered};
@@ -9111,6 +9160,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
     queueAuthoritativeLegacyToFieldMotion:function(side,lane,cardId){ return queueLegacyDeckToFieldMotion(side,lane,cardId); },
     captureAuthoritativeTributeMotion:function(side,handIndex,cardId,lane){ return captureTributeCardMotion(side,handIndex,cardId,lane); },
     queueAuthoritativeTributeMotion:function(snapshot){ return queueTributeCardMotion(snapshot); },
+    playAuthoritativeStateDeltaPresentation:glPvpPlayStateDeltaPresentation,
     captureAuthoritativeRankUpMotion:captureAuthoritativeRankUpMotion,
     queueCapturedAuthoritativeRankUpMotion:queueCapturedAuthoritativeRankUpMotion,
     queueAuthoritativeRankUpMotion:function(side,lane,toCardId,expCardIds){ var ok=false; ok=queueLegacyDeckToFieldMotion(side,lane,toCardId)||ok; ok=queueRankUpDiscardMotion(side,lane,expCardIds||[])||ok; return ok; },
@@ -9236,7 +9286,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
     var oldApp=appState, oldMatch=matchStarted, oldSuppress=SUPPRESS_RENDER; SUPPRESS_RENDER=true; matchStarted=true;
     try{
       var stack=window.GL_SOURCE_STACK||{};
-      if(stack.runtime_data!=='v0.14.2' || stack.effect_checkpoint!=='v0.13.2' || stack.effect_recipe!=='v0.13.2' || stack.runtime_core!=='v0.57' || stack.runtime_foundation!=='v1.89' || stack.shared_manual!=='v1.45' || stack.local_ai!=='v6.23') return {ok:false,reason:'Active source stack mismatch',stack:stack};
+      if(stack.runtime_data!=='v0.14.2' || stack.effect_checkpoint!=='v0.13.2' || stack.effect_recipe!=='v0.13.2' || stack.runtime_core!=='v0.57' || stack.runtime_foundation!=='v1.89' || stack.shared_manual!=='v1.45' || stack.local_ai!=='v6.24') return {ok:false,reason:'Active source stack mismatch',stack:stack};
       var soul=card('S1-ARC-016'), marksman={card_id:'S1-ARC-H002',hp:100,maxHp:100}, grand={card_id:'S1-ARC-H003',hp:120,maxHp:120};
       if(currentClassDamage(soul,marksman,null)!==30 || currentClassDamage(soul,grand,null)!==50) return {ok:false,reason:'Soul Blast Shot current runtime damage mismatch',marksman:currentClassDamage(soul,marksman,null),grand:currentClassDamage(soul,grand,null)};
       if(isChargeSwapCard(card('S1-THF-010'))) return {ok:false,reason:'Back Slash stale swap metadata still executable'};
@@ -9493,7 +9543,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
   function simulateV370SourceParityAudit(){
     try{
       var stack=window.GL_SOURCE_STACK||{};
-      if(stack.runtime_data!=='v0.14.2' || stack.effect_checkpoint!=='v0.13.2' || stack.effect_recipe!=='v0.13.2' || stack.runtime_core!=='v0.57' || stack.runtime_foundation!=='v1.89' || stack.shared_manual!=='v1.45' || stack.local_ai!=='v6.23') return {ok:false,reason:'v3.70 source stack mismatch',stack:stack};
+      if(stack.runtime_data!=='v0.14.2' || stack.effect_checkpoint!=='v0.13.2' || stack.effect_recipe!=='v0.13.2' || stack.runtime_core!=='v0.57' || stack.runtime_foundation!=='v1.89' || stack.shared_manual!=='v1.45' || stack.local_ai!=='v6.24') return {ok:false,reason:'v3.70 source stack mismatch',stack:stack};
       var swap=simulateV369SwapRepositionAudit();
       if(!swap || !swap.ok) return {ok:false,reason:'v3.69 swap bridge regression',detail:swap};
       var step=card('S1-THF-022'), dash=card('S1-THF-019'), flash=card('S1-THF-023'), soul=card('S1-ARC-016');
@@ -9742,7 +9792,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
     SUPPRESS_RENDER=true; matchStarted=true; STARTUP_SHUFFLE_ENABLED=false;
     try{
       var st=window.GL_SOURCE_STACK||{};
-      if(st.runtime_foundation!=='v1.89'||st.runtime_core!=='v0.57'||st.runtime_data!=='v0.14.2'||st.effect_checkpoint!=='v0.13.2'||st.effect_recipe!=='v0.13.2'||st.shared_manual!=='v1.45'||st.local_ai!=='v6.23') return {ok:false,reason:'source stack mismatch',stack:st};
+      if(st.runtime_foundation!=='v1.89'||st.runtime_core!=='v0.57'||st.runtime_data!=='v0.14.2'||st.effect_checkpoint!=='v0.13.2'||st.effect_recipe!=='v0.13.2'||st.shared_manual!=='v1.45'||st.local_ai!=='v6.24') return {ok:false,reason:'source stack mismatch',stack:st};
       if(CARDS.length!==198) return {ok:false,reason:'card count mismatch',count:CARDS.length};
       var hammer=card('S1-CLE-021'), bulwark=card('S1-CLE-022'), holy=card('S1-CLE-023'), judgement=card('S1-CLE-024'), punishment=card('S1-CLE-019');
       if(!isAttackCard(hammer)||isResponseOnly(hammer)||cardPhase(hammer)!=='Battle Phase') return {ok:false,reason:'Hammer mixed role remains',hammer:hammer};
@@ -9869,7 +9919,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
   function simulateV394EventAttachmentInstanceAudit(){
     initCards();var oldApp=appState,oldMatch=matchStarted,oldSuppress=SUPPRESS_RENDER,oldShuffle=STARTUP_SHUFFLE_ENABLED;SUPPRESS_RENDER=true;matchStarted=true;STARTUP_SHUFFLE_ENABLED=false;
     try{
-      var st=window.GL_SOURCE_STACK||{};if(st.runtime_foundation!=='v1.89'||st.runtime_data!=='v0.14.2'||st.effect_recipe!=='v0.13.2'||st.shared_manual!=='v1.45'||st.local_ai!=='v6.23')return{ok:false,reason:'source stack mismatch',stack:st};
+      var st=window.GL_SOURCE_STACK||{};if(st.runtime_foundation!=='v1.89'||st.runtime_data!=='v0.14.2'||st.effect_recipe!=='v0.13.2'||st.shared_manual!=='v1.45'||st.local_ai!=='v6.24')return{ok:false,reason:'source stack mismatch',stack:st};
       var events=CARDS.filter(function(c){return cardFamily(c)==='Event';});if(events.length!==12)return{ok:false,reason:'Event count mismatch',count:events.length};for(var ei=0;ei<events.length;ei++){if(!(events[ei].source_card_destination_policy||events[ei].lifecycle&&events[ei].lifecycle.source_card_destination_policy||{}).exact_once)return{ok:false,reason:'Event exact-once lock missing',card_id:events[ei].card_id};}
       var persistent=CARDS.filter(function(c){return c.staging&&c.staging.requires_attachment_slot;});if(persistent.length!==24)return{ok:false,reason:'persistent attachment count mismatch',count:persistent.length};for(var ai=0;ai<persistent.length;ai++){var pc=persistent[ai],fake={card_id:pc.card_id==='S1-CLE-009'?'S1-CLE-H002':pc.card_id==='S1-CLE-018'?'S1-CLE-H002':pc.card_id==='S1-MAG-018'?'S1-MAG-H002':pc.card_id==='S1-WAR-022'?'S1-WAR-H005':'S1-WAR-H001'};if(!attachmentPolicyForCard(pc,fake))return{ok:false,reason:'data-driven attachment missing',card_id:pc.card_id};}
       var s=buildInitialMatchState();appState=s;s.turn='PLAYER';s.phase='Deploy';s.mana=30;s.playerDiscard=[];s.playerHand=['S1-ITM-013'];s.playerHeroes.LEFT.card_id='S1-WAR-H001';s.playerHeroes.LEFT.exhausted=true;s.playerHeroes.LEFT.attachments=[null,null];beginPlayFromHand(0);chooseHeroFromBoard('PLAYER','LEFT');if(s.playerHeroes.LEFT.attachments.indexOf('S1-ITM-013')<0||s.playerDiscard.indexOf('S1-ITM-013')>=0||!s.playerHeroes.LEFT.exhausted)return{ok:false,reason:'Ring of Grace exhausted target-host flow failed',hero:s.playerHeroes.LEFT,discard:s.playerDiscard,log:s.log};

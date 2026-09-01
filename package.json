@@ -1,8 +1,8 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.21 \u2014 restores the homepage Cards.png showcase to the previous visual card scale; embedded PvP v3.20 native mobile document scrolling and Source Stack v1.7.3 gameplay preserved.",
+  "description": "Grandis Legacy Website v1.22 — preserves homepage showcase and syncs embedded PvP v3.22 responsive/runtime/audiovisual fixes with the new favicon.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
     "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v112-embedded-pvp-sync.cjs && node tests/run-v121-showcase-scale.cjs && node tests/run-v121-hf1-mobile-pvp-footer-draw.cjs",
