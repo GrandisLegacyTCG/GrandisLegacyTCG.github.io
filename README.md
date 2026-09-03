@@ -1,7 +1,14 @@
-# Grandis Legacy Website v1.22
+# Grandis Legacy Website v1.23
 
-Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/General Arvon experience, and embedded PvP v3.09 client.
+Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/General Arvon experience, and the preserved embedded PvP client.
 
+
+## v1.23 Rulebook v2.1 synchronization
+
+- Replaces the public English and Indonesian Rulebook PDFs with the supplied v2.1 files dated 2026-09-04.
+- Updates the HTML Rulebook setup table to **60 Main Deck cards**, **maximum 3 copies per normal card**, and **maximum 1 copy per Ultimate**.
+- Updates Rulebook/Arvon UI source labels and PDF links from v2 to v2.1.
+- Preserves the approved homepage, card showcase, Source Stack authority, and embedded PvP package; no unrelated gameplay/runtime synchronization is included.
 
 ## v1.21 Homepage showcase scale hotfix
 
@@ -45,7 +52,7 @@ Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/
 - Represents Resurrection consistently as **3 Mana / 50 HP** and keeps Halfling Second Chance as a defensive Dodge description.
 - Resolves 6 shared Racial Traits, 16 shared Class Abilities, 10 Hero profiles, and 30 Hero compositions.
 - Supports deterministic same-language answers in English, Indonesian, Japanese, Spanish, and Simplified Chinese, with presentation-only translation fallback for other reliably detected languages.
-- Includes the exact Player Rulebook v2 EN/ID PDFs supplied for this release.
+- Includes the exact Player Rulebook v2.1 EN/ID PDFs supplied for this release.
 - Embeds the PvP v3.09 public client while preserving hidden-information, seat authority, and read-only spectator behavior.
 - Preserves existing navigation, analytics, Discord link, carousel/swipe behavior, mobile Hero layout, and unrelated homepage sections.
 

@@ -9,7 +9,7 @@ const cardsPath = path.join(root, 'authority/season1/cards.runtime.v0.14.2.json'
 const componentsPath = path.join(root, 'authority/season1/hero-components.runtime.v1.0.0.json');
 const cardsOut = path.join(root, 'rulebook/js/card-index.js');
 const componentsOut = path.join(root, 'rulebook/js/hero-components.js');
-const lockOut = path.join(root, 'sync/website-source-lock.v1.22.json');
+const lockOut = path.join(root, 'sync/website-source-lock.v1.23.json');
 
 const CARD_HASH = '5d362f3c1dd785af82f12297d6ab1ecea4f6c43508a7b0f48319e846dd61139c';
 const HERO_HASH = '487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9';
@@ -98,7 +98,7 @@ const cardIndex = data.cards.map(card => ({
 }));
 
 const meta = {
-  website_version: '1.22',
+  website_version: '1.23',
   source_stack: 'Grandis Legacy One Source Authority v1.7.3',
   cards_version: '0.14.2',
   hero_components_version: '1.0.0',
@@ -115,8 +115,8 @@ fs.writeFileSync(componentsOut, `window.GRANDIS_HERO_COMPONENT_AUTHORITY=${JSON.
 
 const lock = {
   schema_version: '1.0.0',
-  website_version: '1.22',
-  generated_at: '2026-08-30',
+  website_version: '1.23',
+  generated_at: '2026-09-04',
   source_stack: {
     one_source_authority: '1.7.3',
     season1_cards: '0.14.2',

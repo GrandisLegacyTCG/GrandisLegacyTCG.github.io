@@ -10,8 +10,8 @@ const Arvon = require('../rulebook/js/arvon-core.js');
 const root = path.resolve(__dirname, '..');
 const CARD_HASH = '5d362f3c1dd785af82f12297d6ab1ecea4f6c43508a7b0f48319e846dd61139c';
 const HERO_HASH = '487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9';
-const EN_PDF_HASH = '333a5991040cb67777b147f30a86bbfabc7c71c36c116e24068003f26838e0c7';
-const ID_PDF_HASH = '45737c52ae3dabf489cc68e154390ac69a35d7956382e87da34dbadb4c8d0859';
+const EN_PDF_HASH = '8d7a5f08dba7a85dcc6e1f37497401eeeda92b75672bb56f061251c89830769f';
+const ID_PDF_HASH = 'd100380c43725f456cd612ec61d316601b4a29617a811ab1dc107c019f048745';
 const revisedIds = [
   'S1-ARC-011','S1-ARC-012','S1-ARC-014','S1-CLE-003','S1-CLE-011','S1-CLE-015','S1-CLE-022',
   'S1-CLE-H004','S1-CLE-H005','S1-CLE-H006','S1-ITM-005','S1-ITM-007','S1-ITM-012','S1-MAG-004',
@@ -66,8 +66,8 @@ vm.runInNewContext(read('pvp/js/static-data.js'), runtimeBrowser);
 const canonicalAssets = plain(runtimeBrowser.GL_ASSET_MANIFEST);
 const sharedManifest = json('shared/season1/v1/manifest.json');
 
-assert.strictEqual(require('../package.json').version, '1.22.0');
-assert.strictEqual(meta.website_version, '1.22');
+assert.strictEqual(require('../package.json').version, '1.23.0');
+assert.strictEqual(meta.website_version, '1.23');
 assert.strictEqual(meta.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(meta.hero_component_registry_hash, HERO_HASH);
 assert.strictEqual(cards.length, 198);
@@ -155,8 +155,8 @@ for (const fragment of ['Second Chance','dodge incoming Physical or Magical dama
 const resurrectionAnswer = Arvon.answer('What is the cost and effect of Resurrection?', authority);
 for (const fragment of ['Resurrection','3 Mana','50 HP']) assert.ok(resurrectionAnswer.html.includes(fragment), `Resurrection answer missing ${fragment}.`);
 
-assert.strictEqual(digest('rulebook/assets/Grandis_Legacy_Player_Rulebook_v2_EN.pdf'), EN_PDF_HASH);
-assert.strictEqual(digest('rulebook/assets/Grandis_Legacy_Panduan_Pemain_v2_ID.pdf'), ID_PDF_HASH);
+assert.strictEqual(digest('rulebook/assets/Grandis_Legacy_Player_Rulebook_v2.1_EN.pdf'), EN_PDF_HASH);
+assert.strictEqual(digest('rulebook/assets/Grandis_Legacy_Panduan_Pemain_v2.1_ID.pdf'), ID_PDF_HASH);
 
 const home = read('index.html');
 const homeJs = read('js/site.js');
@@ -170,6 +170,12 @@ assert.ok(homeJs.includes("touchstart") && homeJs.includes('normalizeLoopEdge'),
 assert.match(css, /\/\* v1\.7 desktop Hero top-whitespace refinement \*\/[\s\S]*@media\(min-width:821px\)[\s\S]*\.hero-section\{padding-top:clamp\(48px,3\.4vw,56px\)\}/);
 assert.ok(css.includes('.hero-section{padding:44px 18px 56px}'), 'Mobile Hero layout changed unexpectedly.');
 assert.ok(rulebook.includes('hero-components.js?v=1.0.0') && rulebook.includes('arvon-core.js?v=1.9.0') && rulebook.includes('card-index.js?v=0.14.2'));
+assert.ok(rulebook.includes('Kartu normal maksimal 3; Ultimate maksimal 1.'), 'Indonesian Rulebook copy limit is not 3/1.');
+assert.ok(rulebook.includes('assets/Grandis_Legacy_Player_Rulebook_v2.1_EN.pdf'), 'Rulebook v2.1 EN PDF route missing.');
+const rulebookJs = read('rulebook/js/rulebook.js');
+assert.ok(rulebookJs.includes('Normal cards: maximum 3 copies; Ultimate: maximum 1 copy.'), 'English Rulebook copy limit is not 3/1.');
+assert.ok(rulebookJs.includes('assets/Grandis_Legacy_Panduan_Pemain_v2.1_ID.pdf'), 'Rulebook v2.1 ID PDF route missing.');
+assert.ok(rulebook.includes('js/rulebook.js?v=2.1.0'), 'Rulebook JS cache revision was not bumped.');
 assert.ok(read('pvp/index.html').includes('gl-pvp-3.22-parity-fixes'), 'Embedded public PvP package is not v3.09.');
 const embeddedNetwork = read('pvp/js/pvp-network.js');
 for (const retired of ['racial_second_chance','resolveSecondChanceChoice','data-second-chance-choice']) assert.ok(!embeddedNetwork.includes(retired), `${retired} remains in embedded PvP routing.`);
@@ -198,8 +204,8 @@ for (const old of ['freesound_community-coin-flip-37787','freesound_community-fl
   assert.ok(!fs.readdirSync(path.join(root, 'pvp/assets/audio')).some(name => name.includes(old)), `Stale embedded audio file remains: ${old}.`);
 }
 
-const lock = json('sync/website-source-lock.v1.22.json');
-assert.strictEqual(lock.website_version, '1.22');
+const lock = json('sync/website-source-lock.v1.23.json');
+assert.strictEqual(lock.website_version, '1.23');
 assert.strictEqual(lock.source_stack.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(lock.source_stack.hero_component_registry_hash, HERO_HASH);
 assert.deepStrictEqual(lock.contracts.hero_component_counts, { racial_traits:6, class_abilities:16, hero_profiles:10, hero_compositions:30 });
@@ -208,4 +214,4 @@ for (const [rel, expected] of Object.entries(lock.files)) assert.strictEqual(dig
 for (const rel of ['js/site.js','rulebook/js/arvon-core.js','rulebook/js/rulebook.js','tools/build-arvon-index.cjs','tools/build-file-manifest.cjs']) {
   new Function(read(rel));
 }
-console.log('PASS Website v1.22: 198 canonical physical artworks, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2, v1.7 homepage layout, PvP v3.22 embed, and source lock.');
+console.log('PASS Website v1.23: 198 canonical physical artworks, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2.1, v1.7 homepage layout, PvP v3.22 embed, and source lock.');

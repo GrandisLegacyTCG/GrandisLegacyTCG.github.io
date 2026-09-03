@@ -14,5 +14,5 @@ assert(!/S1-MAG-004[^\n]{0,160}amount\s*:\s*40/.test(app),'embedded Mana Shield 
 assert(net.includes('reloadAfterRoomReset:false')&&net.includes("typeof location.reload==='function')location.reload()"),'embedded result reload lifecycle missing');
 assert(cfg.includes("mobileDeckBuilderUrl:'https://grandislegacytcg.github.io/Grandis-Legacy-Deck-Builder/style-2/'"),'production mobile Deck Builder Style 2 config lost');
 assert(cfg.includes('wss://p01--grandis-legacy-pvp'),'production PvP WebSocket config lost');
-assert.strictEqual(require('../package.json').version,'1.22.0');
-console.log('PASS Website v1.22 embedded PvP v3.22 sync: canonical Defense, result reload, right-edge hamburger, production config preserved.');
+assert.strictEqual(require('../package.json').version,'1.23.0');
+console.log('PASS Website v1.23 embedded PvP v3.22 sync: canonical Defense, result reload, right-edge hamburger, production config preserved.');

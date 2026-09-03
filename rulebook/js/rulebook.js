@@ -10,7 +10,7 @@
       <p class="lead">Grandis Legacy Season 1 player guide for 3 vs 3 Hero TCG battles.</p>
       <div class="hero-actions">
         <a class="primary-action" href="#chapter-1">Start reading</a>
-        <a class="secondary-action" data-pdf-button href="assets/Grandis_Legacy_Player_Rulebook_v2_EN.pdf" target="_blank" rel="noopener">Open English PDF</a>
+        <a class="secondary-action" data-pdf-button href="assets/Grandis_Legacy_Player_Rulebook_v2.1_EN.pdf" target="_blank" rel="noopener">Open English PDF</a>
       </div>
       <div class="callout info"><strong>Reading order:</strong> Chapters 1-8 explain the core game functions. Use the following chapters when Skill symbols, Response, Attachment, Casting, Status, or Healing appear.</div>`,
 
@@ -51,7 +51,7 @@
       <div class="table-wrap"><table><thead><tr><th>Section</th><th>Rule</th></tr></thead><tbody>
         <tr><td>Main Deck</td><td>60 cards: Skill, Item, and Event. Any mix allowed.</td></tr>
         <tr><td>Legacy Deck</td><td>12 cards: three Hero and Legacy packages.</td></tr>
-        <tr><td>Copy limit</td><td>Normal cards: maximum 2 copies; Ultimate: maximum 1 copy.</td></tr>
+        <tr><td>Copy limit</td><td>Normal cards: maximum 3 copies; Ultimate: maximum 1 copy.</td></tr>
         <tr><td>Hand limit</td><td>Maximum 8 at the end of the turn.</td></tr>
       </tbody></table></div>
       <h3>Turn Structure</h3>
@@ -216,17 +216,17 @@
       brandTitle:'Player Rulebook', searchTrigger:'Search rulebook...', sidebarHome:'Rulebook Season 1',
       navGroups:['GETTING STARTED','HERO & LEGACY','CARDS & RESOLUTION','REFERENCE'],
       navLinks:{'chapter-1':'Understanding Grandis Legacy','chapter-2':'Setup, Turn, Mana','chapter-3':'Heroes & Combat','chapter-4':'Positioning System','chapter-5':'Hero Card & Exhaust','chapter-6':'Tribute & Rank Up','chapter-7':'Legacy, Defeat, Revive','chapter-8':'Main Deck & Skill Card','chapter-9':'Skill Symbols & Types','chapter-10':'Response, Attachment, Casting','chapter-11':'Status & Healing','chapter-12':'Quick Reference'},
-      homeLink:'← Grandis Legacy Home', searchPlaceholder:'Search rules, e.g. Casting, Poison, Rank Up...', searchEmpty:'Type to search the entire Player Rulebook.', searchNone:'No matching result found in Player Rulebook v2.',
-      arvonLaunch:'Ask rules & cards', arvonPanel:'Rules & Card Guide · Rulebook v2 + Season 1', arvonInput:'Ask Arvon about rules or cards...', arvonWelcome:'I am Arvon. Ask me about Grandis Legacy rules, Season 1 cards, or card interactions. I will use the Rulebook and official Season 1 card data available on this site.',
-      arvonNote:'Local sources: Rulebook v2 + official Season 1 card data. Advanced rulings can also use the Arvon authority backend when connected.', arvonSearching:'Checking rules and cards…', arvonMissing:'I could not find a clear answer in the local Rulebook or Season 1 card data. Try the exact card name or the exact term printed on the card.', sourceWord:'Open Chapter', pdf:'assets/Grandis_Legacy_Player_Rulebook_v2_EN.pdf'
+      homeLink:'← Grandis Legacy Home', searchPlaceholder:'Search rules, e.g. Casting, Poison, Rank Up...', searchEmpty:'Type to search the entire Player Rulebook.', searchNone:'No matching result found in Player Rulebook v2.1.',
+      arvonLaunch:'Ask rules & cards', arvonPanel:'Rules & Card Guide · Rulebook v2.1 + Season 1', arvonInput:'Ask Arvon about rules or cards...', arvonWelcome:'I am Arvon. Ask me about Grandis Legacy rules, Season 1 cards, or card interactions. I will use the Rulebook and official Season 1 card data available on this site.',
+      arvonNote:'Local sources: Rulebook v2.1 + official Season 1 card data. Advanced rulings can also use the Arvon authority backend when connected.', arvonSearching:'Checking rules and cards…', arvonMissing:'I could not find a clear answer in the local Rulebook or Season 1 card data. Try the exact card name or the exact term printed on the card.', sourceWord:'Open Chapter', pdf:'assets/Grandis_Legacy_Player_Rulebook_v2.1_EN.pdf'
     },
     id: {
       brandTitle:'Panduan Pemain', searchTrigger:'Cari panduan...', sidebarHome:'Panduan Pemain Season 1',
       navGroups:['MULAI','HERO & LEGACY','KARTU & PENYELESAIAN','REFERENSI'],
       navLinks:{'chapter-1':'Mengenal Grandis Legacy','chapter-2':'Persiapan, Turn, Mana','chapter-3':'Hero & Pertarungan','chapter-4':'Positioning System','chapter-5':'Hero Card & Exhaust','chapter-6':'Tribute & Rank Up','chapter-7':'Legacy, Defeat, Revive','chapter-8':'Main Deck & Skill Card','chapter-9':'Simbol & Jenis Skill','chapter-10':'Response, Attachment, Casting','chapter-11':'Status & Healing','chapter-12':'Ringkasan Cepat'},
       homeLink:'← Beranda Grandis Legacy', searchPlaceholder:'Cari aturan, mis. Casting, Poison, Rank Up...', searchEmpty:'Ketik untuk mencari di seluruh Panduan Pemain.', searchNone:'Tidak ada hasil yang cocok di Panduan Pemain v2.',
-      arvonLaunch:'Tanya aturan & kartu', arvonPanel:'Panduan Aturan & Kartu · Rulebook v2 + Season 1', arvonInput:'Tanya Arvon soal aturan atau kartu...', arvonWelcome:'Saya Arvon. Tanyakan aturan Grandis Legacy, kartu Season 1, atau interaksi antar-kartu. Saya akan memakai Rulebook dan data kartu Season 1 resmi yang tersedia di website ini.',
-      arvonNote:'Sumber lokal: Rulebook v2 + data kartu Season 1 resmi. Ruling lanjutan juga dapat memakai backend authority Arvon jika terhubung.', arvonSearching:'Memeriksa aturan dan kartu…', arvonMissing:'Saya belum menemukan jawaban yang cukup jelas di Rulebook atau data kartu Season 1 lokal. Coba gunakan nama kartu atau istilah yang tertulis pada kartu.', sourceWord:'Buka Chapter', pdf:'assets/Grandis_Legacy_Panduan_Pemain_v2_ID.pdf'
+      arvonLaunch:'Tanya aturan & kartu', arvonPanel:'Panduan Aturan & Kartu · Rulebook v2.1 + Season 1', arvonInput:'Tanya Arvon soal aturan atau kartu...', arvonWelcome:'Saya Arvon. Tanyakan aturan Grandis Legacy, kartu Season 1, atau interaksi antar-kartu. Saya akan memakai Rulebook dan data kartu Season 1 resmi yang tersedia di website ini.',
+      arvonNote:'Sumber lokal: Rulebook v2.1 + data kartu Season 1 resmi. Ruling lanjutan juga dapat memakai backend authority Arvon jika terhubung.', arvonSearching:'Memeriksa aturan dan kartu…', arvonMissing:'Saya belum menemukan jawaban yang cukup jelas di Rulebook atau data kartu Season 1 lokal. Coba gunakan nama kartu atau istilah yang tertulis pada kartu.', sourceWord:'Buka Chapter', pdf:'assets/Grandis_Legacy_Panduan_Pemain_v2.1_ID.pdf'
     }
   };
 
@@ -454,7 +454,7 @@
       const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
         question:q,
         language,
-        source:'Grandis Legacy Rulebook v2 + Season 1 cards v0.13.1 + Hero Component Authority v1.0.0',
+        source:'Grandis Legacy Rulebook v2.1 + Season 1 cards v0.13.1 + Hero Component Authority v1.0.0',
         requestedSources:['rulebook','season1_cards','hero_components','authority'],
         translationPolicy:{presentationOnly:true,preserveOfficialTerms:arvonCore?.OFFICIAL_TERMS||[],preserveCardNames:true,uncertainLanguageFallback:'en'}
       })});

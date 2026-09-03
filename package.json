@@ -1,8 +1,8 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.22.0",
+  "version": "1.23.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.22 — preserves homepage showcase and syncs embedded PvP v3.22 responsive/runtime/audiovisual fixes with the new favicon.",
+  "description": "Grandis Legacy Website v1.23 \u2014 updates the bilingual public Rulebook to v2.1 (60-card Main Deck, max 3 normal copies, max 1 Ultimate) while preserving the approved homepage and embedded PvP package.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
     "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v112-embedded-pvp-sync.cjs && node tests/run-v121-showcase-scale.cjs && node tests/run-v121-hf1-mobile-pvp-footer-draw.cjs",
