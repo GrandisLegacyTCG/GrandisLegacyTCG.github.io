@@ -1,8 +1,8 @@
-/* Grandis Legacy PvP v3.37 network adapter.
+/* Grandis Legacy PvP v3.38 network adapter.
    Two fixed Northflank services share one repository. Lobby v0.5 is preserved; battlefield consumes the VS AI v6.25 shared UI/runtime contract. */
 (function(){
   'use strict';
-  var VERSION='Grandis Legacy PvP v3.37 · mobile action popup lifecycle fix · direct authoritative battle feedback · VS AI v6.25 UI reference · Lobby Design Lock v0.5 · 2 Players + 4 Spectators';
+  var VERSION='Grandis Legacy PvP v3.38 · response commit/payment framework · authoritative heal feedback · VS AI v6.26 UI reference · Lobby Design Lock v0.5 · 2 Players + 4 Spectators';
   var STORE_KEY='grandis_legacy_pvp_v20_client_id';
   var ROOM_KEY='grandis_legacy_pvp_v20_room';
   var NAME_KEY='grandis_legacy_pvp_v20_name';
@@ -10,7 +10,7 @@
   var ws=null,reconnectTimer=null,reconnectDelay=1200,intentTimeoutTimer=null;
   var state={connected:false,snapshot:null,room:'LOBBY',name:'',role:'player',deckKey:'',loadedDeckKey:'',customDeck:null,customDeckName:'',clientId:'',lastAppliedRevision:0,applyingServer:false,intentInFlight:false,intentBaseRevision:0,intentName:'',intentSentAt:0,seatToken:'',lastMatchStatus:'setup',seenAnimationIds:{},lastCoinAnimationKey:'',coinResultReadyKey:'',mobileHandScrollLeft:0,mobileHandMode:'preserve',mobileHandApplyToken:0,mobileHandHooksInstalled:false,spectatorLobbyView:false,spectatorBattlefieldEntered:false,nameDraft:'',roomGeneration:0,reloadAfterRoomReset:false,latencyMs:null,opponentLatencyMs:null,lastPingSentAt:0,lastPongAt:0};
   var DEPLOY_CONFIG=window.GL_PVP_CONFIG||window.GL_CONFIG||{};
-  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.37-2026-09-04');
+  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.38-2026-09-05');
   function fixedDeploymentRoom(){var n=Number(DEPLOY_CONFIG.roomId||0);return n===1||n===2?n:0;}
   function roomNumber(){var fixed=fixedDeploymentRoom();if(fixed)return fixed;try{return Number(new URL(location.href).searchParams.get('server'))===2?2:1;}catch(e){return 1;}}
   function roomDisplayName(){return DEPLOY_CONFIG.roomName||('PvP Room '+roomNumber());}
@@ -233,7 +233,7 @@
   function battleFeedbackFromAuthoritativePlans(plans){
     return (plans||[]).map(function(plan){return plan&&plan.event;}).filter(function(evt){return evt&&evt.kind==='battle_feedback';}).map(function(evt){
       return {
-        id:evt.id||null,kind:'attack',side:evt.side,lane:evt.lane,card_id:evt.card_id||null,
+        id:evt.id||null,kind:(evt.feedback_kind==='heal'?'heal':'attack'),side:evt.side,lane:evt.lane,card_id:evt.card_id||null,
         outcome:evt.outcome||'hit',attack_kind:evt.attack_kind||'P',defense_kind:evt.defense_kind||null,
         has_damage:!!evt.has_damage,play_sound:evt.play_sound!==false
       };
@@ -284,7 +284,7 @@
   function pendingDecisionSide(p){if(!p)return null;return p.decision_side||p.response_owner||p.side||p.source_side||(p.type==='hand_limit_discard'?'PLAYER':null)||(p.type==='manual_reposition'?'PLAYER':null);}
   function localOwnsPending(){var s=appState(),p=s&&s.pending;if(!p)return true;return pendingDecisionSide(p)==='PLAYER';}
   function localOwnsResponse(){var s=appState(),rw=s&&s.responseWindow;if(!rw)return true;return rw.response_owner==='PLAYER';}
-  function intentNeedsPendingOwner(intent){return ['chooseHeroFromBoard','setArrowBarrageSpend','selectStatusRemovalChoice','selectSaintPurifyChoice','resolveStonebloodChoice','selectScoutingExpChoice','moveCrystalBallOrder','performDualArrowPairChoice','toggleDiscardIndex','selectCardSearchChoice','selectLegacyDefeatChoice','selectLegacyCostChoice','selectLegacyCardChoice','commitDrawReplacementChoice','confirmDrawReplacement','commitMagicalSurgeChoice','commitResponseExtraDiscardChoice','selectOpponentHandChoice','commitOpponentHandChoice','selectResponseExtraDiscardChoice','performOptionalSwapDecision','performOptionalTargetSwapDecision','performManualReposition','handleChoiceConfirm'].indexOf(intent)!==-1;}
+  function intentNeedsPendingOwner(intent){return ['chooseHeroFromBoard','setArrowBarrageSpend','selectStatusRemovalChoice','selectSaintPurifyChoice','resolveStonebloodChoice','selectScoutingExpChoice','moveCrystalBallOrder','performDualArrowPairChoice','toggleDiscardIndex','selectCardSearchChoice','selectLegacyDefeatChoice','selectLegacyCostChoice','selectLegacyCardChoice','commitDrawReplacementChoice','confirmDrawReplacement','commitMagicalSurgeChoice','commitResponsePaymentChoice','selectOpponentHandChoice','commitOpponentHandChoice','selectResponsePaymentChoice','performOptionalSwapDecision','performOptionalTargetSwapDecision','performManualReposition','handleChoiceConfirm'].indexOf(intent)!==-1;}
   function intentNeedsResponseOwner(intent){return ['responseSelectNoStuck','confirmSelectedResponse','responsePassNoStuck'].indexOf(intent)!==-1;}
   function runtimeIntent(intent,args){var me=state.snapshot&&state.snapshot.local;if(!me||me.role!=='player'){setStatus('offline','Spectator is read-only.');return false;}var m=match();if(!m||m.status!=='started'){setStatus('offline','Start server match first.');return false;}if(state.applyingServer){setStatus('connecting','Applying the latest server board. Please try again.');return false;}if(state.intentInFlight){setStatus('connecting','Waiting for the server to resolve '+(state.intentName||'the previous action')+'...');return false;}if(intentNeedsResponseOwner(intent)&&!localOwnsResponse()){setStatus('online','Waiting for opponent response.');return false;}if(intentNeedsPendingOwner(intent)&&!localOwnsPending()){setStatus('online','Waiting for opponent decision.');return false;}var base=currentRevision();var ok=send('runtime-intent',{intent:intent,args:args||[],baseRevision:base});if(ok){state.intentInFlight=true;state.intentBaseRevision=base;state.intentName=intent;state.intentSentAt=Date.now();armIntentTimeout();}return ok;}
   function prevent(ev){ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();}
@@ -318,9 +318,13 @@
     closePvpUtilityModal();var modal=document.createElement('div');modal.id='pvpUtilityModal';modal.className='pvp-utility-modal';modal.innerHTML='<section class="pvp-utility-card"><header><div><span>PVP MATCH</span><h2>Confirm Surrender</h2></div><button type="button" data-pvp-utility-close>Close</button></header><p>Surrender this match? The opponent will immediately win.</p><div class="pvp-utility-actions"><button type="button" data-pvp-utility-close>Cancel</button><button class="danger" type="button" data-pvp-confirm-surrender>Yes, Surrender</button></div></section>';document.body.appendChild(modal);modal.onclick=function(ev){if(ev.target===modal||ev.target.closest('[data-pvp-utility-close]')){closePvpUtilityModal();return;}if(ev.target.closest('[data-pvp-confirm-surrender]')){closePvpUtilityModal();send('surrender-match');}};return true;
   }
   function returnSpectatorToLobby(){state.spectatorLobbyView=true;state.spectatorBattlefieldEntered=false;PVP_MOBILE_MATCH_MENU_OPEN=false;syncPvpMobileMatchMenuState();clearTransientUiState('spectator-lobby');renderLobby();return true;}
+  function returnPlayerToLobbyAfterGame(){
+    clearTransientUiState('result');PVP_MOBILE_MATCH_MENU_OPEN=false;syncPvpMobileMatchMenuState();
+    state.reloadAfterRoomReset=true;if(!send('reset-room')){state.reloadAfterRoomReset=false;setStatus('offline','Unable to return to lobby.');return false;}return true;
+  }
   function syncSpectatorMatchControls(){
-    var spectator=localRole()==='spectator',desktop=$('surrenderButton'),mobile=$('mobileSurrenderButton');
-    [desktop,mobile].forEach(function(btn){if(!btn)return;btn.textContent=spectator?'Back to Lobby':'Surrender';btn.classList.toggle('pvp-spectator-back',spectator);btn.setAttribute('aria-label',spectator?'Back to Lobby':'Surrender');});
+    var spectator=localRole()==='spectator',m=match(),a=appState(),finished=!!(a&&a.gameOver)||(m&&m.status==='finished'),desktop=$('surrenderButton'),mobile=$('mobileSurrenderButton');
+    [desktop,mobile].forEach(function(btn){if(!btn)return;var back=spectator||finished,label=back?'BACK TO LOBBY':'SURRENDER';btn.textContent=label;btn.classList.toggle('pvp-spectator-back',spectator);btn.classList.toggle('pvp-finished-back',!!finished);btn.setAttribute('aria-label',back?'Back to Lobby':'Surrender');});
     return spectator;
   }
   function closeMobileHeroActionMenu(node){
@@ -334,10 +338,10 @@
     var t=ev.target;
     if(state.applyingServer){if(isGameplayInteractive(t)&&!isLocalUiOnlyClick(t))return blockGameplayClick(ev,'Applying the latest server board...');return false;}
     var node;
-    if((node=t.closest&&t.closest('#pvpResultBackLobby'))){prevent(ev);clearTransientUiState('result');if(localRole()==='spectator'){state.spectatorLobbyView=true;renderLobby();return true;}state.reloadAfterRoomReset=true;if(!send('reset-room'))state.reloadAfterRoomReset=false;return true;}
+    if((node=t.closest&&t.closest('#pvpResultBackLobby'))){prevent(ev);if(localRole()==='spectator'){state.spectatorLobbyView=true;renderLobby();return true;}return returnPlayerToLobbyAfterGame();}
     var panel=ev.target.closest&&ev.target.closest('#pvpNetworkPanel,#pvpSetupOverlay'); if(panel)return false;
     var m=match();
-    if((node=t.closest&&t.closest('#surrenderButton,#mobileSurrenderButton'))){prevent(ev);PVP_MOBILE_MATCH_MENU_OPEN=false;syncPvpMobileMatchMenuState();if(localRole()==='spectator')return returnSpectatorToLobby();if(localRole()!=='player'){setStatus('offline','This control is unavailable.');return true;}if(!m||['started','coin-flip','coin-result'].indexOf(m.status)===-1){setStatus('offline','No active PvP match to surrender.');return true;}showPvpSurrenderConfirm();return true;}
+    if((node=t.closest&&t.closest('#surrenderButton,#mobileSurrenderButton'))){prevent(ev);PVP_MOBILE_MATCH_MENU_OPEN=false;syncPvpMobileMatchMenuState();if(localRole()==='spectator')return returnSpectatorToLobby();if(localRole()!=='player'){setStatus('offline','This control is unavailable.');return true;}var a=appState();if((a&&a.gameOver)||(m&&m.status==='finished'))return returnPlayerToLobbyAfterGame();if(!m||['started','coin-flip','coin-result'].indexOf(m.status)===-1){setStatus('offline','No active PvP match to surrender.');return true;}showPvpSurrenderConfirm();return true;}
     if((node=t.closest&&t.closest('#deckSetupButton,#mobileDeckSetupButton'))){prevent(ev);PVP_MOBILE_MATCH_MENU_OPEN=false;syncPvpMobileMatchMenuState();showPvpDeckSetupReview();return true;}
     if((node=t.closest&&t.closest('#pvpRoomMobileButton,#mobilePvpRoomButton'))){prevent(ev);PVP_MOBILE_MATCH_MENU_OPEN=false;syncPvpMobileMatchMenuState();var roomPanel=$('pvpNetworkPanel');if(roomPanel)roomPanel.classList.add('open');return true;}
     if((node=t.closest&&t.closest('#confirmSurrenderYes'))){prevent(ev);send('surrender-match');return true;}
@@ -345,12 +349,12 @@
     if(localRole()!=='player'){if(isLocalUiOnlyClick(t))return false;if(isGameplayInteractive(t)){prevent(ev);setStatus('offline','Spectator is read-only. Local gameplay mutation was blocked.');return true;}return false;}
     if((node=t.closest('#nextPhaseButton'))){prevent(ev);return runtimeIntent('advancePhase',[]);}
     if((node=t.closest('#cancelActionButton,#manualRepositionCancel'))){prevent(ev);return runtimeIntent('cancelPendingAction',[]);}
-    if((node=t.closest('#choiceConfirm'))){prevent(ev);var cs=appState(),cp=cs&&cs.pending;if(cp&&cp.type==='response_extra_discard_choice')return runtimeIntent('commitResponseExtraDiscardChoice',[]);return runtimeIntent('handleChoiceConfirm',[]);}
+    if((node=t.closest('#choiceConfirm'))){prevent(ev);var cs=appState(),cp=cs&&cs.pending;if(cp&&cp.type==='response_payment_choice')return runtimeIntent('commitResponsePaymentChoice',[]);return runtimeIntent('handleChoiceConfirm',[]);}
     if((node=t.closest('[data-pvp-draw-review]'))){prevent(ev);return runtimeIntent('confirmDrawReplacement',[node.getAttribute('data-pvp-draw-review')]);}
     if((node=t.closest('[data-draw-replacement-choice]'))){prevent(ev);return runtimeIntent('confirmDrawReplacement',[node.getAttribute('data-draw-replacement-choice')==='redraw'?'redraw':'keep']);}
     if((node=t.closest('[data-magical-surge-choice]'))){prevent(ev);return runtimeIntent('commitMagicalSurgeChoice',[node.getAttribute('data-magical-surge-choice')==='yes']);}
     if((node=t.closest('[data-opponent-hand-choice]'))){prevent(ev);return runtimeIntent('selectOpponentHandChoice',[Number(node.getAttribute('data-opponent-hand-choice'))]);}
-    if((node=t.closest('[data-response-extra-discard-index]'))){prevent(ev);return runtimeIntent('selectResponseExtraDiscardChoice',[Number(node.getAttribute('data-response-extra-discard-index'))]);}
+    if((node=t.closest('[data-response-payment-index]'))){prevent(ev);return runtimeIntent('selectResponsePaymentChoice',[Number(node.getAttribute('data-response-payment-index'))]);}
     if((node=t.closest('[data-source-swap-lane]'))){prevent(ev);return runtimeIntent('performOptionalSwapDecision',[node.getAttribute('data-source-swap-lane')]);}
     if((node=t.closest('#repositionButton'))){prevent(ev);return runtimeIntent('openManualRepositionChoice',[]);}
     if((node=t.closest('[data-play-index]'))){prevent(ev);return runtimeIntent('beginPlayFromHand',[Number(node.getAttribute('data-play-index'))]);}

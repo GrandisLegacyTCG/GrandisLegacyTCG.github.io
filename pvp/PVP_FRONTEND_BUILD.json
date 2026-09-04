@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0.0",
-  "pvp_version": "3.37",
-  "build_id": "gl-pvp-3.37-2026-09-04",
+  "pvp_version": "3.38",
+  "build_id": "gl-pvp-3.38-2026-09-05",
   "production_frontend_url": "https://grandislegacytcg.github.io/pvp/",
   "production_frontend_owner": "GrandisLegacyTCG.github.io repository /pvp/ directory",
   "source_directory": "PvP repository public/",
   "deployment_mode": "website-embedded-production-frontend",
   "northflank_services": 2,
-  "note": "Production /pvp is still served from the Website repository mirror. v3.37 closes the shared mobile Hero Action popup before authoritative Racial Trait / Class Ability / Legacy Ability intents while preserving direct battle VFX/audio delivery and per-player connection indicators."
+  "note": "Production /pvp is served from the Website repository mirror. PvP v3.38 adds the generic Response commit/payment hierarchy, structural Hero/Legacy size parity, Game Over Back to Lobby, and authoritative Heal feedback transport."
 }

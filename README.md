@@ -1,17 +1,17 @@
-# Grandis Legacy Website v1.26
+# Grandis Legacy Website v1.27
 
 Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook v2.1, and the production PvP frontend at `/pvp/`.
 
-## Root cause fixed — mobile `Play it Online` tap
+## Production PvP synchronization
 
-The homepage Hero card showcase image is decorative but is rendered with `transform: scale(1.82)`. On mobile, the transformed image's hit-test area can extend upward into the Hero CTA region even where the PNG is visually transparent. The direct `Play it Online` anchor was correct, but a tap could land on this transformed image instead of the link.
+Current production PvP is still owned by the Website repository at `/pvp/`. Therefore every canonical PvP frontend release must be mirrored into this Website package until the dedicated-frontend migration is performed.
 
-v1.26 makes the decorative showcase non-interactive (`pointer-events:none`) and gives the Hero copy/CTA layer an explicit foreground stacking context. The CTA remains a plain canonical anchor to `https://grandislegacytcg.github.io/pvp/` with no JavaScript routing.
+Website v1.27 replaces `/pvp/` byte-for-byte from canonical PvP v3.38 `public/`. This carries the v3.38 frontend changes into the actual GitHub Pages production path: the generic Response commit/payment hierarchy used by Spectral Grappling Hook and Escape Arrow, structural Hero/Legacy card-stage parity, Game Over `BACK TO LOBBY`, and authoritative Heal VFX/audio presentation.
 
-## PvP frontend synchronization
+The homepage layout, mobile `Play it Online` touch fix from v1.26, Rulebook v2.1, and unrelated Website sections remain unchanged.
 
-Website `/pvp/` mirrors canonical PvP v3.37 `public/` byte-for-byte. v3.37 fixes the mobile Racial Trait / Class Ability popup lifecycle at the authoritative PvP click boundary.
+## Deployment boundary
 
-This batch is frontend-only. Existing v3.36 Northflank services remain protocol-compatible; backend redeployment is not required for these fixes.
-
-Rulebook v2.1, card showcase content, and unrelated Website sections are unchanged.
+- GitHub Pages Website repository owns the public `/pvp/` frontend.
+- Northflank Room 1 and Room 2 own the authoritative PvP server runtime and must run the matching PvP v3.38 backend for full live parity.
+- Source Stack v1.7.4 is consumed by the canonical PvP v3.38 runtime; Website-specific non-PvP card/rulebook assets remain unchanged in this release.

@@ -22,4 +22,4 @@ for (const row of rows) {
   if (content.length !== Number(expectedBytes)) throw new Error(`${relative}: byte-count mismatch.`);
   checked += 1;
 }
-console.log(`PASS: Website v1.26 manifest verification: ${checked} files.`);
+console.log(`PASS: Website v1.27 manifest verification: ${checked} files.`);

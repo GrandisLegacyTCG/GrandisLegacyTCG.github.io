@@ -22,5 +22,5 @@ assert(app.includes('document.scrollingElement||document.documentElement||docume
 const s2=require(path.join(root,'pvp/starter_deck_examples/starter_02_saint_crusader_grand_ranger_GL_DECK_1_0.json'));
 const c2=Object.fromEntries(s2.main_deck.map(x=>[x.card_id,x.quantity]));
 assert.strictEqual(c2['S1-ARC-006'],1);assert.strictEqual(c2['S1-ARC-014'],1);
-assert.strictEqual(require('../package.json').version,'1.26.0');
-console.log('PASS Website v1.26 Cards.png visual scale restored + v1.20 update preserved');
+assert.strictEqual(require('../package.json').version,'1.27.0');
+console.log('PASS Website v1.27 Cards.png visual scale restored + v1.20 update preserved');

@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0.0",
+  "website_version": "1.27",
+  "generated_at": "2026-09-05",
+  "source_stack": {
+    "one_source_authority": "1.7.3",
+    "season1_cards": "0.14.2",
+    "hero_components": "1.0.0",
+    "canonical_registry_hash": "5d362f3c1dd785af82f12297d6ab1ecea4f6c43508a7b0f48319e846dd61139c",
+    "hero_component_registry_hash": "487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9"
+  },
+  "embedded_pvp": {
+    "pvp_version": "3.38",
+    "build_id": "gl-pvp-3.38-2026-09-05",
+    "source_stack": "1.7.4",
+    "runtime_data": "0.14.3",
+    "effect_recipe": "0.13.3",
+    "runtime_foundation": "1.90",
+    "runtime_core": "0.58",
+    "application_runtime_sync": "2.52"
+  },
+  "contracts": {
+    "card_count": 198,
+    "revised_card_count": 30,
+    "renamed_card": {
+      "card_id": "S1-THF-010",
+      "current_name": "Back Slash",
+      "retired_name": "Back Stab"
+    },
+    "hero_component_counts": {
+      "racial_traits": 6,
+      "class_abilities": 16,
+      "hero_profiles": 10,
+      "hero_compositions": 30
+    }
+  },
+  "files": {
+    "authority/season1/cards.runtime.v0.14.2.json": "4b24737f11a49920f1491736bc5e1ced31e1a47b00b6b6cfaad0f6406d3f3b11",
+    "authority/season1/hero-components.runtime.v1.0.0.json": "a83013797330e67b9afff60fa053946123e5f4aae65154dbbeb8cbc55374ed81",
+    "rulebook/js/card-index.js": "f27de88adc7525b1ae176a6459f29b06028adbe21aa3c606c3eaf40978a5d56f",
+    "rulebook/js/hero-components.js": "c926a2dbe7631095930ae20a467a5988627670ecded7605800192f598d76323d",
+    "shared/season1/v1/manifest.json": "1600a17febc78b06b4c3a1ba351aeb40155d1346d8c95885dd010d254d7989ce",
+    "pvp/assets/audio/Coin Flip.mp3": "b4842f9a3f2d25004223313f5473bef74afd79915b6af9bdb35c70f6df8c2b50",
+    "pvp/assets/audio/Card Sound.mp3": "1c04e41918b392a643c22d6c02ef34eeab0341c70d46b7d517078725b79d8ee4",
+    "pvp/js/app.bundle.js": "bdef8e0eb02508aa5fceb71925c6749ba508f1c690398dd28242c440d1d485df",
+    "pvp/js/pvp-network.js": "c59d386777e94b04c4088b93a78cc2788c5d00d0187c16814c07d382d8b34b35",
+    "pvp/PVP_FRONTEND_BUILD.json": "6514d9b154dd92b180924fae1501b798b9e125154b5bbc9a9455ec32b0a1dc6e",
+    "pvp/assets/battle/Heal.png": "5ab9da2f756f10083a169d541cbd8e2c4f475b083db5215ee3265a07fc224370",
+    "pvp/assets/audio/battle/Heal.mp3": "cc1b799d0a163ac839956b0790b9718bffa2e7f17c6dd6c020afc6c3a3745e96"
+  },
+  "revised_card_ids": [
+    "S1-ARC-011",
+    "S1-ARC-012",
+    "S1-ARC-014",
+    "S1-CLE-003",
+    "S1-CLE-011",
+    "S1-CLE-015",
+    "S1-CLE-022",
+    "S1-CLE-H004",
+    "S1-CLE-H005",
+    "S1-CLE-H006",
+    "S1-ITM-005",
+    "S1-ITM-007",
+    "S1-ITM-012",
+    "S1-MAG-004",
+    "S1-MAG-005",
+    "S1-MAG-012",
+    "S1-THF-011",
+    "S1-THF-015",
+    "S1-THF-021",
+    "S1-THF-022",
+    "S1-THF-H001",
+    "S1-THF-H002",
+    "S1-THF-H003",
+    "S1-WAR-003",
+    "S1-WAR-011",
+    "S1-WAR-012",
+    "S1-WAR-022",
+    "S1-WAR-H004",
+    "S1-WAR-H005",
+    "S1-WAR-H006"
+  ]
+}

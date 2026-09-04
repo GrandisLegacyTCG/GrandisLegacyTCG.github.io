@@ -64,9 +64,10 @@ const indexById = new Map(cards.map(card => [card.card_id, card]));
 const runtimeBrowser = {};
 vm.runInNewContext(read('pvp/js/static-data.js'), runtimeBrowser);
 const canonicalAssets = plain(runtimeBrowser.GL_ASSET_MANIFEST);
+const PVP_CARD_HASH = 'eb89ea56f2351f093fffbd7f7e47628f1cf0cd2b793c6efdfb82c9c9e798b868';
 const sharedManifest = json('shared/season1/v1/manifest.json');
 
-assert.strictEqual(require('../package.json').version, '1.26.0');
+assert.strictEqual(require('../package.json').version, '1.27.0');
 assert.strictEqual(meta.website_version, '1.25');
 assert.strictEqual(meta.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(meta.hero_component_registry_hash, HERO_HASH);
@@ -176,7 +177,7 @@ const rulebookJs = read('rulebook/js/rulebook.js');
 assert.ok(rulebookJs.includes('Normal cards: maximum 3 copies; Ultimate: maximum 1 copy.'), 'English Rulebook copy limit is not 3/1.');
 assert.ok(rulebookJs.includes('assets/Grandis_Legacy_Panduan_Pemain_v2.1_ID.pdf'), 'Rulebook v2.1 ID PDF route missing.');
 assert.ok(rulebook.includes('js/rulebook.js?v=2.1.0'), 'Rulebook JS cache revision was not bumped.');
-assert.ok(read('pvp/index.html').includes('gl-pvp-3.37-mobile-action-popup'), 'Production Website /pvp frontend is not PvP v3.37.');
+assert.ok(read('pvp/index.html').includes('gl-pvp-3.38-response-payment'), 'Production Website /pvp frontend is not PvP v3.38.');
 const embeddedNetwork = read('pvp/js/pvp-network.js');
 for (const retired of ['racial_second_chance','resolveSecondChanceChoice','data-second-chance-choice']) assert.ok(!embeddedNetwork.includes(retired), `${retired} remains in embedded PvP routing.`);
 for (const name of fs.readdirSync(path.join(root, 'pvp/starter_deck_examples')).filter(file => file.endsWith('.json'))) {
@@ -184,7 +185,7 @@ for (const name of fs.readdirSync(path.join(root, 'pvp/starter_deck_examples')).
   assert.ok(!content.includes('Back Stab'), `${name}: retired card name remains in embedded PvP preset.`);
   assert.ok(!content.includes('Public Deck Builder v2.1'), `${name}: stale Deck Builder format metadata remains.`);
   assert.ok(content.includes('Starter60 v1.4'), `${name}: current Starter60 v1.4 metadata is missing.`);
-  assert.ok(content.includes(CARD_HASH), `${name}: current registry hash is missing.`);
+  assert.ok(content.includes(PVP_CARD_HASH), `${name}: current embedded PvP registry hash is missing.`);
 }
 
 const embeddedBundle = read('pvp/js/app.bundle.js');
@@ -204,8 +205,8 @@ for (const old of ['freesound_community-coin-flip-37787','freesound_community-fl
   assert.ok(!fs.readdirSync(path.join(root, 'pvp/assets/audio')).some(name => name.includes(old)), `Stale embedded audio file remains: ${old}.`);
 }
 
-const lock = json('sync/website-source-lock.v1.26.json');
-assert.strictEqual(lock.website_version, '1.25');
+const lock = json('sync/website-source-lock.v1.27.json');
+assert.strictEqual(lock.website_version, '1.27');
 assert.strictEqual(lock.source_stack.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(lock.source_stack.hero_component_registry_hash, HERO_HASH);
 assert.deepStrictEqual(lock.contracts.hero_component_counts, { racial_traits:6, class_abilities:16, hero_profiles:10, hero_compositions:30 });
@@ -214,4 +215,6 @@ for (const [rel, expected] of Object.entries(lock.files)) assert.strictEqual(dig
 for (const rel of ['js/site.js','rulebook/js/arvon-core.js','rulebook/js/rulebook.js','tools/build-arvon-index.cjs','tools/build-file-manifest.cjs']) {
   new Function(read(rel));
 }
-console.log('PASS Website v1.26: 198 canonical physical artworks, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2.1, v1.7 homepage layout, PvP v3.37 production embed, and source lock.');
+assert.strictEqual(lock.embedded_pvp.pvp_version, '3.38');
+assert.strictEqual(lock.embedded_pvp.source_stack, '1.7.4');
+console.log('PASS Website v1.27: 198 canonical physical artworks, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2.1, v1.7 homepage layout, PvP v3.38 production embed, and source lock.');

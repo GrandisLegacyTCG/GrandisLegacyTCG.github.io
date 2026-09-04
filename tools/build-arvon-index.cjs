@@ -9,7 +9,7 @@ const cardsPath = path.join(root, 'authority/season1/cards.runtime.v0.14.2.json'
 const componentsPath = path.join(root, 'authority/season1/hero-components.runtime.v1.0.0.json');
 const cardsOut = path.join(root, 'rulebook/js/card-index.js');
 const componentsOut = path.join(root, 'rulebook/js/hero-components.js');
-const lockOut = path.join(root, 'sync/website-source-lock.v1.26.json');
+const lockOut = path.join(root, 'sync/website-source-lock.v1.27.json');
 
 const CARD_HASH = '5d362f3c1dd785af82f12297d6ab1ecea4f6c43508a7b0f48319e846dd61139c';
 const HERO_HASH = '487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9';
@@ -115,14 +115,24 @@ fs.writeFileSync(componentsOut, `window.GRANDIS_HERO_COMPONENT_AUTHORITY=${JSON.
 
 const lock = {
   schema_version: '1.0.0',
-  website_version: '1.25',
-  generated_at: '2026-09-04',
+  website_version: '1.27',
+  generated_at: '2026-09-05',
   source_stack: {
     one_source_authority: '1.7.3',
     season1_cards: '0.14.2',
     hero_components: '1.0.0',
     canonical_registry_hash: CARD_HASH,
     hero_component_registry_hash: HERO_HASH
+  },
+  embedded_pvp: {
+    pvp_version: '3.38',
+    build_id: 'gl-pvp-3.38-2026-09-05',
+    source_stack: '1.7.4',
+    runtime_data: '0.14.3',
+    effect_recipe: '0.13.3',
+    runtime_foundation: '1.90',
+    runtime_core: '0.58',
+    application_runtime_sync: '2.52'
   },
   contracts: {
     card_count: 198,
@@ -138,7 +148,11 @@ const lock = {
     'shared/season1/v1/manifest.json': fileDigest(path.join(root, 'shared/season1/v1/manifest.json')),
     'pvp/assets/audio/Coin Flip.mp3': fileDigest(path.join(root, 'pvp/assets/audio/Coin Flip.mp3')),
     'pvp/assets/audio/Card Sound.mp3': fileDigest(path.join(root, 'pvp/assets/audio/Card Sound.mp3')),
-    'pvp/js/app.bundle.js': fileDigest(path.join(root, 'pvp/js/app.bundle.js'))
+    'pvp/js/app.bundle.js': fileDigest(path.join(root, 'pvp/js/app.bundle.js')),
+    'pvp/js/pvp-network.js': fileDigest(path.join(root, 'pvp/js/pvp-network.js')),
+    'pvp/PVP_FRONTEND_BUILD.json': fileDigest(path.join(root, 'pvp/PVP_FRONTEND_BUILD.json')),
+    'pvp/assets/battle/Heal.png': fileDigest(path.join(root, 'pvp/assets/battle/Heal.png')),
+    'pvp/assets/audio/battle/Heal.mp3': fileDigest(path.join(root, 'pvp/assets/audio/battle/Heal.mp3'))
   },
   revised_card_ids: REVISED_IDS
 };
