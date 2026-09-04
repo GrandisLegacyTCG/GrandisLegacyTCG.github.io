@@ -10,7 +10,7 @@ const siteCss=fs.readFileSync(path.join(root,'css/site.css'),'utf8');
 const pvpHtml=fs.readFileSync(path.join(root,'pvp/index.html'),'utf8');
 const pvpCss=fs.readFileSync(path.join(root,'pvp/css/app.css'),'utf8');
 const app=fs.readFileSync(path.join(root,'pvp/js/app.bundle.js'),'utf8');
-assert(html.includes('css/site.css?v=1.22.0'),'site CSS cache bust missing');
+assert(html.includes('css/site.css?v=1.26.0'),'site CSS cache bust missing');
 assert(html.includes('assets/site/Cards.png?v=1.22.0'),'Cards.png cache bust missing');
 assert(!html.includes('class="fan-card fan-left"'),'old homepage card fan remains');
 assert(fs.existsSync(path.join(root,'assets/site/Cards.png')));
@@ -22,5 +22,5 @@ assert(app.includes('document.scrollingElement||document.documentElement||docume
 const s2=require(path.join(root,'pvp/starter_deck_examples/starter_02_saint_crusader_grand_ranger_GL_DECK_1_0.json'));
 const c2=Object.fromEntries(s2.main_deck.map(x=>[x.card_id,x.quantity]));
 assert.strictEqual(c2['S1-ARC-006'],1);assert.strictEqual(c2['S1-ARC-014'],1);
-assert.strictEqual(require('../package.json').version,'1.25.0');
-console.log('PASS Website v1.25 Cards.png visual scale restored + v1.20 update preserved');
+assert.strictEqual(require('../package.json').version,'1.26.0');
+console.log('PASS Website v1.26 Cards.png visual scale restored + v1.20 update preserved');

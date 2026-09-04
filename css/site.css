@@ -27,7 +27,7 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}img{display:block
 .mobile-nav a{display:block;padding:12px 14px;border-radius:8px;color:#ddd;font-size:14px}.mobile-nav a:hover{background:#30303b;color:#fff}
 
 .hero-section{min-height:720px;padding-top:var(--section-y);padding-bottom:var(--section-y);display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:var(--hero-gap)}
-.hero-copy{min-width:0;max-width:650px;display:flex;flex-direction:column;align-items:flex-start;gap:48px}.hero-copy h1{margin:0;font-size:var(--hero-title);line-height:1.125;letter-spacing:-.05em;font-weight:750;max-width:680px}.hero-copy h1 span{color:var(--gold)}
+.hero-copy{position:relative;z-index:2;min-width:0;max-width:650px;display:flex;flex-direction:column;align-items:flex-start;gap:48px}.hero-copy h1{margin:0;font-size:var(--hero-title);line-height:1.125;letter-spacing:-.05em;font-weight:750;max-width:680px}.hero-copy h1 span{color:var(--gold)}
 .hero-copy p{margin:0;color:var(--muted);font-size:18px;line-height:1.5;max-width:610px}.hero-copy p strong{color:#fff;font-weight:800}.hero-cta-row{display:flex;gap:16px;align-items:center}
 .button{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:18px 24px;border-radius:12px;font-size:16px;font-weight:750;line-height:1;white-space:nowrap;transition:transform .18s ease,filter .18s ease,background .18s ease}.button:hover{transform:translateY(-1px);filter:brightness(1.05)}.button-primary{background:var(--blue);color:#fff}.button-outline{border:1px solid var(--border);background:transparent;color:#fff}.button-large{min-height:64px;padding:22px 36px}
 .hero-card-fan{position:relative;width:clamp(540px,calc(162px + 26.25vw),666px);height:clamp(372px,calc(-6px + 26.25vw),498px);flex:0 0 auto}.hero-glow{position:absolute;inset:14% 9% 8%;background:radial-gradient(ellipse at center,rgba(35,86,150,.44),rgba(30,30,39,0) 68%);filter:blur(26px);transform:scale(1.25)}
@@ -188,4 +188,4 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}img{display:block
 }
 
 /* v1.21 HF2 current Hero HP card showcase asset — matched to former three-card fan perceived size */
-.hero-card-showcase{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block;filter:none;transform:scale(1.82);transform-origin:center center}
+.hero-card-showcase{pointer-events:none;user-select:none;-webkit-user-select:none;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block;filter:none;transform:scale(1.82);transform-origin:center center}

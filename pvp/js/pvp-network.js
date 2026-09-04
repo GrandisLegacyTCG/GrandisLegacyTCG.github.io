@@ -1,8 +1,8 @@
-/* Grandis Legacy PvP v3.36 network adapter.
+/* Grandis Legacy PvP v3.37 network adapter.
    Two fixed Northflank services share one repository. Lobby v0.5 is preserved; battlefield consumes the VS AI v6.25 shared UI/runtime contract. */
 (function(){
   'use strict';
-  var VERSION='Grandis Legacy PvP v3.36 · direct authoritative battle feedback · VS AI v6.25 UI reference · Lobby Design Lock v0.5 · 2 Players + 4 Spectators';
+  var VERSION='Grandis Legacy PvP v3.37 · mobile action popup lifecycle fix · direct authoritative battle feedback · VS AI v6.25 UI reference · Lobby Design Lock v0.5 · 2 Players + 4 Spectators';
   var STORE_KEY='grandis_legacy_pvp_v20_client_id';
   var ROOM_KEY='grandis_legacy_pvp_v20_room';
   var NAME_KEY='grandis_legacy_pvp_v20_name';
@@ -10,7 +10,7 @@
   var ws=null,reconnectTimer=null,reconnectDelay=1200,intentTimeoutTimer=null;
   var state={connected:false,snapshot:null,room:'LOBBY',name:'',role:'player',deckKey:'',loadedDeckKey:'',customDeck:null,customDeckName:'',clientId:'',lastAppliedRevision:0,applyingServer:false,intentInFlight:false,intentBaseRevision:0,intentName:'',intentSentAt:0,seatToken:'',lastMatchStatus:'setup',seenAnimationIds:{},lastCoinAnimationKey:'',coinResultReadyKey:'',mobileHandScrollLeft:0,mobileHandMode:'preserve',mobileHandApplyToken:0,mobileHandHooksInstalled:false,spectatorLobbyView:false,spectatorBattlefieldEntered:false,nameDraft:'',roomGeneration:0,reloadAfterRoomReset:false,latencyMs:null,opponentLatencyMs:null,lastPingSentAt:0,lastPongAt:0};
   var DEPLOY_CONFIG=window.GL_PVP_CONFIG||window.GL_CONFIG||{};
-  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.36-2026-09-04');
+  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.37-2026-09-04');
   function fixedDeploymentRoom(){var n=Number(DEPLOY_CONFIG.roomId||0);return n===1||n===2?n:0;}
   function roomNumber(){var fixed=fixedDeploymentRoom();if(fixed)return fixed;try{return Number(new URL(location.href).searchParams.get('server'))===2?2:1;}catch(e){return 1;}}
   function roomDisplayName(){return DEPLOY_CONFIG.roomName||('PvP Room '+roomNumber());}
@@ -323,6 +323,13 @@
     [desktop,mobile].forEach(function(btn){if(!btn)return;btn.textContent=spectator?'Back to Lobby':'Surrender';btn.classList.toggle('pvp-spectator-back',spectator);btn.setAttribute('aria-label',spectator?'Back to Lobby':'Surrender');});
     return spectator;
   }
+  function closeMobileHeroActionMenu(node){
+    if(!node||!node.closest||!node.closest('.mobile-hero-action-menu'))return false;
+    var overlay=$('infoOverlay');
+    if(!overlay)return false;
+    overlay.classList.remove('open');
+    return true;
+  }
   function mapGameplayClick(ev){
     var t=ev.target;
     if(state.applyingServer){if(isGameplayInteractive(t)&&!isLocalUiOnlyClick(t))return blockGameplayClick(ev,'Applying the latest server board...');return false;}
@@ -369,9 +376,9 @@
     if((node=t.closest('#optionalSwapNo'))){prevent(ev);return runtimeIntent('performOptionalSwapDecision',[false]);}
     if((node=t.closest('[data-target-swap-lane]'))){prevent(ev);return runtimeIntent('performOptionalTargetSwapDecision',[node.getAttribute('data-target-swap-lane')]);}
     if((node=t.closest('#optionalTargetSwapNo'))){prevent(ev);return runtimeIntent('performOptionalTargetSwapDecision',[null]);}
-    if((node=t.closest('[data-class-ability-id]'))){prevent(ev);return runtimeIntent('beginActivatedHeroAbility',[node.getAttribute('data-class-ability-side'),node.getAttribute('data-class-ability-lane'),node.getAttribute('data-class-ability-id')]);}
-    if((node=t.closest('[data-legacy-id]'))){prevent(ev);return runtimeIntent('beginActivatedLegacyAbility',[node.getAttribute('data-legacy-side'),node.getAttribute('data-legacy-lane'),node.getAttribute('data-legacy-id')]);}
-    if((node=t.closest('[data-racial-id]'))){prevent(ev);return runtimeIntent('beginActivatedRacialAbility',[node.getAttribute('data-racial-side'),node.getAttribute('data-racial-lane'),node.getAttribute('data-racial-id')]);}
+    if((node=t.closest('[data-class-ability-id]'))){closeMobileHeroActionMenu(node);prevent(ev);return runtimeIntent('beginActivatedHeroAbility',[node.getAttribute('data-class-ability-side'),node.getAttribute('data-class-ability-lane'),node.getAttribute('data-class-ability-id')]);}
+    if((node=t.closest('[data-legacy-id]'))){closeMobileHeroActionMenu(node);prevent(ev);return runtimeIntent('beginActivatedLegacyAbility',[node.getAttribute('data-legacy-side'),node.getAttribute('data-legacy-lane'),node.getAttribute('data-legacy-id')]);}
+    if((node=t.closest('[data-racial-id]'))){closeMobileHeroActionMenu(node);prevent(ev);return runtimeIntent('beginActivatedRacialAbility',[node.getAttribute('data-racial-side'),node.getAttribute('data-racial-lane'),node.getAttribute('data-racial-id')]);}
     if((node=t.closest('[data-reposition-pair]'))){prevent(ev);return runtimeIntent('performManualReposition',[node.getAttribute('data-reposition-pair')]);}
     if((node=t.closest('#choiceClose'))){
       var closeState=appState(),closePending=closeState&&closeState.pending;if(!closePending)return false;prevent(ev);

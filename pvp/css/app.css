@@ -6332,7 +6332,7 @@ body.deck-setup-active{
   .v96-app .hero-row--player .hero-lane.legacy-slot{grid-template-rows:minmax(0,1fr) 22px!important}
 }
 
-/* PvP v3.36 — room identity + per-player connection signal presentation.
+/* PvP v3.37 — room identity + per-player connection signal presentation.
    The signal is a sibling of the bordered name/deck box, so it remains visually outside
    the identity box while still being bound to that exact PLAYER/AI identity strip. */
 .v96-app .pvp-identity-strip{

@@ -1,35 +1,17 @@
-# Grandis Legacy Website v1.25
+# Grandis Legacy Website v1.26
 
-Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook v2.1, and the **production PvP frontend at `/pvp/`**.
+Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook v2.1, and the production PvP frontend at `/pvp/`.
 
-## v1.25 production PvP synchronization
+## Root cause fixed — mobile `Play it Online` tap
 
-The live `/pvp/` route is still served by this Website repository. v1.25 mirrors PvP v3.36 `public/` byte-for-byte into Website `/pvp/`.
+The homepage Hero card showcase image is decorative but is rendered with `transform: scale(1.82)`. On mobile, the transformed image's hit-test area can extend upward into the Hero CTA region even where the PNG is visually transparent. The direct `Play it Online` anchor was correct, but a tap could land on this transformed image instead of the link.
 
-PvP v3.36 changes visible through this mirror:
+v1.26 makes the decorative showcase non-interactive (`pointer-events:none`) and gives the Hero copy/CTA layer an explicit foreground stacking context. The CTA remains a plain canonical anchor to `https://grandislegacytcg.github.io/pvp/` with no JavaScript routing.
 
-- P.Atk / M.Atk / P.Def / M.Def uses the direct server revision-scoped `battle_feedback` event path, played after authoritative board render with the shared VS AI renderer/assets.
-- The old client canonical battle-feedback ledger diff path is removed.
-- Each player's internet signal is outside the bordered name + deck box, directly to its right.
-- Local and opponent signal values remain separately bound to their own player/seat.
-- Lobby names and lobby-only mobile navigation remain preserved.
+## PvP frontend synchronization
 
-Current production requires Website v1.25 plus both Northflank PvP room services on PvP v3.36. Until a dedicated public PvP GitHub Pages repository is created, a PvP frontend change must continue to update this Website mirror. The separation plan is documented in `release/MIGRATION_DEDICATED_PVP_FRONTEND_v1.25.md`.
+Website `/pvp/` mirrors canonical PvP v3.37 `public/` byte-for-byte. v3.37 fixes the mobile Racial Trait / Class Ability popup lifecycle at the authoritative PvP click boundary.
 
-## Preserved Website authority
+This batch is frontend-only. Existing v3.36 Northflank services remain protocol-compatible; backend redeployment is not required for these fixes.
 
-- Rulebook v2.1 EN/ID remains unchanged: Main Deck 60, normal max 3, Ultimate max 1.
-- Approved homepage/card showcase and Source Stack v1.7.3 authority are preserved.
-- No unrelated Website layout/gameplay changes are included.
-
-## Verify
-
-Requires Node.js 18 or newer.
-
-```sh
-npm run verify
-```
-
-## Deploy
-
-Publish the repository root as the GitHub Pages site. Keep `.nojekyll` and the current directory structure intact. `/pvp/` must be deployed from this release together with both Northflank PvP room services from PvP v3.36.
+Rulebook v2.1, card showcase content, and unrelated Website sections are unchanged.
