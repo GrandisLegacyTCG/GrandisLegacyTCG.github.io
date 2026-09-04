@@ -5,7 +5,7 @@
   'use strict';
   var GL_APP_MODE=String((typeof window!=='undefined'&&window.GL_APP_MODE)||'LOCAL_AI').toUpperCase();
   var IS_PVP_APP=GL_APP_MODE==='PVP';
-  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.22 · VS AI v6.24 Battlefield · One Source v1.7.3 · Runtime Data v0.14.2 · Foundation v1.89 · Core v0.57':'Grandis Legacy VS AI v6.24 · Shared Gameplay Bundle v3.1 · One Source v1.7.3 · Runtime Data v0.14.2 · Foundation v1.89 · Core v0.57';
+  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.35 · VS AI v6.25 UI Reference · One Source v1.7.3 · Runtime Data v0.14.2 · Foundation v1.89 · Core v0.57':'Grandis Legacy VS AI v6.24 · Shared Gameplay Bundle v3.1 · One Source v1.7.3 · Runtime Data v0.14.2 · Foundation v1.89 · Core v0.57';
   var PHASES=['Draw','Deploy','Battle','Reform','End'];
   var LANE_ORDER=['LEFT','CENTER','RIGHT'];
   var EXP_MAX_TOTAL=700;
@@ -129,7 +129,10 @@
   }
   function cardMotionSoundLabel(){ return GL_CARD_SOUND_ENABLED?'Sound ON':'Sound OFF'; }
   function setCardMotionSoundEnabled(enabled){ GL_CARD_SOUND_ENABLED=!!enabled; try{ if(window.localStorage) window.localStorage.setItem(GL_CARD_SOUND_STORAGE_KEY,GL_CARD_SOUND_ENABLED?'on':'off'); }catch(e){} ['soundToggleButton','mobileSoundToggleButton'].forEach(function(id){ var b=$(id); if(b){ b.textContent=cardMotionSoundLabel(); b.setAttribute('aria-pressed',GL_CARD_SOUND_ENABLED?'true':'false'); } }); }
-  function toggleCardMotionSound(){ setCardMotionSoundEnabled(!GL_CARD_SOUND_ENABLED); }
+  function toggleCardMotionSound(){
+    setCardMotionSoundEnabled(!GL_CARD_SOUND_ENABLED);
+    if(GL_CARD_SOUND_ENABLED){ unlockGameplayAudioPlayback(); playCardMotionSound(); }
+  }
   function playCardMotionSound(){
     if(!animationDocumentReady())return false;
     return playPreloadedAudio('assets/audio/Card Sound.mp3',.55);
@@ -151,6 +154,34 @@
     dodge:'assets/audio/battle/Dodge.mp3',
     heal:'assets/audio/battle/Heal.mp3'
   };
+  var GL_AUDIO_UNLOCK_STATE={unlocked:false,attempted:false};
+  function gameplayAudioAssetList(){
+    return ['assets/audio/Card Sound.mp3','assets/audio/Coin Flip.mp3'].concat(Object.keys(GL_BATTLE_AUDIO).map(function(k){return GL_BATTLE_AUDIO[k];}));
+  }
+  function unlockGameplayAudioPlayback(){
+    if(!GL_CARD_SOUND_ENABLED||typeof Audio==='undefined')return false;
+    if(GL_AUDIO_UNLOCK_STATE.unlocked)return true;
+    GL_AUDIO_UNLOCK_STATE.attempted=true;
+    var attempted=false,pending=0,completed=0;
+    gameplayAudioAssetList().forEach(function(src){
+      var a=primeAudioAsset(src);if(!a||typeof a.play!=='function')return;
+      attempted=true;
+      var previousMuted=!!a.muted,previousVolume=typeof a.volume==='number'?a.volume:1;
+      function finish(success){
+        try{if(typeof a.pause==='function')a.pause();a.currentTime=0;a.muted=previousMuted;a.volume=previousVolume;}catch(ignore){}
+        completed++;if(success)GL_AUDIO_UNLOCK_STATE.unlocked=true;
+      }
+      try{
+        a.muted=true;a.volume=0;a.currentTime=0;
+        var pr=a.play();
+        if(pr&&typeof pr.then==='function'){pending++;pr.then(function(){finish(true);}).catch(function(){finish(false);});}
+        else finish(true);
+      }catch(e){finish(false);}
+    });
+    if(attempted&&pending===0&&completed>0)GL_AUDIO_UNLOCK_STATE.unlocked=true;
+    return attempted;
+  }
+  function gameplayAudioUnlocked(){return !!GL_AUDIO_UNLOCK_STATE.unlocked;}
   function battleFeedbackBusy(){return !!(GL_BATTLE_FEEDBACK_ACTIVE||GL_BATTLE_FEEDBACK_QUEUE.length);}
   function battleAttackVisualKind(cardId){
     var c=card(cardId),sub=String(cardSubtype(c)||'');
@@ -277,6 +308,17 @@
     },duration+40);
     return true;
   }
+  function recordPvpBattleFeedbackEvent(state,evt){
+    if(!state||!state.pvpHumanVsHuman||!evt)return null;
+    var stored=Object.assign({
+      id:'pvpfx_'+Date.now()+'_'+Math.floor(Math.random()*1000000),
+      timestamp:Date.now(),round:Number(state.round||1),phase:state.phase,turn:state.turn
+    },clone(evt));
+    state.pvpBattleFeedbackEvents=state.pvpBattleFeedbackEvents||[];
+    state.pvpBattleFeedbackEvents.unshift(stored);
+    if(state.pvpBattleFeedbackEvents.length>120)state.pvpBattleFeedbackEvents.length=120;
+    return stored;
+  }
   function queueBattleFeedback(evt){
     if(!evt||SUPPRESS_RENDER)return false;
     evt=Object.assign({id:++GL_BATTLE_FEEDBACK_SEQUENCE,play_sound:true},evt);
@@ -296,17 +338,21 @@
       responseKindChosen==='negate_return'||responseKindChosen==='dragon_scale'||responseKindChosen==='legacy_reduce'||
       Number(block||0)>0
     );
-    return queueBattleFeedback({
+    var feedback={
       kind:'attack',outcome:dodged?'dodge':(blockLike?'block':'hit'),
       side:rw.target_side,lane:lane,card_id:rw.card_id,
       attack_kind:battleAttackVisualKind(rw.card_id),
       defense_kind:blockLike?battleDefenseVisualKind(target):null,
       has_damage:Number(result&&result.hp_damage||result&&result.damage||0)>0,
       play_sound:playSound!==false
-    });
+    };
+    recordPvpBattleFeedbackEvent(state,feedback);
+    return queueBattleFeedback(feedback);
   }
   function queueHealFeedback(side,lane){
-    return queueBattleFeedback({kind:'heal',side:side,lane:lane,play_sound:true});
+    var feedback={kind:'heal',side:side,lane:lane,play_sound:true};
+    recordPvpBattleFeedbackEvent(appState,feedback);
+    return queueBattleFeedback(feedback);
   }
 
   var GL_PENDING_ATTACK_DIRECTION={mode:null,token:null,remove_timer:null,raf_pending:false};
@@ -934,7 +980,7 @@
     }
     if((d.legacy_deck_expanded||[]).length!==12) errors.push('Deck validation failed: legacy_deck_expanded must contain 12 cards, found '+(d.legacy_deck_expanded||[]).length+'.');
     var mainIds=deckEntriesToIds(d.main_deck);
-    if([50,60].indexOf(mainIds.length)===-1) errors.push('Deck validation failed: main_deck must contain exactly 50 or 60 cards, found '+mainIds.length+'.');
+    if(mainIds.length!==60) errors.push('Deck validation failed: main_deck must contain exactly 60 cards, found '+mainIds.length+'.');
     var ultimateCounts={},normalCounts={}; mainIds.forEach(function(id){ var c=CARD_BY_ID[id]; if(!c)return; if(isUltimateCard(c)){ var key=(c.name||id).toLowerCase(); ultimateCounts[key]=(ultimateCounts[key]||0)+1; } else { normalCounts[id]=(normalCounts[id]||0)+1; } });
     Object.keys(ultimateCounts).forEach(function(k){ if(ultimateCounts[k]>1) errors.push('Deck validation failed: Ultimate card max 1 per name. Duplicate: '+k+' x'+ultimateCounts[k]+'.'); });
     Object.keys(normalCounts).forEach(function(id){ if(normalCounts[id]>3) errors.push('Deck validation failed: normal card max 3 copies. Duplicate: '+id+' x'+normalCounts[id]+'.'); });
@@ -972,7 +1018,7 @@
   function buildHeroMap(deck, side){ var out={}; LANE_ORDER.forEach(function(lane){ var hid=deck.default_formation[lane]; out[lane]=heroState(hid,side,lane,legacyInfoForFormationHero(deck,lane,hid)); }); return out; }
   function buildInitialMatchState(){
     var p=normalizeDeck(decks.PLAYER),a=normalizeDeck(decks.AI),pRaw=deckEntriesToIds(p.main_deck),aRaw=deckEntriesToIds(a.main_deck),pMain=STARTUP_SHUFFLE_ENABLED?shuffleDeck(pRaw):pRaw.slice(),aMain=STARTUP_SHUFFLE_ENABLED?shuffleDeck(aRaw):aRaw.slice();
-    var state={phase:'Opening Coin Flip',turn:null,round:1,gameOver:false,winner:null,pending:null,preGame:{stage:'COIN_FLIP'},openingCoinFlip:null,drawPhaseResolvedFor:null,mana:0,manaRegen:2,racial:2,aiMana:0,aiManaRegen:2,aiRacial:2,playerDeck:pMain,aiDeck:aMain,playerHand:[],aiHand:[],playerDiscard:[],aiDiscard:[],playerHeroes:buildHeroMap(p,'PLAYER'),aiHeroes:buildHeroMap(a,'AI'),playerLegacy:p.legacy_deck_expanded.slice(),aiLegacy:a.legacy_deck_expanded.slice(),playerLegacyPackageSlots:(p.legacy_deck_package_slots||[]).slice(),aiLegacyPackageSlots:(a.legacy_deck_package_slots||[]).slice(),tributeUsedThisReform:false,activeAttachments:[],playerDeckName:p.deck_name,aiDeckName:a.deck_name,log:['Match initialized. Main Decks are shuffled. Opening Coin Flip must resolve before opening hands are drawn.'],lastOpponentAction:null,opponentPlayedEvents:[],selectedOpponentEventId:null,pvpActionEventsBySide:{PLAYER:[],AI:[]},presentationEvents:[],presentationEventSequence:0,cardsDrawnThisTurn:{PLAYER:0,AI:0},lastDrawnCardBySide:{}};
+    var state={phase:'Opening Coin Flip',turn:null,round:1,gameOver:false,winner:null,pending:null,preGame:{stage:'COIN_FLIP'},openingCoinFlip:null,drawPhaseResolvedFor:null,mana:0,manaRegen:2,racial:2,aiMana:0,aiManaRegen:2,aiRacial:2,playerDeck:pMain,aiDeck:aMain,playerHand:[],aiHand:[],playerDiscard:[],aiDiscard:[],playerHeroes:buildHeroMap(p,'PLAYER'),aiHeroes:buildHeroMap(a,'AI'),playerLegacy:p.legacy_deck_expanded.slice(),aiLegacy:a.legacy_deck_expanded.slice(),playerLegacyPackageSlots:(p.legacy_deck_package_slots||[]).slice(),aiLegacyPackageSlots:(a.legacy_deck_package_slots||[]).slice(),tributeUsedThisReform:false,activeAttachments:[],playerDeckName:p.deck_name,aiDeckName:a.deck_name,log:['Match initialized. Main Decks are shuffled. Opening Coin Flip must resolve before opening hands are drawn.'],lastOpponentAction:null,opponentPlayedEvents:[],selectedOpponentEventId:null,pvpActionEventsBySide:{PLAYER:[],AI:[]},pvpBattleFeedbackEvents:[],presentationEvents:[],presentationEventSequence:0,cardsDrawnThisTurn:{PLAYER:0,AI:0},lastDrawnCardBySide:{}};
     syncCounts(state);return state;
   }
   function syncCounts(state){
@@ -1217,9 +1263,15 @@
     evt.summary=evt.result_lines.join('\n');state.lastPlayerAction=evt;state.selectedPlayerEventId=evt.id;return evt;
   }
   function appendCardPlayedResultForSide(state,side,playerEvt,aiEvt,lines){
-    if(side==='PLAYER'&&playerEvt)return appendLocalPlayerEventResult(state,playerEvt,lines);
-    if(side==='AI'&&aiEvt)return appendOpponentEventResult(state,aiEvt,lines);
-    return null;
+    var primary=null,linked=side==='PLAYER'?playerEvt:aiEvt;
+    if(side==='PLAYER'&&playerEvt)primary=appendLocalPlayerEventResult(state,playerEvt,lines);
+    else if(side==='AI'&&aiEvt)primary=appendOpponentEventResult(state,aiEvt,lines);
+    if(state&&state.pvpHumanVsHuman){
+      var pvpEvt=linked&&linked.pvp_event_id?findPvpSideEventById(state,linked.pvp_event_id):null;
+      if(!pvpEvt&&linked)pvpEvt=findPvpSideEventForAction(state,{card_id:linked.card_id,source_side:side,source_lane:linked.source_lane,target_side:linked.target_side,target_lane:linked.target_lane},linked.label);
+      if(pvpEvt)appendPvpEventResult(state,pvpEvt,lines);
+    }
+    return primary;
   }
   function castingSnapshotLines(pc){
     var lines=[];
@@ -1287,6 +1339,30 @@
     state.pvpActionEventsBySide[side].unshift(evt);
     if(state.pvpActionEventsBySide[side].length>120) state.pvpActionEventsBySide[side].length=120;
     return evt;
+  }
+  function findPvpSideEventById(state,eventId){
+    if(!state||!eventId)return null;
+    var maps=state.pvpActionEventsBySide||{};
+    return ((maps.PLAYER||[]).concat(maps.AI||[])).find(function(e){return e&&e.id===eventId;})||null;
+  }
+  function findPvpSideEventForAction(state,action,label){
+    if(!state||!action)return null;
+    if(action.pvp_event_id){var byId=findPvpSideEventById(state,action.pvp_event_id);if(byId)return byId;}
+    var side=action.source_side==='AI'?'AI':'PLAYER',type=String(label||'ATK').toUpperCase(),events=((state.pvpActionEventsBySide||{})[side]||[]),allowedLabels=type==='ATK'?['ATK','RESOLVE']:[type];
+    return events.find(function(e){
+      return e&&e.card_id===action.card_id&&(!type||allowedLabels.indexOf(String(e.label||'').toUpperCase())!==-1)&&
+        (!e.source_lane||!action.source_lane||e.source_lane===action.source_lane)&&
+        (!e.target_side||!action.target_side||e.target_side===action.target_side)&&
+        (!e.target_lane||!action.target_lane||e.target_lane===action.target_lane);
+    })||null;
+  }
+  function appendPvpEventResult(state,evtOrId,lines){
+    if(!state)return null;var evt=(evtOrId&&typeof evtOrId==='object')?evtOrId:findPvpSideEventById(state,evtOrId);if(!evt)return null;
+    evt.result_lines=(evt.result_lines||[]).concat(normalizeLines(lines));evt.summary=evt.result_lines.join('\n');return evt;
+  }
+  function appendPvpEventResponse(state,evtOrId,responseLines,resultLines){
+    if(!state)return null;var evt=(evtOrId&&typeof evtOrId==='object')?evtOrId:findPvpSideEventById(state,evtOrId);if(!evt)return null;
+    evt.response_lines=(evt.response_lines||[]).concat(normalizeLines(responseLines));evt.result_lines=(evt.result_lines||[]).concat(normalizeLines(resultLines));evt.summary=evt.result_lines.join('\n');return evt;
   }
   function applyPvpLocalOpponentPlayedTimeline(state){
     if(!state || !state.pvpHumanVsHuman) return;
@@ -3841,7 +3917,7 @@
     if(appState.responseWindow.kind==='incoming_card') return resolveReactiveCancelWindow(responseOption);
     if(appState.responseWindow.kind==='incoming_ability_damage') return resolveAbilityDamageResponseWindow(responseOption);
     var rw=appState.responseWindow, target=sideHeroes(appState,rw.target_side)[rw.target_lane], source=sideHeroes(appState,rw.source_side)[rw.source_lane];
-    var block=Number(rw.preapplied_block||0), dodged=false, responseName='No Response', coverUp=false, responseKindChosen=null, stepInRepositionLine='', defenseEvt=null, defenseBefore=null, defenseDisplayTitle='', defenseActionName='';
+    var block=Number(rw.preapplied_block||0), dodged=false, responseName='No Response', coverUp=false, responseKindChosen=null, stepInRepositionLine='', defenseEvt=null, defenseBefore=null, pvpDefenseEvt=null, pvpDefenseBefore=null, defenseDisplayTitle='', defenseActionName='';
     if(responseOption){
       var preRc=card(responseOption.card_id);
       if(responseExtraDiscardCount(preRc)>0 && !Number.isInteger(Number(responseOption.selected_extra_discard_index))){
@@ -3937,10 +4013,12 @@
       }
       if(appState.pvpHumanVsHuman){
         var defSourceLane=responseOption.source_lane||responseOption.legacy_source_lane||rw.target_lane;
-        recordPvpSideAction(appState,rw.target_side,'DEF',responseOption.card_id,defenseDisplayTitle,rw.target_side+' responded with '+responseName+'.',{
+        var pvpParentAttackEvent=findPvpSideEventForAction(appState,rw.action||{card_id:rw.card_id,source_side:rw.source_side,source_lane:rw.source_lane,target_side:rw.target_side,target_lane:rw.target_lane},'ATK');
+        pvpDefenseBefore=heroEventSnapshot(appState,rw.target_side,rw.target_lane);
+        pvpDefenseEvt=recordPvpSideAction(appState,rw.target_side,'DEF',responseOption.card_id,defenseDisplayTitle,rw.target_side+' responded with '+responseName+'.',{
           action_line:((responseKindChosen==='dragon_scale'||responseKindChosen==='second_chance')?'Action: '+rw.target_side+' used '+defenseActionName+'.':'Action: '+rw.target_side+' responded with '+defenseActionName+'.'),
-          source_side:rw.target_side, source_lane:defSourceLane, target_side:rw.source_side, target_lane:rw.source_lane,
-          response_lines:[responseName], result_lines:[responseName+(cost?' · paid '+cost+' Mana.':'.')]
+          source_side:rw.target_side, source_lane:defSourceLane, target_side:rw.source_side, target_lane:rw.source_lane, metric_before:pvpDefenseBefore, related_attack_event_id:pvpParentAttackEvent&&pvpParentAttackEvent.id||null,
+          response_lines:['Incoming: '+cardName(card(rw.card_id))+' — '+Number(rw.damage||0)+' '+rw.damage_type+' damage.','Defense: '+responseName+'.'], result_lines:[cost?'Mana paid: '+cost+'.':'No Mana cost.']
         });
       }
     }
@@ -3987,6 +4065,15 @@
       if(defenseLine) defenseResult.push(defenseLine);
       appendOpponentEventResult(appState,defenseEvt,defenseResult);
     }
+    if(pvpDefenseEvt){
+      var pvpDefenseAfter=heroEventSnapshotAfter(appState,pvpDefenseBefore,rw.target_side,rw.target_lane),pvpDefenseLine=opponentMetricChangeLine(pvpDefenseBefore,pvpDefenseAfter,'HP'),pvpDefenseResult=[];
+      pvpDefenseResult.push('Final HP damage: '+Number(result&&result.hp_damage||0)+'.');
+      if(result&&Number(result.response_block||0)>0)pvpDefenseResult.push('Response reduction/prevention: '+Number(result.response_block||0)+'.');
+      if(result&&Number(result.passive_block||0)>0)pvpDefenseResult.push('Passive reduction: '+Number(result.passive_block||0)+'.');
+      if(result&&Number(result.active_reduction||0)>0)pvpDefenseResult.push('Active reduction: '+Number(result.active_reduction||0)+'.');
+      if(pvpDefenseLine)pvpDefenseResult.push(pvpDefenseLine);
+      appendPvpEventResult(appState,pvpDefenseEvt,pvpDefenseResult);
+    }
     if(rw.source_side==='AI'){
       var aiAttackAction=rw.action||{card_id:rw.card_id, source_side:rw.source_side, source_lane:rw.source_lane, target_side:rw.target_side, target_lane:rw.target_lane};
       var aiAtkEvt=findOpponentEventForAction(appState, aiAttackAction, 'ATK');
@@ -4029,6 +4116,26 @@
         if(result&&result.statuses_applied&&result.statuses_applied.length)playerResultLines.push('Status result: '+result.statuses_applied.join(', ')+'.');
         applyAttackAuditToEvent(playerAtkEvt,rw,result,source);
         appendLocalPlayerEventResponse(appState,playerAtkEvt,[responseOption?('Opponent used '+(defenseActionName||cardName(card(responseOption.card_id)))+' — '+responseName+'.'):'Opponent passed without playing a Response.'],playerResultLines);
+      }
+    }
+
+    if(appState.pvpHumanVsHuman){
+      var pvpAttackAction=rw.action||{card_id:rw.card_id,source_side:rw.source_side,source_lane:rw.source_lane,target_side:rw.target_side,target_lane:rw.target_lane};
+      var pvpAtkEvt=findPvpSideEventForAction(appState,pvpAttackAction,'ATK');
+      if(pvpAtkEvt){
+        var pvpResultLines=damageBreakdownLinesFromResponse(rw);if(!pvpResultLines.length)pvpResultLines=['Incoming damage: '+Number(rw.damage||0)+' '+rw.damage_type+'.'];
+        if(responseOption)pvpResultLines.push('Defense reduction/prevention: '+Number(result&&result.response_block||block||0)+'.');
+        if(result&&Number(result.passive_block||0)>0)pvpResultLines.push('Passive reduction: '+Number(result.passive_block||0)+'.');
+        if(result&&Number(result.active_reduction||0)>0)pvpResultLines.push('Active reduction: '+Number(result.active_reduction||0)+'.');
+        pvpResultLines.push('Final HP damage: '+Number(result&&result.hp_damage||0)+'.');
+        var pvpBefore=pvpAtkEvt.metric_before,pvpAfter=heroEventSnapshotAfter(appState,pvpBefore,rw.target_side,rw.target_lane),pvpHpChange=opponentMetricChangeLine(pvpBefore,pvpAfter,'HP');
+        if(pvpHpChange&&(!pvpAtkEvt.metric_lines_added||pvpAtkEvt.metric_lines_added.indexOf(rw.target_lane)<0)){pvpResultLines.push(pvpHpChange);pvpAtkEvt.metric_lines_added=pvpAtkEvt.metric_lines_added||[];pvpAtkEvt.metric_lines_added.push(rw.target_lane);}
+        if(stepInRepositionLine)pvpResultLines.push('Step In result: '+stepInRepositionLine);
+        if(result&&Number(result.follow_up_incoming_damage||0)>0)pvpResultLines.push('Separate Conditional Follow-up: '+Number(result.follow_up_incoming_damage||0)+' incoming; '+Number(result.follow_up_damage||0)+' applied after Primary resolution without a second Response Window.');
+        if(result&&Number(result.burn_damage||0)>0)pvpResultLines.push('Burn added +'+Number(result.burn_damage||0)+' damage.');
+        if(result&&result.statuses_applied&&result.statuses_applied.length)pvpResultLines.push('Status result: '+result.statuses_applied.join(', ')+'.');
+        applyAttackAuditToEvent(pvpAtkEvt,rw,result,source);
+        appendPvpEventResponse(appState,pvpAtkEvt,[responseOption?('Defense: '+(defenseActionName||cardName(card(responseOption.card_id)))+' — '+responseName+'.'):'Defender passed without playing a Response.'],pvpResultLines);
       }
     }
 
@@ -5089,7 +5196,8 @@ function getActivatedHeroAbilities(state, side, lane){
     }
     if(state.pvpHumanVsHuman && !isCastingCard(c)){
       var pvpLabel=pvpCardActionLabel(c);
-      recordPvpSideAction(state,side,pvpLabel,cardId,cardName(c),baseLog,{action_line:'Action: '+side+' played '+cardName(c)+'.', source_side:action.source_side||side, source_lane:action.source_lane||null, target_side:action.target_side, target_lane:action.target_lane, result_lines:[baseLog]});
+      var pvpEvent=recordPvpSideAction(state,side,pvpLabel,cardId,cardName(c),baseLog,{action_line:'Action: '+side+' played '+cardName(c)+'.', source_side:action.source_side||side, source_lane:action.source_lane||null, target_side:action.target_side, target_lane:action.target_lane, metric_before:(action.target_side&&action.target_lane?heroEventSnapshot(state,action.target_side,action.target_lane):null), result_lines:[baseLog]});
+      if(pvpEvent){action.pvp_event_id=pvpEvent.id;if(playerEvent)playerEvent.pvp_event_id=pvpEvent.id;if(aiEvent)aiEvent.pvp_event_id=pvpEvent.id;}
     }
     if(isCalculatedPlanCard(c)){
       if(startCalculatedPlanChoice(state,{side:side, source_card_id:cardId, source_side:action.source_side||side, source_lane:action.source_lane, host_side:hostSide, host_lane:hostLane, attachmentSlot:attachmentSlot})) return true;
@@ -5452,7 +5560,6 @@ function getActivatedHeroAbilities(state, side, lane){
   function resolveDrawPhase(state,side,opts){opts=opts||{};clearRacialUseForSide(state,side);state.cardsDrawnThisTurn=state.cardsDrawnThisTurn||{PLAYER:0,AI:0};state.cardsDrawnThisTurn[side]=0;var regen=side==='PLAYER'?state.manaRegen:state.aiManaRegen;drawOne(state,side,true,{reason:'MANDATORY_DRAW_PHASE',deferAnimation:!!opts.deferAnimation});state.drawPhaseResolvedFor=side;if(!state.gameOver){gainMana(state,side,regen);pushLog(state,side+' gains '+regen+' Mana from Mana Regen.');clearExhaustForSide(state,side);}checkGameEnd(state);syncCounts(state);}
   function autoAdvancePlayerDrawWhenReady(state){
     if(!state||state.gameOver||state.turn!=='PLAYER'||state.phase!=='Draw'||state.drawPhaseResolvedFor!=='PLAYER')return false;
-    if(window.GL_PVP_SHARED_BOARD_ACTIVE)return false;
     if(state.pending||state.responseWindow)return false;
     if(state.autoDrawAdvanceScheduled)return true;
     state.autoDrawAdvanceScheduled=true;
@@ -5466,18 +5573,10 @@ function getActivatedHeroAbilities(state, side, lane){
       pushLog(state,'PLAYER completes Draw Phase and enters Deploy Phase automatically.');
       syncCounts(state);if(!SUPPRESS_RENDER)render();
     }
-    if(SUPPRESS_RENDER)finish();else setTimeout(finish,0);
+    if(SUPPRESS_RENDER||window.GL_PVP_SHARED_BOARD_ACTIVE)finish();else setTimeout(finish,0);
     return true;
   }
-  function acknowledgePvpTurnStart(){
-    if(!appState || !window.GL_PVP_SHARED_BOARD_ACTIVE || !appState.pvpHumanVsHuman || !appState.pvpTurnReady || appState.turn!=='PLAYER' || appState.phase!=='Draw' || appState.pending || appState.responseWindow || appState.gameOver) return false;
-    appState.pvpTurnReady=false;
-    removeStartOfTurnTargetPreventionForSide(appState,'PLAYER');
-    pushLog(appState,'PLAYER acknowledges Your Turn. Draw Phase resolves now.');
-    resolveDrawPhase(appState,'PLAYER');
-    if(!appState.gameOver && !appState.pending) appState.phase='Deploy';
-    syncCounts(appState); render(); if(appState.gameOver) showResult(); return true;
-  }
+
   function cleanupHandLimit(state, side){
     var hand=side==='PLAYER'?state.playerHand:state.aiHand; var discard=side==='PLAYER'?state.playerDiscard:state.aiDiscard;
     if(hand.length<=8) return true;
@@ -5510,7 +5609,7 @@ function getActivatedHeroAbilities(state, side, lane){
       advanceRoundAfterCompletedTurnPair(state,'PLAYER');
       state.turn='AI';state.aiControl=null;state.phase='Draw';state.pvpTurnReady=false;removeStartOfTurnTargetPreventionForSide(state,'AI');
       pushLog(state,'PvP shared board: Opponent enters Round '+state.round+' Draw Phase automatically.');
-      resolveDrawPhase(state,'AI',{deferAnimation:true});syncCounts(state);return;
+      resolveDrawPhase(state,'AI',{deferAnimation:true});if(!state.gameOver&&!state.pending){state.phase='Deploy';state.drawPhaseResolvedFor=null;pushLog(state,'Opponent completes Draw Phase and enters Deploy Phase automatically.');}syncCounts(state);return;
     }
     advanceRoundAfterCompletedTurnPair(state,'PLAYER');
     runAITurn(state);
@@ -5520,14 +5619,13 @@ function getActivatedHeroAbilities(state, side, lane){
     if(animationBusy()) return;
     var state=appState;
     if(state.pending){ showInfo('Action Pending','Resolve the required choice before advancing.'); return; }
-    if(window.GL_PVP_SHARED_BOARD_ACTIVE && state.pvpTurnReady){ showInfo('Your Turn','Acknowledge Your Turn before Draw Phase resolves.'); return; }
     if(state.turn!=='PLAYER'){
       if(window.GL_PVP_SHARED_BOARD_ACTIVE){ showInfo('Waiting for Opponent','PvP shared board is active. This browser is waiting for the other player to publish the next board state.'); return; }
       return;
     }
     if(state.phase==='Draw'){
-      if(!window.GL_PVP_SHARED_BOARD_ACTIVE){if(state.drawPhaseResolvedFor!=='PLAYER')resolveDrawPhase(state,'PLAYER');autoAdvancePlayerDrawWhenReady(state);syncCounts(state);render();return;}
-      if(state.drawPhaseResolvedFor!=='PLAYER')resolveDrawPhase(state,'PLAYER');if(!state.gameOver&&!state.pending){state.phase='Deploy';state.drawPhaseResolvedFor=null;}
+      if(state.drawPhaseResolvedFor!=='PLAYER')resolveDrawPhase(state,'PLAYER');
+      autoAdvancePlayerDrawWhenReady(state);syncCounts(state);render();return;
     }
     else if(state.phase==='Deploy'){ pushLog(state,'PLAYER moves to Battle Phase.'); state.phase='Battle'; resolvePendingCastingsFor(state,'PLAYER'); }
     else if(state.phase==='Battle'){ expireBattleAttachments(state); removeTemporaryBattleBuffsForSide(state,'PLAYER'); pushLog(state,'PLAYER moves to Reform Phase.'); state.phase='Reform'; state.tributeUsedThisReform=false; }
@@ -5926,6 +6024,7 @@ function getActivatedHeroAbilities(state, side, lane){
   function v520EventTime(evt){return Number(evt&&evt.timestamp||0);}
   function v520CanAttachResponse(group,item){
     var a=group&&group.event,b=item&&item.event;if(!a||!b)return false;
+    if(b.related_attack_event_id&&b.related_attack_event_id===a.id)return true;
     if(a.round!=null&&b.round!=null&&Number(a.round)!==Number(b.round))return false;
     if(a.phase&&b.phase&&String(a.phase)!==String(b.phase))return false;
     var aSource=a.source_side||group.side,aTarget=a.target_side,bSource=b.source_side||item.side,bTarget=b.target_side;
@@ -6225,6 +6324,26 @@ function getActivatedHeroAbilities(state, side, lane){
     return applied;
   }
 
+  function pvpBattlefieldName(side){
+    if(!IS_PVP_APP)return side==='PLAYER'?'PLAYER':'LOCAL AI';
+    var names=(appState&&appState.pvpPlayerNames)||{};
+    // Live room identity is presentation authority; canonical board names are gameplay metadata only.
+    var liveName=side==='PLAYER'?((typeof window!=='undefined'&&window.GL_PVP_LOCAL_NAME)||''):((typeof window!=='undefined'&&window.GL_PVP_OPPONENT_NAME)||'');
+    var fallback=side==='PLAYER'?'PLAYER':'OPPONENT';
+    var value=String(liveName||names[side]||fallback||'').trim();
+    return value||fallback;
+  }
+  function pvpSignalState(side){
+    if(!IS_PVP_APP||typeof window==='undefined')return'online';
+    var value=side==='PLAYER'?window.GL_PVP_LOCAL_SIGNAL:window.GL_PVP_OPPONENT_SIGNAL;
+    value=String(value||'online').toLowerCase();
+    return /^(excellent|good|fair|poor|offline|connecting)$/.test(value)?value:'online';
+  }
+  function pvpSignalHtml(side){
+    if(!IS_PVP_APP)return'';
+    var stateName=pvpSignalState(side),label=stateName==='offline'?'Offline':(stateName==='connecting'?'Connecting':'Internet '+stateName);
+    return '<i class="pvp-net-signal '+esc(stateName)+'" data-pvp-signal-side="'+esc(side)+'" aria-label="'+esc(label)+'" title="'+esc(label)+'"><i></i><i></i><i></i><i></i></i>';
+  }
   function render(){
     if(SUPPRESS_RENDER) return;
     var root=$('app');
@@ -6238,23 +6357,24 @@ function getActivatedHeroAbilities(state, side, lane){
     var zoomId=GL_CARD_ZOOM_ID||(v94EventsForSide(state,'PLAYER')[0]&&v94EventsForSide(state,'PLAYER')[0].card_id)||(visiblePlayerHand[0]&&visiblePlayerHand[0].id)||heroIdFrom(state.playerHeroes.CENTER)||heroIdFrom(state.playerHeroes.LEFT);
     GL_CARD_ZOOM_ID=zoomId;
     var nextDisabled=!matchStarted||state.gameOver||state.turn!=='PLAYER'||!!state.pending||gameplayInputLocked()||(!window.GL_PVP_SHARED_BOARD_ACTIVE&&state.turn==='PLAYER'&&state.phase==='Draw');
-    var activeLabel=state.preGame?'Opening Match':(state.turn==='PLAYER'?'Your Turn':(IS_PVP_APP?'Opponent Turn':'AI Turn'));
+    var localBattlefieldName=pvpBattlefieldName('PLAYER'),opponentBattlefieldName=pvpBattlefieldName('AI');
+    var activeLabel=state.preGame?'Opening Match':(state.turn==='PLAYER'?'Your Turn':(IS_PVP_APP?(opponentBattlefieldName+' Turn'):'AI Turn'));
     var aiLine=state.preGame?'Waiting':(state.turn==='AI'?(IS_PVP_APP?'Playing':(state.aiPresentationStatus||'Thinking')):'Waiting');
     var latestLog=(state.log&&state.log[0])||'No match log yet.';
     root.innerHTML='<div class="app battlefield-app v94-app v96-app '+(state.turn==='AI'?'turn-ai':'turn-player')+' '+((state.responseWindow&&pvpLocalOwnsResponseWindow(state.responseWindow))?'response-active':'')+'"><main class="gl-app">'+
       '<section class="main-stage gl-board">'+
-        '<header class="player-name player-name--opponent">'+(IS_PVP_APP?'OPPONENT':'LOCAL AI')+' <span>'+esc(state.aiDeckName||'Opponent')+'</span></header>'+
+        '<header class="player-name player-name--opponent" data-pvp-identity-side="AI"><b class="pvp-player-display-name">'+esc(IS_PVP_APP?opponentBattlefieldName:'LOCAL AI')+'</b> <span class="pvp-player-deck-name">'+esc(state.aiDeckName||'Opponent')+'</span>'+pvpSignalHtml('AI')+'</header>'+
         '<section class="hand-area hand-area--opponent"><div class="hand-spacer" aria-hidden="true"></div><div class="strip v94-strip"><div class="backs hand-row opponent-hand">'+visibleAIHand.map(function(entry,i){return hiddenCardBack(entry,i,visibleAIHandCount);}).join('')+'</div></div>'+v94RacialCoins('AI',state.aiRacial)+'</section>'+
         field('AI',state.aiHeroes,state)+
         '<div class="field-divider" aria-hidden="true"></div>'+
         field('PLAYER',state.playerHeroes,state)+
         '<section class="hand-area hand-area--player">'+v94RacialCoins('PLAYER',state.racial)+'<div class="handPanel player-hand hand-row"><div class="handCards">'+(visiblePlayerHand.map(function(entry,i){return handCard(entry.id,entry.index,state,i,visiblePlayerHand.length,entry.hidden);}).join('')||'<div class="empty-state compact">Player hand is empty.</div>')+'</div></div><div class="hand-spacer" aria-hidden="true"></div></section>'+
-        '<footer class="player-footer-bar desktop-player-footer"><div class="player-name player-name--self">PLAYER <span>'+esc(state.playerDeckName||'Your Deck')+'</span></div><button class="battle-log-bottom-button" type="button" data-battle-log-button="1">Full Battle Log</button></footer>'+
+        '<footer class="player-footer-bar desktop-player-footer"><div class="player-name player-name--self" data-pvp-identity-side="PLAYER"><b class="pvp-player-display-name">'+esc(IS_PVP_APP?localBattlefieldName:'PLAYER')+'</b> <span class="pvp-player-deck-name">'+esc(state.playerDeckName||'Your Deck')+'</span>'+pvpSignalHtml('PLAYER')+'</div><button class="battle-log-bottom-button" type="button" data-battle-log-button="1">Full Battle Log</button></footer>'+
       '</section>'+
       '<aside class="control-sidebar">'+
-        '<section class="control-panel turn-panel"><div class="setup-actions"><button id="deckSetupButton" type="button">Deck Setup</button></div><button id="mobileMatchMenuButton" class="mobile-match-menu-button" type="button" aria-haspopup="dialog" aria-controls="mobileMatchMenuOverlay" aria-expanded="false">Match Menu</button><div class="turn-summary"><strong>'+esc(activeLabel)+'</strong><span>Round '+esc(state.round||1)+' · '+esc(state.turn==='PLAYER'?'Player':'AI')+'</span><span>Phase: '+esc(state.phase)+'</span><span>Mana '+esc(state.mana)+' / 12 · Regen +'+esc(state.manaRegen)+'</span><span>AI: '+esc(aiLine)+'</span><small class="turn-status">'+esc(statusLine(state))+'</small></div></section>'+
+        '<section class="control-panel turn-panel"><div class="setup-actions"><button id="deckSetupButton" type="button">Deck Setup</button></div><button id="mobileMatchMenuButton" class="mobile-match-menu-button" type="button" aria-haspopup="dialog" aria-controls="mobileMatchMenuOverlay" aria-expanded="false">Match Menu</button><div class="turn-summary"><strong>'+esc(activeLabel)+'</strong><span>Round '+esc(state.round||1)+' · '+esc(state.turn==='PLAYER'?(IS_PVP_APP?localBattlefieldName:'Player'):(IS_PVP_APP?opponentBattlefieldName:'AI'))+'</span><span>Phase: '+esc(state.phase)+'</span><span>Mana '+esc(state.mana)+' / 12 · Regen +'+esc(state.manaRegen)+'</span><span>'+(IS_PVP_APP?'Opponent':'AI')+': '+esc(aiLine)+'</span><small class="turn-status">'+esc(statusLine(state))+'</small></div></section>'+
         '<section class="control-panel phase-panel '+((state.turn==='AI'&&GL_AI_TURN_DIRECTOR.active)?'aiTurnDirector':'')+'"><header><strong>Phase Tracker</strong><span>Current: '+esc(state.phase)+'</span></header><div class="phase-list">'+PHASES.map(function(p){return '<button type="button" class="'+(p===state.phase?'is-active':'')+'" disabled>'+esc(p)+' Phase</button>';}).join('')+'</div><div class="phase-actions"><button id="repositionButton" class="reposition" type="button" '+(!manualRepositionButtonEnabled(state)?'disabled':'')+'>Reposition</button><button id="cancelActionButton" class="cancel-action" type="button" '+(!isCancelablePreCommitPending(state.pending)?'disabled':'')+'>Cancel Action</button><button id="nextPhaseButton" class="next-phase" type="button" '+(nextDisabled?'disabled':'')+'>'+(state.phase==='End'?'End Turn':'Next Phase')+'</button></div></section>'+
-        '<footer class="player-footer-bar mobile-player-footer"><div class="player-name player-name--self">PLAYER <span>'+esc(state.playerDeckName||'Your Deck')+'</span></div><button class="battle-log-bottom-button" type="button" data-battle-log-button="1">Full Battle Log</button></footer>'+
+        '<footer class="player-footer-bar mobile-player-footer"><div class="player-name player-name--self" data-pvp-identity-side="PLAYER"><b class="pvp-player-display-name">'+esc(IS_PVP_APP?localBattlefieldName:'PLAYER')+'</b> <span class="pvp-player-deck-name">'+esc(state.playerDeckName||'Your Deck')+'</span>'+pvpSignalHtml('PLAYER')+'</div><button class="battle-log-bottom-button" type="button" data-battle-log-button="1">Full Battle Log</button></footer>'+
         v96CardPlayedPanel(state)+
         '<section class="control-panel match-panel"><button id="soundToggleButton" class="sound-toggle" type="button" aria-pressed="'+(GL_CARD_SOUND_ENABLED?'true':'false')+'">'+esc(cardMotionSoundLabel())+'</button>'+(IS_PVP_APP?'<button id="pvpRoomMobileButton" class="pvp-room-mobile" type="button">PvP Room</button>':'')+'<button id="surrenderButton" class="surrender" type="button">Surrender</button></section>'+
         '<div id="mobileMatchMenuOverlay" class="mobile-match-menu-overlay" hidden><section class="mobile-match-menu-sheet" role="dialog" aria-modal="true" aria-labelledby="mobileMatchMenuTitle"><header><strong id="mobileMatchMenuTitle">Match Menu</strong><button id="mobileMatchMenuClose" type="button" aria-label="Close Match Menu">Close</button></header><div class="mobile-match-menu-actions"><button id="mobileDeckSetupButton" type="button">Deck Setup</button><button id="mobileSoundToggleButton" class="sound-toggle" type="button" aria-pressed="'+(GL_CARD_SOUND_ENABLED?'true':'false')+'">'+esc(cardMotionSoundLabel())+'</button>'+(IS_PVP_APP?'<button id="mobilePvpRoomButton" class="pvp-room-mobile" type="button">PvP Room</button>':'')+'<button id="mobileSurrenderButton" class="surrender" type="button">Surrender</button></div></section></div>'+
@@ -6600,7 +6720,7 @@ function getActivatedHeroAbilities(state, side, lane){
     if(window.GL_PVP_SHARED_BOARD_ACTIVE && appState.pvpHumanVsHuman){
       appState.turn=oppositeSide(side);appState.phase='Draw';appState.pvpTurnReady=false;removeStartOfTurnTargetPreventionForSide(appState,appState.turn);
       pushLog(appState,'PvP hand limit cleanup complete. '+appState.turn+' enters Draw Phase automatically.');
-      resolveDrawPhase(appState,appState.turn,{deferAnimation:true});syncCounts(appState);render();return true;
+      resolveDrawPhase(appState,appState.turn,{deferAnimation:true});if(!appState.gameOver&&!appState.pending){appState.phase='Deploy';appState.drawPhaseResolvedFor=null;pushLog(appState,appState.turn+' completes Draw Phase and enters Deploy Phase automatically.');}syncCounts(appState);render();return true;
     }
     runAITurn(appState); render(); return true;
   }
@@ -8435,12 +8555,14 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
     ['PLAYER','AI'].forEach(function(side){LANE_ORDER.forEach(function(lane){if(used[side+'|'+lane])return;var before=sideHeroes(previous,side)[lane],after=sideHeroes(next,side)[lane],a=glPvpHeroHpValue(before),b=glPvpHeroHpValue(after);if(a===null||b===null||b<=a)return;var healEvent=(newEvents||[]).find(function(e){var label=String(e&&e.label||'').toUpperCase();return (label==='SUPPORT'||label==='ABILITY'||label==='ITEM')&&(e.target_side===side||e.source_side===side)&&(!e.target_lane||e.target_lane===lane);});if(healEvent){used[side+'|'+lane]=true;out.push({kind:'heal',side:side,lane:lane,play_sound:true});}});});
     return out;
   }
-  function glPvpImportAnimationPlan(previous,next){if(!next||!animationDocumentReady())return null;var known=glPvpEventIdSet(previous),events=[];['PLAYER','AI'].forEach(function(side){((next.pvpActionEventsBySide||{})[side]||[]).forEach(function(e){if(e&&e.id&&!known[e.id])events.push(e);});});events.sort(function(a,b){return Number(a.timestamp||0)-Number(b.timestamp||0);});var motions=[];events.forEach(function(e){if(!e.card_id||['TICK','RESOLVE','REPOSITION','ABILITY','RACIAL','LEGACY','RANK UP','TRIBUTE'].indexOf(String(e.label||'').toUpperCase())!==-1)return;var side=e.source_side==='AI'?'AI':'PLAYER',hand=sideHand(previous||{},side)||[],handIndex=hand.lastIndexOf(e.card_id);if(side==='PLAYER'&&handIndex<0)return;var snap=capturePlayedCardMotion(e.card_id,side,{hand_index:handIndex,source_side:side,source_lane:e.source_lane,target_side:e.target_side,target_lane:e.target_lane});if(snap&&snap.from)motions.push({snapshot:snap,side:side,card_id:e.card_id,source_lane:e.source_lane});});var previousDraw={};((previous&&previous.presentationEvents)||[]).forEach(function(e){if(e&&e.id)previousDraw[e.id]=true;});var drawEvents=((next.presentationEvents)||[]).filter(function(e){return e&&e.type==='CARD_DRAWN'&&!previousDraw[e.id];});var legacies=[];['PLAYER','AI'].forEach(function(side){LANE_ORDER.forEach(function(lane){var a=sideHeroes(previous||{},side)[lane],b=sideHeroes(next,side)[lane];if(b&&isLegacyModeHero(b)&&(!a||!isLegacyModeHero(a)||a.active_legacy_card_id!==b.active_legacy_card_id))legacies.push({side:side,lane:lane,card_id:b.active_legacy_card_id||b.card_id});});});var moved=[];if(previous)['PLAYER','AI'].forEach(function(side){var beforeById={},afterById={};LANE_ORDER.forEach(function(l){var a=sideHeroes(previous,side)[l],b=sideHeroes(next,side)[l];if(a&&a.card_id)beforeById[a.card_id]=l;if(b&&b.card_id)afterById[b.card_id]=l;});Object.keys(afterById).forEach(function(id){if(beforeById[id]&&beforeById[id]!==afterById[id])moved.push({side:side,lane:afterById[id]});});});var feedback=glPvpImportBattleFeedback(previous,next,events);return{motions:motions,drawEvents:drawEvents,legacies:legacies,moved:moved,feedback:feedback};}
+  function glPvpBattleFeedbackIdSet(state){var out={};((state&&state.pvpBattleFeedbackEvents)||[]).forEach(function(e){if(e&&e.id)out[e.id]=true;});return out;}
+  function glPvpNewBattleFeedbackEvents(previous,next){var known=glPvpBattleFeedbackIdSet(previous),out=((next&&next.pvpBattleFeedbackEvents)||[]).filter(function(e){return e&&e.id&&!known[e.id];}).map(function(e){return clone(e);});out.sort(function(a,b){return Number(a.timestamp||0)-Number(b.timestamp||0);});return out;}
+  function glPvpImportAnimationPlan(previous,next){if(!next||!animationDocumentReady())return null;var known=glPvpEventIdSet(previous),events=[];['PLAYER','AI'].forEach(function(side){((next.pvpActionEventsBySide||{})[side]||[]).forEach(function(e){if(e&&e.id&&!known[e.id])events.push(e);});});events.sort(function(a,b){return Number(a.timestamp||0)-Number(b.timestamp||0);});var motions=[];events.forEach(function(e){if(!e.card_id||['TICK','RESOLVE','REPOSITION','ABILITY','RACIAL','LEGACY','RANK UP','TRIBUTE'].indexOf(String(e.label||'').toUpperCase())!==-1)return;var side=e.source_side==='AI'?'AI':'PLAYER',hand=sideHand(previous||{},side)||[],handIndex=hand.lastIndexOf(e.card_id);if(side==='PLAYER'&&handIndex<0)return;var snap=capturePlayedCardMotion(e.card_id,side,{hand_index:handIndex,source_side:side,source_lane:e.source_lane,target_side:e.target_side,target_lane:e.target_lane});if(snap&&snap.from)motions.push({snapshot:snap,side:side,card_id:e.card_id,source_lane:e.source_lane});});var previousDraw={};((previous&&previous.presentationEvents)||[]).forEach(function(e){if(e&&e.id)previousDraw[e.id]=true;});var drawEvents=((next.presentationEvents)||[]).filter(function(e){return e&&e.type==='CARD_DRAWN'&&!previousDraw[e.id];});var legacies=[];['PLAYER','AI'].forEach(function(side){LANE_ORDER.forEach(function(lane){var a=sideHeroes(previous||{},side)[lane],b=sideHeroes(next,side)[lane];if(b&&isLegacyModeHero(b)&&(!a||!isLegacyModeHero(a)||a.active_legacy_card_id!==b.active_legacy_card_id))legacies.push({side:side,lane:lane,card_id:b.active_legacy_card_id||b.card_id});});});var moved=[];if(previous)['PLAYER','AI'].forEach(function(side){var beforeById={},afterById={};LANE_ORDER.forEach(function(l){var a=sideHeroes(previous,side)[l],b=sideHeroes(next,side)[l];if(a&&a.card_id)beforeById[a.card_id]=l;if(b&&b.card_id)afterById[b.card_id]=l;});Object.keys(afterById).forEach(function(id){if(beforeById[id]&&beforeById[id]!==afterById[id])moved.push({side:side,lane:afterById[id]});});});var feedback=glPvpNewBattleFeedbackEvents(previous,next);if(!feedback.length)feedback=glPvpImportBattleFeedback(previous,next,events);return{motions:motions,drawEvents:drawEvents,legacies:legacies,moved:moved,feedback:feedback};}
   function glPvpRunImportAnimations(plan,state){if(!plan||!animationDocumentReady())return;(plan.motions||[]).forEach(function(m){var att=(state.activeAttachments||[]).find(function(a){return a&&a.card_id===m.card_id&&a.side===m.side&&(m.source_lane?a.lane===m.source_lane:true);});commitPlayedCardMotion(m.snapshot,!!att,att&&att.side,att&&att.lane,att&&att.slot);});if((plan.drawEvents||[]).length)queueDrawEvents(plan.drawEvents,state);(plan.legacies||[]).forEach(function(x){queueLegacyDeckToFieldMotion(x.side,x.lane,x.card_id);});(plan.moved||[]).forEach(function(x){var el=document.querySelector('.hero-panel[data-side="'+x.side+'"][data-lane="'+x.lane+'"]');if(el){el.classList.add('gl-pvp-reposition-flash');setTimeout(function(){el.classList.remove('gl-pvp-reposition-flash');},720);}});(plan.feedback||[]).forEach(function(evt){queueBattleFeedback(evt);});if((plan.feedback||[]).length)flushBattleFeedbackQueue();}
-  function glPvpPlayStateDeltaPresentation(previous,next){
-    if(!previous||!next||!animationDocumentReady())return false;
+  function glPvpPlayStateDeltaPresentation(previous,next,opts){
+    if(!previous||!next||!animationDocumentReady())return false;opts=opts||{};
     var known=glPvpEventIdSet(previous),events=[];['PLAYER','AI'].forEach(function(side){((next.pvpActionEventsBySide||{})[side]||[]).forEach(function(e){if(e&&e.id&&!known[e.id])events.push(e);});});
-    var feedback=glPvpImportBattleFeedback(previous,next,events);feedback.forEach(function(evt){queueBattleFeedback(evt);});if(feedback.length)flushBattleFeedbackQueue();
+    var feedback=[];if(!opts.skipBattleFeedback){feedback=glPvpNewBattleFeedbackEvents(previous,next);if(!feedback.length)feedback=glPvpImportBattleFeedback(previous,next,events);feedback.forEach(function(evt){queueBattleFeedback(evt);});if(feedback.length)flushBattleFeedbackQueue();}
     ['PLAYER','AI'].forEach(function(side){var beforeById={},afterById={};LANE_ORDER.forEach(function(l){var a=sideHeroes(previous,side)[l],b=sideHeroes(next,side)[l];if(a&&a.card_id)beforeById[a.card_id]=l;if(b&&b.card_id)afterById[b.card_id]=l;});Object.keys(afterById).forEach(function(id){if(beforeById[id]&&beforeById[id]!==afterById[id]){var el=document.querySelector('.hero-panel[data-side="'+side+'"][data-lane="'+afterById[id]+'"]');if(el){el.classList.add('gl-pvp-reposition-flash');setTimeout(function(){el.classList.remove('gl-pvp-reposition-flash');},720);}}});});
     return !!feedback.length;
   }
@@ -8976,10 +9098,31 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
       var blockState=clone(s),hp=s.aiHeroes.CENTER.hp,opt=(s.responseWindow.options||[]).find(function(x){return x.card_id==='S1-THF-026';});
       resolveResponseWindow(opt);
       if(s.aiHeroes.CENTER.hp!==hp) return {ok:false,reason:'Dodge Instinct did not dodge Aura damage',before:hp,after:s.aiHeroes.CENTER.hp};
+      var dodgeFeedback=(s.pvpBattleFeedbackEvents||[]).find(function(e){return e&&e.card_id==='S1-ARC-021'&&e.outcome==='dodge';});
+      if(!dodgeFeedback||dodgeFeedback.attack_kind!=='P')return{ok:false,reason:'PvP exact Dodge battle feedback was not recorded under render suppression',feedback:s.pvpBattleFeedbackEvents};
+      var dodgeAudit=((s.pvpActionEventsBySide||{}).PLAYER||[]).find(function(e){return e&&e.card_id==='S1-ARC-021'&&(e.label==='ATK'||e.label==='RESOLVE')&&e.damage_summary;});
+      if(!dodgeAudit)return{ok:false,reason:'PvP Card Played attack audit missing after Dodge',events:s.pvpActionEventsBySide};
       if(s.playerHeroes.RIGHT.attachments.indexOf('S1-ARC-021')!==-1||s.playerDiscard.indexOf('S1-ARC-021')<0) return {ok:false,reason:'Aura did not leave Attachment exactly once after Dodge',attachments:s.playerHeroes.RIGHT.attachments,discard:s.playerDiscard};
       s=blockState;appState=s;var blockOpt=(s.responseWindow.options||[]).find(function(x){return x.card_id==='S1-ITM-016';});var blockHp=s.aiHeroes.CENTER.hp;resolveResponseWindow(blockOpt);
       if(s.aiHeroes.CENTER.hp!==blockHp-40) return {ok:false,reason:'Chain Mail did not block 40 Aura Physical damage',before:blockHp,after:s.aiHeroes.CENTER.hp};
+      var blockFeedback=(s.pvpBattleFeedbackEvents||[]).find(function(e){return e&&e.card_id==='S1-ARC-021'&&e.outcome==='block';});
+      if(!blockFeedback||blockFeedback.attack_kind!=='P'||blockFeedback.defense_kind!=='P')return{ok:false,reason:'PvP exact P.Atk/P.Def battle feedback was not recorded',feedback:s.pvpBattleFeedbackEvents};
+      var blockAudit=((s.pvpActionEventsBySide||{}).PLAYER||[]).find(function(e){return e&&e.card_id==='S1-ARC-021'&&(e.label==='ATK'||e.label==='RESOLVE')&&e.damage_summary;});
+      var blockDefenseAudit=((s.pvpActionEventsBySide||{}).AI||[]).find(function(e){return e&&e.card_id==='S1-ITM-016'&&e.label==='DEF'&&(e.result_lines||[]).some(function(line){return /Final HP damage/.test(line);});});
+      if(!blockAudit||!blockDefenseAudit)return{ok:false,reason:'PvP Card Played attack/defense detail did not receive VS AI-style resolution audit',events:s.pvpActionEventsBySide};
       if(s.playerHeroes.RIGHT.attachments.indexOf('S1-ARC-021')!==-1||s.playerDiscard.indexOf('S1-ARC-021')<0) return {ok:false,reason:'Aura did not leave Attachment exactly once after Block',attachments:s.playerHeroes.RIGHT.attachments,discard:s.playerDiscard};
+
+      // Exact Magical Attack / Magical Defense presentation classification must survive the
+      // same headless PvP authority path, not only the Physical sample above.
+      s=buildInitialMatchState();appState=s;s.pvpHumanVsHuman=true;s.turn='PLAYER';s.phase='Battle';s.round=2;s.mana=30;s.aiMana=30;
+      s.playerHeroes.LEFT.card_id='S1-MAG-H001';s.playerHeroes.LEFT.exhausted=false;s.playerHand=['S1-MAG-003'];
+      s.aiHeroes.LEFT.card_id='S1-CLE-H002';s.aiHeroes.LEFT.exhausted=false;s.aiHand=['S1-CLE-011'];
+      commitPlayedCard(s,{card_id:'S1-MAG-003',hand_index:0,source_side:'PLAYER',source_lane:'LEFT',target_side:'AI',target_lane:'LEFT'});
+      var holyBarrier=(s.responseWindow&&s.responseWindow.options||[]).find(function(x){return x.card_id==='S1-CLE-011';});
+      if(!holyBarrier)return{ok:false,reason:'Holy Barrier missing from Magical Attack Response Window',options:s.responseWindow&&s.responseWindow.options};
+      resolveResponseWindow(holyBarrier);
+      var magicalFeedback=(s.pvpBattleFeedbackEvents||[]).find(function(e){return e&&e.card_id==='S1-MAG-003'&&e.outcome==='block';});
+      if(!magicalFeedback||magicalFeedback.attack_kind!=='M'||magicalFeedback.defense_kind!=='M')return{ok:false,reason:'PvP exact M.Atk/M.Def battle feedback was not recorded',feedback:s.pvpBattleFeedbackEvents};
 
       s=buildInitialMatchState();appState=s;s.pvpHumanVsHuman=true;s.turn='PLAYER';s.phase='Deploy';s.playerHand=['S1-CLE-012'];s.playerDeck=['S1-WAR-001'];
       s.playerHeroes.CENTER={card_id:'S1-CLE-L001',side:'PLAYER',lane:'CENTER',mode:'LEGACY',legacy_mode:true,active_legacy_card_id:'S1-CLE-L001',defeated_hero_snapshot:{card_id:'S1-CLE-H003',hp:0,maxHp:100,exp_cards:[],attachments:[null,null]}};
@@ -8987,7 +9130,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
       if(!canonical.length) return {ok:false,reason:'Cleric Legacy missing with real server deck'};
       s.playerDeck=['__HIDDEN_CARD_BACK__'];s.pvpLocalLegalLegacyAbilities={LEFT:[],CENTER:clone(canonical),RIGHT:[]};window.GL_PVP_SHARED_BOARD_ACTIVE=true;
       if(!getActivatedLegacyAbilities(s,'PLAYER','CENTER').length) return {ok:false,reason:'Server legal Legacy metadata did not survive masked deck'};
-      return {ok:true,drawThisTurn:5,camouflageDrawCounted:true,reloadPackageCountedAsTwo:true,auraResponseWindow:true,auraBlockAndDodge:true,dodgeInstinct:true,clericLegacyMaskedDeck:true};
+      return {ok:true,drawThisTurn:5,camouflageDrawCounted:true,reloadPackageCountedAsTwo:true,auraResponseWindow:true,auraBlockAndDodge:true,dodgeInstinct:true,battleFeedbackLedger:true,physicalBattleFeedback:true,magicalBattleFeedback:true,cardPlayedAudit:true,clericLegacyMaskedDeck:true};
     }catch(err){return {ok:false,reason:String(err&&err.message||err),stack:String(err&&err.stack||'')};}
     finally{appState=oldApp;matchStarted=oldMatch;SUPPRESS_RENDER=oldSuppress;window.GL_PVP_SHARED_BOARD_ACTIVE=oldShared;}
   }
@@ -9149,6 +9292,10 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
     testGameplayFoundationFixes:simulateV559GameplayFixes,
     testV69SourcePendingAudit:simulateV69SourcePendingAudit,
     playOpeningCoinSound:playOpeningCoinSound,
+    unlockGameplayAudioPlayback:unlockGameplayAudioPlayback,
+    gameplayAudioUnlocked:gameplayAudioUnlocked,
+    playAuthoritativeCardSound:playCardMotionSound,
+    playAuthoritativeBattleFeedback:function(evt){var ok=queueBattleFeedback(clone(evt||{}));if(ok)flushBattleFeedbackQueue();return ok;},
     captureAuthoritativePlayedCardMotion:function(cardId,side,action){ return capturePlayedCardMotion(cardId,side,action||{}); },
     commitAuthoritativePlayedCardMotion:function(snapshot,destination){ return commitAuthoritativePlayedCardMotion(snapshot,destination||{type:'target'}); },
     queueAuthoritativeDrawMotion:function(side,cardId,count){var n=Math.max(1,Number(count||1)),events=[],hand=sideHand(appState,side)||[];for(var i=0;i<n;i++)events.push({id:'external-'+(++GL_ANIMATION_SEQUENCE),type:'CARD_DRAWN',side:side,card_id:cardId,hand_index:Math.max(0,hand.length-n+i),reason:'CARD_EFFECT'});return queueDrawEvents(events,appState);},
@@ -9165,6 +9312,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
     queueCapturedAuthoritativeRankUpMotion:queueCapturedAuthoritativeRankUpMotion,
     queueAuthoritativeRankUpMotion:function(side,lane,toCardId,expCardIds){ var ok=false; ok=queueLegacyDeckToFieldMotion(side,lane,toCardId)||ok; ok=queueRankUpDiscardMotion(side,lane,expCardIds||[])||ok; return ok; },
     getActivatedLegacyAbilitiesFor:function(side,lane){ return clone(getActivatedLegacyAbilities(appState,side,lane)); },
+    openMobileHeroActions:function(side,lane){ return v540OpenMobileHeroActions(side,lane); },
     testDefeatCastingCleanupRevive:simulateDefeatCastingCleanupReviveQA,
     testUnbrokenStandClassRows:function(){var c=card('S1-WAR-022'),cases={Warrior:'S1-WAR-H001',Gladiator:'S1-WAR-H002',Conqueror:'S1-WAR-H003',Paladin:'S1-WAR-H005',Crusader:'S1-WAR-H006'},out={};Object.keys(cases).forEach(function(name){out[name]=!!attachmentPolicyForCard(c,{card_id:cases[name]});});return out;},
     completeOpeningFlow:function(firstSide,flipData){var before=(appState&&appState.presentationEvents||[]).length;completeOpeningFlow(appState,firstSide,flipData||{},{deferAnimation:true,bridgeImmediate:true});var events=(appState&&appState.presentationEvents||[]).slice(before);return{ok:true,events:clone(events),snapshot:glPvpBridgeSnapshot()};},
@@ -9183,7 +9331,6 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
       args=args||[];
       var name=String(intent||'');
       var map={
-        acknowledgePvpTurnStart:acknowledgePvpTurnStart,
         advancePhase:advancePhase,
         cancelPendingAction:cancelPendingAction,
         beginPlayFromHand:beginPlayFromHand,

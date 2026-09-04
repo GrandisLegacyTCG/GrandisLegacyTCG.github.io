@@ -1,11 +1,11 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.23.0",
+  "version": "1.24.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.23 \u2014 updates the bilingual public Rulebook to v2.1 (60-card Main Deck, max 3 normal copies, max 1 Ultimate) while preserving the approved homepage and embedded PvP package.",
+  "description": "Grandis Legacy Website v1.24 \u2014 production PvP frontend synchronization: /pvp/ now mirrors canonical PvP v3.35, restoring the actual live player-name, signal, mobile-match navigation, Racial Trait interaction, and battle sound/VFX frontend while preserving Rulebook v2.1 and the approved homepage.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
-    "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v112-embedded-pvp-sync.cjs && node tests/run-v121-showcase-scale.cjs && node tests/run-v121-hf1-mobile-pvp-footer-draw.cjs",
+    "test": "node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v124-pvp-production-sync.cjs && node tests/run-v121-showcase-scale.cjs && node tests/run-v121-hf1-mobile-pvp-footer-draw.cjs",
     "manifest": "node tools/build-file-manifest.cjs",
     "verify:manifest": "node tools/verify-file-manifest.cjs",
     "verify": "npm run build:arvon && npm run qa:layout && npm test && npm run manifest && npm run verify:manifest && npm test",

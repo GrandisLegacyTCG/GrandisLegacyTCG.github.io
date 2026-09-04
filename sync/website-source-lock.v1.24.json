@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "website_version": "1.23",
+  "website_version": "1.24",
   "generated_at": "2026-09-04",
   "source_stack": {
     "one_source_authority": "1.7.3",
@@ -27,7 +27,7 @@
   "files": {
     "authority/season1/cards.runtime.v0.14.2.json": "4b24737f11a49920f1491736bc5e1ced31e1a47b00b6b6cfaad0f6406d3f3b11",
     "authority/season1/hero-components.runtime.v1.0.0.json": "a83013797330e67b9afff60fa053946123e5f4aae65154dbbeb8cbc55374ed81",
-    "rulebook/js/card-index.js": "ac40e31dd21ff7f0a8abd12c9a4c90ba0a6fe7852b0f7b36330fb77f5dee6aee",
+    "rulebook/js/card-index.js": "6e9aca2717a5fa59cd98f44ce16e194fefd425ce691e68f77057e8306fb468da",
     "rulebook/js/hero-components.js": "c926a2dbe7631095930ae20a467a5988627670ecded7605800192f598d76323d",
     "shared/season1/v1/manifest.json": "1600a17febc78b06b4c3a1ba351aeb40155d1346d8c95885dd010d254d7989ce",
     "pvp/assets/audio/Coin Flip.mp3": "b4842f9a3f2d25004223313f5473bef74afd79915b6af9bdb35c70f6df8c2b50",

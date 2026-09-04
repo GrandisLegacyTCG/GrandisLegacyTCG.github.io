@@ -1,9 +1,14 @@
-# Grandis Legacy Website v1.23
+# Grandis Legacy Website v1.24
 
-Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook/General Arvon experience, and the preserved embedded PvP client.
+Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook v2.1, and the **production PvP frontend at `/pvp/`**.
 
+## v1.24 production PvP correction
 
-## v1.23 Rulebook v2.1 synchronization
+The live `/pvp/` route is served by this Website repository. v1.24 mirrors PvP v3.35 `public/` byte-for-byte into Website `/pvp/`. This is the actual deployment boundary that previous PvP-only packages did not update, which is why newer PvP UI/VFX/name/mobile changes were not visible in production.
+
+Current production requires Website v1.24 plus both Northflank PvP room services on PvP v3.35. Full frontend decoupling is possible only after a dedicated public PvP GitHub Pages repository is created; see `release/MIGRATION_DEDICATED_PVP_FRONTEND_v1.24.md`.
+
+## v1.24 Rulebook v2.1 synchronization
 
 - Replaces the public English and Indonesian Rulebook PDFs with the supplied v2.1 files dated 2026-09-04.
 - Updates the HTML Rulebook setup table to **60 Main Deck cards**, **maximum 3 copies per normal card**, and **maximum 1 copy per Ultimate**.
