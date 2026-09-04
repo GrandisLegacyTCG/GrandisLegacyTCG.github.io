@@ -10,4 +10,4 @@ ok(js.includes("mobileDeckBuilderQuery")&&js.includes("style-2/"),'responsive Ho
 ok(html.includes('data-mobile-deck-builder'),'mobile override marks Style 1 desktop actions');
 ok(!fs.readFileSync(path.join(root,'pvp/index.html'),'utf8').includes('glMobileAppMenuButton')&&pvpNet.includes('installPvpMobileMatchMenuController')&&pvpNet.includes('glMobileAppMenuButton'),'PvP mobile hamburger is lobby-only/dynamic and absent from active gameplay HTML');
 ok(pvpCfg.includes("mobileDeckBuilderUrl:'https://grandislegacytcg.github.io/Grandis-Legacy-Deck-Builder/style-2/'"),'embedded PvP mobile Deck Builder targets Style 2');
-console.log('Website v1.24 mobile navigation verification PASS');
+console.log('Website v1.25 mobile navigation verification PASS');

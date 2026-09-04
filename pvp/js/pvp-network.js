@@ -1,8 +1,8 @@
-/* Grandis Legacy PvP v3.35 network adapter.
+/* Grandis Legacy PvP v3.36 network adapter.
    Two fixed Northflank services share one repository. Lobby v0.5 is preserved; battlefield consumes the VS AI v6.25 shared UI/runtime contract. */
 (function(){
   'use strict';
-  var VERSION='Grandis Legacy PvP v3.35 · connection-compatible · VS AI v6.25 UI reference · Lobby Design Lock v0.5 · 2 Players + 4 Spectators';
+  var VERSION='Grandis Legacy PvP v3.36 · direct authoritative battle feedback · VS AI v6.25 UI reference · Lobby Design Lock v0.5 · 2 Players + 4 Spectators';
   var STORE_KEY='grandis_legacy_pvp_v20_client_id';
   var ROOM_KEY='grandis_legacy_pvp_v20_room';
   var NAME_KEY='grandis_legacy_pvp_v20_name';
@@ -10,7 +10,7 @@
   var ws=null,reconnectTimer=null,reconnectDelay=1200,intentTimeoutTimer=null;
   var state={connected:false,snapshot:null,room:'LOBBY',name:'',role:'player',deckKey:'',loadedDeckKey:'',customDeck:null,customDeckName:'',clientId:'',lastAppliedRevision:0,applyingServer:false,intentInFlight:false,intentBaseRevision:0,intentName:'',intentSentAt:0,seatToken:'',lastMatchStatus:'setup',seenAnimationIds:{},lastCoinAnimationKey:'',coinResultReadyKey:'',mobileHandScrollLeft:0,mobileHandMode:'preserve',mobileHandApplyToken:0,mobileHandHooksInstalled:false,spectatorLobbyView:false,spectatorBattlefieldEntered:false,nameDraft:'',roomGeneration:0,reloadAfterRoomReset:false,latencyMs:null,opponentLatencyMs:null,lastPingSentAt:0,lastPongAt:0};
   var DEPLOY_CONFIG=window.GL_PVP_CONFIG||window.GL_CONFIG||{};
-  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.35-2026-09-04');
+  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.36-2026-09-04');
   function fixedDeploymentRoom(){var n=Number(DEPLOY_CONFIG.roomId||0);return n===1||n===2?n:0;}
   function roomNumber(){var fixed=fixedDeploymentRoom();if(fixed)return fixed;try{return Number(new URL(location.href).searchParams.get('server'))===2?2:1;}catch(e){return 1;}}
   function roomDisplayName(){return DEPLOY_CONFIG.roomName||('PvP Room '+roomNumber());}
@@ -225,18 +225,19 @@
       else if(evt.kind==='draw'&&b.queueAuthoritativeDrawMotions)ok=b.queueAuthoritativeDrawMotions(evt.actor_side,evt.card_ids||[evt.card_id],evt.count||1)||ok;
       else if(evt.kind==='draw'&&b.queueAuthoritativeDrawMotion)ok=b.queueAuthoritativeDrawMotion(evt.actor_side,evt.card_id,evt.count||1)||ok;
       else if(evt.kind==='legacy_to_field'&&b.queueAuthoritativeLegacyToFieldMotion)ok=b.queueAuthoritativeLegacyToFieldMotion(evt.actor_side,evt.lane,evt.card_id)||ok;
-      // Battle VFX/audio is replayed from the imported authoritative state ledger after render.
-      // Do not consume it here: this pre-import animation path could run before the Hero anchor
-      // is paint-ready and mark the one-shot event as seen without ever showing the VFX.
+      // battle_feedback plans are intentionally not played here. importServerBoard replays them
+      // after the authoritative board render, so the target Hero anchor is paint-ready.
     });
     return ok;
   }
-  function freshAuthoritativeBattleFeedback(previous,current){
-    if(!previous||!current)return [];
-    var known={};((previous&&previous.pvpBattleFeedbackEvents)||[]).forEach(function(evt){if(evt&&evt.id)known[evt.id]=true;});
-    var out=((current&&current.pvpBattleFeedbackEvents)||[]).filter(function(evt){return evt&&evt.id&&!known[evt.id];}).map(function(evt){return JSON.parse(JSON.stringify(evt));});
-    out.sort(function(a,b){return Number(a.timestamp||0)-Number(b.timestamp||0);});
-    return out;
+  function battleFeedbackFromAuthoritativePlans(plans){
+    return (plans||[]).map(function(plan){return plan&&plan.event;}).filter(function(evt){return evt&&evt.kind==='battle_feedback';}).map(function(evt){
+      return {
+        id:evt.id||null,kind:'attack',side:evt.side,lane:evt.lane,card_id:evt.card_id||null,
+        outcome:evt.outcome||'hit',attack_kind:evt.attack_kind||'P',defense_kind:evt.defense_kind||null,
+        has_damage:!!evt.has_damage,play_sound:evt.play_sound!==false
+      };
+    });
   }
   function playAuthoritativeBattleFeedbackAfterRender(events){
     events=Array.isArray(events)?events.slice():[];if(!events.length)return false;
@@ -245,7 +246,41 @@
     if(typeof requestAnimationFrame==='function')requestAnimationFrame(function(){requestAnimationFrame(play);});else setTimeout(play,34);
     return true;
   }
-  function importServerBoard(force){var b=bridge(),m=match(),seat=localSeat()||(localRole()==='spectator'?1:null);if(!b||!m||!m.serverBoard||!seat)return false;var rev=Number(m.serverBoardRevision||0);if(!force&&rev<=state.lastAppliedRevision)return false;var previousCanonical=(b.snapshot&&b.snapshot().appState)?JSON.parse(JSON.stringify(b.snapshot().appState)):null;var savedHandScroll=captureMobileHandScroll(),localDraw=snapshotHasLocalDraw(m,seat),animationPlans=prepareAuthoritativeAnimations(m,seat,rev);if(localDraw)state.mobileHandMode='follow-latest';else{state.mobileHandMode='preserve';if(savedHandScroll)state.mobileHandScrollLeft=Number(savedHandScroll.left||0);}state.applyingServer=true;b.setSharedBoardMode(true);window.GL_PVP_LOCAL_SEAT=seat;window.GL_PVP_LOCAL_ROLE=localRole();try{var firstNotice=(rev<=2&&!m.lastIntent&&openingFlipText(m))||'';var notice=firstNotice||('Server authoritative board r'+rev+' applied.');b.importCanonicalSnapshot(m.serverBoard,seat,{notice:notice,skipImportAnimations:true});scheduleMobileHandPosition(localDraw?'follow-latest':'preserve',savedHandScroll);playAuthoritativeAnimations(animationPlans);var currentCanonical=b.snapshot&&b.snapshot().appState;var freshFeedback=freshAuthoritativeBattleFeedback(previousCanonical,currentCanonical);if(previousCanonical&&b.playAuthoritativeStateDeltaPresentation)b.playAuthoritativeStateDeltaPresentation(previousCanonical,currentCanonical,{skipBattleFeedback:true});if(freshFeedback.length)playAuthoritativeBattleFeedbackAfterRender(freshFeedback);syncAuthoritativeDrawReview();syncBattlefieldIdentityHeaders();document.body.classList.remove('pvp-booting');state.lastAppliedRevision=rev;var ms=Number(m.lastIntent&&m.lastIntent.processingMs||0);setStatus('online',firstNotice||('Server board r'+rev+' applied'+(ms?' · '+ms+' ms':'')));}finally{state.applyingServer=false;}return true;}
+  function importServerBoard(force){
+    var b=bridge(),m=match(),seat=localSeat()||(localRole()==='spectator'?1:null);
+    if(!b||!m||!m.serverBoard||!seat)return false;
+    var rev=Number(m.serverBoardRevision||0);
+    if(!force&&rev<=state.lastAppliedRevision)return false;
+    var previousCanonical=(b.snapshot&&b.snapshot().appState)?JSON.parse(JSON.stringify(b.snapshot().appState)):null;
+    var savedHandScroll=captureMobileHandScroll(),localDraw=snapshotHasLocalDraw(m,seat);
+    var animationPlans=prepareAuthoritativeAnimations(m,seat,rev);
+    var battleFeedback=battleFeedbackFromAuthoritativePlans(animationPlans);
+    if(localDraw)state.mobileHandMode='follow-latest';
+    else{state.mobileHandMode='preserve';if(savedHandScroll)state.mobileHandScrollLeft=Number(savedHandScroll.left||0);}
+    state.applyingServer=true;
+    b.setSharedBoardMode(true);
+    window.GL_PVP_LOCAL_SEAT=seat;window.GL_PVP_LOCAL_ROLE=localRole();
+    try{
+      var firstNotice=(rev<=2&&!m.lastIntent&&openingFlipText(m))||'';
+      var notice=firstNotice||('Server authoritative board r'+rev+' applied.');
+      b.importCanonicalSnapshot(m.serverBoard,seat,{notice:notice,skipImportAnimations:true});
+      scheduleMobileHandPosition(localDraw?'follow-latest':'preserve',savedHandScroll);
+      playAuthoritativeAnimations(animationPlans);
+      var currentCanonical=b.snapshot&&b.snapshot().appState;
+      if(previousCanonical&&b.playAuthoritativeStateDeltaPresentation)b.playAuthoritativeStateDeltaPresentation(previousCanonical,currentCanonical,{skipBattleFeedback:true});
+      // Battle VFX/audio is delivered by the server's revision-scoped public animation event.
+      // It is deliberately played only after import/render so Hero anchors exist and audio/VFX
+      // is neither inferred from HP deltas nor diffed from the large canonical state ledger.
+      if(battleFeedback.length)playAuthoritativeBattleFeedbackAfterRender(battleFeedback);
+      syncAuthoritativeDrawReview();
+      syncBattlefieldIdentityHeaders();
+      document.body.classList.remove('pvp-booting');
+      state.lastAppliedRevision=rev;
+      var ms=Number(m.lastIntent&&m.lastIntent.processingMs||0);
+      setStatus('online',firstNotice||('Server board r'+rev+' applied'+(ms?' · '+ms+' ms':'')));
+    }finally{state.applyingServer=false;}
+    return true;
+  }
   function pendingDecisionSide(p){if(!p)return null;return p.decision_side||p.response_owner||p.side||p.source_side||(p.type==='hand_limit_discard'?'PLAYER':null)||(p.type==='manual_reposition'?'PLAYER':null);}
   function localOwnsPending(){var s=appState(),p=s&&s.pending;if(!p)return true;return pendingDecisionSide(p)==='PLAYER';}
   function localOwnsResponse(){var s=appState(),rw=s&&s.responseWindow;if(!rw)return true;return rw.response_owner==='PLAYER';}

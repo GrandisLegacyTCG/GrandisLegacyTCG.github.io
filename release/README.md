@@ -1,5 +1,9 @@
-# Release records
+# Website v1.25 Release Files
 
-Current release: **v1.24**.
+Current release: **v1.25**.
 
-All new version-bump/release/update/verification records belong in this `release/` directory. Historical release records belong in `release/history/`; do not add new release-note files to the repository root.
+- `RELEASE_NOTE_v1.25.md`
+- `VERIFICATION_v1.25.md`
+- `MIGRATION_DEDICATED_PVP_FRONTEND_v1.25.md`
+
+Previous release documents are under `release/history/`.

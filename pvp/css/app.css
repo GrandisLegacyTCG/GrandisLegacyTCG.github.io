@@ -2539,10 +2539,15 @@ body:has(.overlay.open) .hover-card-zoom:not(.is-modal-zoom){display:none!import
   min-width:0!important;
   overflow:visible!important;
 }
-.v96-app .player-footer-bar .player-name--self{
+.v96-app .player-footer-bar .pvp-identity-strip--self{
   flex:0 1 auto!important;
   max-width:calc(100% - 122px)!important;
   align-self:end!important;
+}
+.v96-app .player-footer-bar .pvp-identity-strip--self .player-name--self{
+  flex:0 1 auto!important;
+  max-width:calc(100% - 24px)!important;
+  align-self:stretch!important;
 }
 .v96-app .player-footer-bar #historyButtonBottom{
   flex:0 0 auto!important;
@@ -4095,8 +4100,10 @@ body::before{display:none!important}
     gap:4px!important;
     overflow:visible!important;
   }
+  .v96-app .pvp-identity-strip--opponent{width:100%!important;padding-right:4px!important}
+  .v96-app .pvp-identity-strip--opponent .player-name{flex:1 1 auto!important;max-width:calc(100% - 22px)!important}
   .v96-app .player-name{
-    width:calc(100% - 4px)!important;
+    width:auto!important;
     min-width:0!important;
     max-width:none!important;
     height:28px!important;
@@ -5028,8 +5035,9 @@ body.deck-setup-active{
   .v96-app .phase-panel{grid-row:4!important}
   .v96-app .mobile-player-footer{grid-row:5!important;display:flex!important;width:100%!important;height:28px!important;padding:0 3px!important;align-items:stretch!important;gap:5px!important}
   .v96-app .desktop-player-footer{display:none!important}
-  .v96-app .mobile-player-footer .player-name--self{height:28px!important;max-width:none!important;flex:1 1 70%!important;align-self:stretch!important;border-radius:7px!important;padding:3px 8px!important;font-size:10px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-  .v96-app .mobile-player-footer .player-name--self span{font-size:7px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  .v96-app .mobile-player-footer .pvp-identity-strip--self{height:28px!important;min-width:0!important;max-width:none!important;flex:1 1 70%!important;align-self:stretch!important;gap:5px!important}
+  .v96-app .mobile-player-footer .pvp-identity-strip--self .player-name--self{height:28px!important;min-width:0!important;max-width:calc(100% - 20px)!important;flex:1 1 auto!important;align-self:stretch!important;border-radius:7px!important;padding:3px 8px!important;font-size:10px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  .v96-app .mobile-player-footer .pvp-identity-strip--self .player-name--self span{font-size:7px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
   .v96-app .mobile-player-footer .battle-log-bottom-button{flex:0 0 30%!important;width:auto!important;height:28px!important;margin:0!important;border-radius:7px!important;font-size:7px!important;padding:0 4px!important}
 
   .v96-app .hero-indicator-stack{display:none!important}
@@ -6324,7 +6332,20 @@ body.deck-setup-active{
   .v96-app .hero-row--player .hero-lane.legacy-slot{grid-template-rows:minmax(0,1fr) 22px!important}
 }
 
-/* PvP v3.32 — room identity + connection signal presentation. */
+/* PvP v3.36 — room identity + per-player connection signal presentation.
+   The signal is a sibling of the bordered name/deck box, so it remains visually outside
+   the identity box while still being bound to that exact PLAYER/AI identity strip. */
+.v96-app .pvp-identity-strip{
+  min-width:0;
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  width:max-content;
+  max-width:100%;
+}
+.v96-app .pvp-identity-strip--opponent{align-self:start!important}
+.v96-app .pvp-identity-strip--self{align-self:end!important}
+.v96-app .pvp-identity-strip .player-name{min-width:0!important;max-width:100%!important}
 .v96-app .player-name .pvp-player-display-name{
   color:#fff!important;
   font:inherit!important;
@@ -6345,7 +6366,7 @@ body.deck-setup-active{
 .pvp-net-signal{
   width:18px;
   height:14px;
-  margin-left:1px;
+  margin-left:0;
   flex:0 0 18px;
   display:inline-flex!important;
   align-items:flex-end!important;
@@ -6370,6 +6391,7 @@ body.deck-setup-active{
 .pvp-net-signal.connecting>i:nth-child(-n+2){background:#7d91a5}
 @media(max-width:760px){
   .v96-app .player-name .pvp-player-deck-name{max-width:45vw!important}
+  .v96-app .pvp-identity-strip{gap:4px!important}
   .pvp-net-signal{width:15px!important;height:12px!important;flex-basis:15px!important;gap:1px!important}
   .pvp-net-signal>i{width:2px!important}
   .pvp-net-signal>i:nth-child(1){height:3px!important}.pvp-net-signal>i:nth-child(2){height:5px!important}.pvp-net-signal>i:nth-child(3){height:8px!important}.pvp-net-signal>i:nth-child(4){height:11px!important}
