@@ -1,8 +1,8 @@
-/* Grandis Legacy PvP v3.38 network adapter.
+/* Grandis Legacy PvP v3.39 network adapter.
    Two fixed Northflank services share one repository. Lobby v0.5 is preserved; battlefield consumes the VS AI v6.25 shared UI/runtime contract. */
 (function(){
   'use strict';
-  var VERSION='Grandis Legacy PvP v3.38 · response commit/payment framework · authoritative heal feedback · VS AI v6.26 UI reference · Lobby Design Lock v0.5 · 2 Players + 4 Spectators';
+  var VERSION='Grandis Legacy PvP v3.39 · response commit/payment framework · authoritative heal feedback · VS AI v6.31 UI reference · Lobby Design Lock v0.5 · 2 Players + 4 Spectators';
   var STORE_KEY='grandis_legacy_pvp_v20_client_id';
   var ROOM_KEY='grandis_legacy_pvp_v20_room';
   var NAME_KEY='grandis_legacy_pvp_v20_name';
@@ -10,7 +10,7 @@
   var ws=null,reconnectTimer=null,reconnectDelay=1200,intentTimeoutTimer=null;
   var state={connected:false,snapshot:null,room:'LOBBY',name:'',role:'player',deckKey:'',loadedDeckKey:'',customDeck:null,customDeckName:'',clientId:'',lastAppliedRevision:0,applyingServer:false,intentInFlight:false,intentBaseRevision:0,intentName:'',intentSentAt:0,seatToken:'',lastMatchStatus:'setup',seenAnimationIds:{},lastCoinAnimationKey:'',coinResultReadyKey:'',mobileHandScrollLeft:0,mobileHandMode:'preserve',mobileHandApplyToken:0,mobileHandHooksInstalled:false,spectatorLobbyView:false,spectatorBattlefieldEntered:false,nameDraft:'',roomGeneration:0,reloadAfterRoomReset:false,latencyMs:null,opponentLatencyMs:null,lastPingSentAt:0,lastPongAt:0};
   var DEPLOY_CONFIG=window.GL_PVP_CONFIG||window.GL_CONFIG||{};
-  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.38-2026-09-05');
+  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.39-2026-09-07');
   function fixedDeploymentRoom(){var n=Number(DEPLOY_CONFIG.roomId||0);return n===1||n===2?n:0;}
   function roomNumber(){var fixed=fixedDeploymentRoom();if(fixed)return fixed;try{return Number(new URL(location.href).searchParams.get('server'))===2?2:1;}catch(e){return 1;}}
   function roomDisplayName(){return DEPLOY_CONFIG.roomName||('PvP Room '+roomNumber());}
@@ -239,6 +239,11 @@
       };
     });
   }
+  function playAuthoritativeBattleAudioNow(events){
+    events=Array.isArray(events)?events:[];if(!events.length)return false;
+    var b=bridge();if(!b||!b.playAuthoritativeBattleFeedbackAudio)return false;
+    var ok=false;events.forEach(function(evt){ok=b.playAuthoritativeBattleFeedbackAudio(evt)||ok;});return ok;
+  }
   function playAuthoritativeBattleFeedbackAfterRender(events){
     events=Array.isArray(events)?events.slice():[];if(!events.length)return false;
     var b=bridge();if(!b||!b.playAuthoritativeBattleFeedback)return false;
@@ -255,6 +260,9 @@
     var savedHandScroll=captureMobileHandScroll(),localDraw=snapshotHasLocalDraw(m,seat);
     var animationPlans=prepareAuthoritativeAnimations(m,seat,rev);
     var battleFeedback=battleFeedbackFromAuthoritativePlans(animationPlans);
+    // SFX belongs to the authoritative gameplay revision and must not wait for DOM import/render.
+    // The same event objects are marked _sound_played by the bridge so post-render VFX cannot replay audio.
+    if(battleFeedback.length)playAuthoritativeBattleAudioNow(battleFeedback);
     if(localDraw)state.mobileHandMode='follow-latest';
     else{state.mobileHandMode='preserve';if(savedHandScroll)state.mobileHandScrollLeft=Number(savedHandScroll.left||0);}
     state.applyingServer=true;
@@ -268,9 +276,7 @@
       playAuthoritativeAnimations(animationPlans);
       var currentCanonical=b.snapshot&&b.snapshot().appState;
       if(previousCanonical&&b.playAuthoritativeStateDeltaPresentation)b.playAuthoritativeStateDeltaPresentation(previousCanonical,currentCanonical,{skipBattleFeedback:true});
-      // Battle VFX/audio is delivered by the server's revision-scoped public animation event.
-      // It is deliberately played only after import/render so Hero anchors exist and audio/VFX
-      // is neither inferred from HP deltas nor diffed from the large canonical state ledger.
+      // VFX still waits for paint-ready Hero anchors. Audio already fired above before board import/render.
       if(battleFeedback.length)playAuthoritativeBattleFeedbackAfterRender(battleFeedback);
       syncAuthoritativeDrawReview();
       syncBattlefieldIdentityHeaders();

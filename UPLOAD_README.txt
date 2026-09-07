@@ -1,4 +1,4 @@
-Grandis Legacy Website v1.27
+Grandis Legacy Website v1.28
 
 FULL REPLACEMENT package for the public GrandisLegacyTCG.github.io repository.
 
@@ -9,11 +9,11 @@ GitHub Desktop workflow:
 4. Commit and push to main.
 5. GitHub Pages remains: Deploy from a branch -> main -> / (root).
 
-This package preserves the approved homepage layout and exact bilingual Rulebook v2.1 PDFs while synchronizing the production /pvp/ directory to canonical PvP v3.38.
+This package preserves the approved homepage layout and exact bilingual Rulebook v2.1 PDFs while synchronizing the production /pvp/ directory to canonical PvP v3.39.
 
 Production locks:
-- Website: v1.27
-- Embedded production PvP frontend: v3.38 / gl-pvp-3.38-2026-09-05
+- Website: v1.28
+- Embedded production PvP frontend: v3.39 / gl-pvp-3.39-2026-09-07
 - PvP runtime authority: Source Stack v1.7.4
 - Season 1 cards: 198
 - Hero Components: 6 Racial Traits, 16 Class Abilities, 10 Hero profiles, 30 Hero compositions

@@ -1,17 +1,29 @@
-# Grandis Legacy Website v1.27
+# Grandis Legacy Website v1.28
 
-Deployable GitHub Pages package for the Grandis Legacy public website, Rulebook v2.1, and the production PvP frontend at `/pvp/`.
+Deployable GitHub Pages package for the Grandis Legacy public website, online Rulebook v2.2, and production PvP frontend at `/pvp/`.
 
 ## Production PvP synchronization
 
-Current production PvP is still owned by the Website repository at `/pvp/`. Therefore every canonical PvP frontend release must be mirrored into this Website package until the dedicated-frontend migration is performed.
+Website v1.28 mirrors canonical PvP v3.39 `public/` byte-for-byte into `/pvp/`. The production frontend therefore includes:
 
-Website v1.27 replaces `/pvp/` byte-for-byte from canonical PvP v3.38 `public/`. This carries the v3.38 frontend changes into the actual GitHub Pages production path: the generic Response commit/payment hierarchy used by Spectral Grappling Hook and Escape Arrow, structural Hero/Legacy card-stage parity, Game Over `BACK TO LOBBY`, and authoritative Heal VFX/audio presentation.
+- manual Reposition maximum once per active turn;
+- immediate authoritative battle SFX before board import/render;
+- Binding Light / committed counter-response Card Played chain recording;
+- Spectral Grappling Hook / Escape Arrow generic commit-payment hierarchy;
+- four-slot 100/200 EXP stack presentation with Exhausted bottom-to-top orientation;
+- existing structural Hero/Legacy parity, Game Over `BACK TO LOBBY`, and Heal semantic VFX/audio behavior.
 
-The homepage layout, mobile `Play it Online` touch fix from v1.26, Rulebook v2.1, and unrelated Website sections remain unchanged.
+The matching live authoritative backend is PvP v3.39.
 
-## Deployment boundary
+## Online Rulebook
 
-- GitHub Pages Website repository owns the public `/pvp/` frontend.
-- Northflank Room 1 and Room 2 own the authoritative PvP server runtime and must run the matching PvP v3.38 backend for full live parity.
-- Source Stack v1.7.4 is consumed by the canonical PvP v3.38 runtime; Website-specific non-PvP card/rulebook assets remain unchanged in this release.
+The Website bundles and links only Player Rulebook **v2.2** in English and Indonesian. Setup remains 0 starting Mana, Mana Regen 2, and 2 Racial Tokens. Manual Reposition is documented as maximum once per active turn across Deploy + Reform, while Reposition caused by cards/effects is exempt.
+
+## Authority
+
+- Source Stack: v1.7.5
+- PvP: v3.39
+- Rulebook: v2.2
+- Website: v1.28
+
+Unrelated homepage structure and canonical 198-card Website index are preserved.
