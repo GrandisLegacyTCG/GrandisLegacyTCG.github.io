@@ -8,10 +8,10 @@ const vm = require('vm');
 const Arvon = require('../rulebook/js/arvon-core.js');
 
 const root = path.resolve(__dirname, '..');
-const CARD_HASH = '5d362f3c1dd785af82f12297d6ab1ecea4f6c43508a7b0f48319e846dd61139c';
+const CARD_HASH = 'ce79e5a97c115507f68734887160b575840899056e1533488e3fddd3a11fec1f';
 const HERO_HASH = '487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9';
-const EN_PDF_HASH = '404c7e0908a0f347e0d686da9164b32c8fdf84aa23c9d58ce8a7d97b1db290ca';
-const ID_PDF_HASH = '7be3702d4ed4d24ce02083a23422c58dd72d09ea5524e8099f774ef6e8918e47';
+const EN_PDF_HASH = '1416cfdef170ed453de34f538747abc525a5c6e99821b233ea3fda08bf038d14';
+const ID_PDF_HASH = '59abf3d8f57d1d784de04bfac69f96af6ec74a7cb87b24d40fc68a2a4d4c693b';
 const revisedIds = [
   'S1-ARC-011','S1-ARC-012','S1-ARC-014','S1-CLE-003','S1-CLE-011','S1-CLE-015','S1-CLE-022',
   'S1-CLE-H004','S1-CLE-H005','S1-CLE-H006','S1-ITM-005','S1-ITM-007','S1-ITM-012','S1-MAG-004',
@@ -58,21 +58,23 @@ vm.runInNewContext(read('rulebook/js/hero-components.js'), browser);
 const cards = plain(browser.window.GRANDIS_RULEBOOK_CARD_INDEX);
 const meta = plain(browser.window.GRANDIS_RULEBOOK_AUTHORITY);
 const components = plain(browser.window.GRANDIS_HERO_COMPONENT_AUTHORITY);
-const source = json('authority/season1/cards.runtime.v0.14.2.json');
+const source = json('authority/season1/cards.runtime.v0.15.0.json');
 const sourceById = new Map(source.cards.map(card => [card.card_id, card]));
 const indexById = new Map(cards.map(card => [card.card_id, card]));
 const runtimeBrowser = {};
 vm.runInNewContext(read('pvp/js/static-data.js'), runtimeBrowser);
 const canonicalAssets = plain(runtimeBrowser.GL_ASSET_MANIFEST);
-const PVP_CARD_HASH = 'eb89ea56f2351f093fffbd7f7e47628f1cf0cd2b793c6efdfb82c9c9e798b868';
+const PVP_CARD_HASH = CARD_HASH;
 const sharedManifest = json('shared/season1/v1/manifest.json');
 
-assert.strictEqual(require('../package.json').version, '1.28.0');
-assert.strictEqual(meta.website_version, '1.28');
+assert.strictEqual(require('../package.json').version, '1.29.0');
+assert.strictEqual(meta.website_version, '1.29');
 assert.strictEqual(meta.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(meta.hero_component_registry_hash, HERO_HASH);
-assert.strictEqual(cards.length, 198);
-assert.strictEqual(new Set(cards.map(card => card.card_id)).size, 198);
+assert.strictEqual(cards.length, 200);
+assert.strictEqual(new Set(cards.map(card => card.card_id)).size, 200);
+assert.strictEqual(indexById.get('S1-ITM-019')?.name, 'Warp Scroll', 'Warp Scroll missing from Website authority.');
+assert.strictEqual(indexById.get('S1-ITM-020')?.name, 'Freeze Bomb', 'Freeze Bomb missing from Website authority.');
 assert.strictEqual(indexById.get('S1-THF-010').name, 'Back Slash');
 assert.ok(!cards.some(card => card.name === 'Back Stab'));
 assert.deepStrictEqual(meta.revised_card_ids, revisedIds);
@@ -85,11 +87,11 @@ for (const id of revisedIds) {
   assert.deepStrictEqual(indexed.effects, current.effects || current.effect || [], `${id} operation mismatch.`);
   assert.deepStrictEqual(indexed.canonical_cost, current.canonical_cost || null, `${id} cost mismatch.`);
 }
-assert.strictEqual(canonicalAssets.counts.cards, 198);
-assert.strictEqual(canonicalAssets.counts.webp_card_thumbs, 198);
-assert.strictEqual(Object.keys(canonicalAssets.cards).length, 198);
-assert.strictEqual(Object.keys(sharedManifest.cards).length, 198);
-assert.strictEqual(new Set(Object.values(sharedManifest.cards).map(entry => entry.file)).size, 198, 'Duplicate Website artwork mapping.');
+assert.strictEqual(canonicalAssets.counts.cards, 200);
+assert.strictEqual(canonicalAssets.counts.webp_card_thumbs, 200);
+assert.strictEqual(Object.keys(canonicalAssets.cards).length, 200);
+assert.strictEqual(Object.keys(sharedManifest.cards).length, 200);
+assert.strictEqual(new Set(Object.values(sharedManifest.cards).map(entry => entry.file)).size, 200, 'Duplicate Website artwork mapping.');
 for (const card of source.cards) {
   const id = card.card_id;
   const rel = `shared/season1/v1/cards/thumbs/${id}.webp`;
@@ -156,8 +158,8 @@ for (const fragment of ['Second Chance','dodge incoming Physical or Magical dama
 const resurrectionAnswer = Arvon.answer('What is the cost and effect of Resurrection?', authority);
 for (const fragment of ['Resurrection','3 Mana','50 HP']) assert.ok(resurrectionAnswer.html.includes(fragment), `Resurrection answer missing ${fragment}.`);
 
-assert.strictEqual(digest('rulebook/assets/Grandis_Legacy_Player_Rulebook_v2.2_EN.pdf'), EN_PDF_HASH);
-assert.strictEqual(digest('rulebook/assets/Grandis_Legacy_Panduan_Pemain_v2.2_ID.pdf'), ID_PDF_HASH);
+assert.strictEqual(digest('rulebook/assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf'), EN_PDF_HASH);
+assert.strictEqual(digest('rulebook/assets/Grandis_Legacy_Panduan_Pemain_v2.5_ID.pdf'), ID_PDF_HASH);
 
 const home = read('index.html');
 const homeJs = read('js/site.js');
@@ -170,21 +172,21 @@ assert.ok(home.includes('venom-binding.png'), 'Venom Binding carousel slide miss
 assert.ok(homeJs.includes("touchstart") && homeJs.includes('normalizeLoopEdge'), 'Circular/mobile carousel behavior missing.');
 assert.match(css, /\/\* v1\.7 desktop Hero top-whitespace refinement \*\/[\s\S]*@media\(min-width:821px\)[\s\S]*\.hero-section\{padding-top:clamp\(48px,3\.4vw,56px\)\}/);
 assert.ok(css.includes('.hero-section{padding:44px 18px 56px}'), 'Mobile Hero layout changed unexpectedly.');
-assert.ok(rulebook.includes('hero-components.js?v=1.0.0') && rulebook.includes('arvon-core.js?v=1.9.0') && rulebook.includes('card-index.js?v=0.14.2'));
+assert.ok(rulebook.includes('hero-components.js?v=1.0.0') && rulebook.includes('arvon-core.js?v=1.9.0') && rulebook.includes('card-index.js?v=0.15.0'));
 assert.ok(rulebook.includes('Kartu normal maksimal 3; Ultimate maksimal 1.'), 'Indonesian Rulebook copy limit is not 3/1.');
-assert.ok(rulebook.includes('assets/Grandis_Legacy_Player_Rulebook_v2.2_EN.pdf'), 'Rulebook v2.2 EN PDF route missing.');
+assert.ok(rulebook.includes('assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf'), 'Rulebook v2.5 EN PDF route missing.');
 const rulebookJs = read('rulebook/js/rulebook.js');
 assert.ok(rulebookJs.includes('Normal cards: maximum 3 copies; Ultimate: maximum 1 copy.'), 'English Rulebook copy limit is not 3/1.');
-assert.ok(rulebookJs.includes('assets/Grandis_Legacy_Panduan_Pemain_v2.2_ID.pdf'), 'Rulebook v2.2 ID PDF route missing.');
-assert.ok(rulebook.includes('js/rulebook.js?v=2.2.0'), 'Rulebook JS cache revision was not bumped.');
-assert.ok(read('pvp/index.html').includes('gl-pvp-3.39-current-fixes'), 'Production Website /pvp frontend is not PvP v3.39.');
+assert.ok(rulebookJs.includes('assets/Grandis_Legacy_Panduan_Pemain_v2.5_ID.pdf'), 'Rulebook v2.5 ID PDF route missing.');
+assert.ok(rulebook.includes('js/rulebook.js?v=2.5.0'), 'Rulebook JS cache revision was not bumped.');
+assert.ok(read('pvp/index.html').includes('gl-pvp-3.40-playtest-v014'), 'Production Website /pvp frontend is not PvP v3.40.');
 const embeddedNetwork = read('pvp/js/pvp-network.js');
 for (const retired of ['racial_second_chance','resolveSecondChanceChoice','data-second-chance-choice']) assert.ok(!embeddedNetwork.includes(retired), `${retired} remains in embedded PvP routing.`);
 for (const name of fs.readdirSync(path.join(root, 'pvp/starter_deck_examples')).filter(file => file.endsWith('.json'))) {
   const content = read(`pvp/starter_deck_examples/${name}`);
   assert.ok(!content.includes('Back Stab'), `${name}: retired card name remains in embedded PvP preset.`);
   assert.ok(!content.includes('Public Deck Builder v2.1'), `${name}: stale Deck Builder format metadata remains.`);
-  assert.ok(content.includes('Starter60 v1.4'), `${name}: current Starter60 v1.4 metadata is missing.`);
+  assert.ok(content.includes('Starter60 v1.4'), `${name}: preserved Starter60 v1.4 preset metadata is missing.`);
   assert.ok(content.includes(PVP_CARD_HASH), `${name}: current embedded PvP registry hash is missing.`);
 }
 
@@ -205,8 +207,8 @@ for (const old of ['freesound_community-coin-flip-37787','freesound_community-fl
   assert.ok(!fs.readdirSync(path.join(root, 'pvp/assets/audio')).some(name => name.includes(old)), `Stale embedded audio file remains: ${old}.`);
 }
 
-const lock = json('sync/website-source-lock.v1.28.json');
-assert.strictEqual(lock.website_version, '1.28');
+const lock = json('sync/website-source-lock.v1.29.json');
+assert.strictEqual(lock.website_version, '1.29');
 assert.strictEqual(lock.source_stack.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(lock.source_stack.hero_component_registry_hash, HERO_HASH);
 assert.deepStrictEqual(lock.contracts.hero_component_counts, { racial_traits:6, class_abilities:16, hero_profiles:10, hero_compositions:30 });
@@ -215,6 +217,6 @@ for (const [rel, expected] of Object.entries(lock.files)) assert.strictEqual(dig
 for (const rel of ['js/site.js','rulebook/js/arvon-core.js','rulebook/js/rulebook.js','tools/build-arvon-index.cjs','tools/build-file-manifest.cjs']) {
   new Function(read(rel));
 }
-assert.strictEqual(lock.embedded_pvp.pvp_version, '3.39');
-assert.strictEqual(lock.embedded_pvp.source_stack, '1.7.5');
-console.log('PASS Website v1.28: 198 canonical physical artworks, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2.2, v1.7 homepage layout, PvP v3.39 production embed, and source lock.');
+assert.strictEqual(lock.embedded_pvp.pvp_version, '3.40');
+assert.strictEqual(lock.embedded_pvp.source_stack, '1.8.1');
+console.log('PASS Website v1.29: 200 canonical physical artworks, Warp Scroll + Freeze Bomb, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2.5, v1.7 homepage layout, PvP v3.40 production embed, and source lock.');

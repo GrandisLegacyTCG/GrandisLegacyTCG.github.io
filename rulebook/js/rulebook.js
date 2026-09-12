@@ -7,17 +7,17 @@
     overview: `
       <div class="eyebrow">GRANDIS LEGACY · SEASON 1</div>
       <h1>Player Rulebook</h1>
-      <p class="lead">Grandis Legacy Season 1 player guide for 3 vs 3 Hero TCG battles.</p>
+      <p class="lead">Grandis Legacy Season 1 player guide for RPG-Style TCG play; the standard format uses 3 Heroes per player.</p>
       <div class="hero-actions">
         <a class="primary-action" href="#chapter-1">Start reading</a>
-        <a class="secondary-action" data-pdf-button href="assets/Grandis_Legacy_Player_Rulebook_v2.2_EN.pdf" target="_blank" rel="noopener">Open English PDF</a>
+        <a class="secondary-action" data-pdf-button href="assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf" target="_blank" rel="noopener">Open English PDF</a>
       </div>
       <div class="callout info"><strong>Reading order:</strong> Chapters 1-8 explain the core game functions. Use the following chapters when Skill symbols, Response, Attachment, Casting, Status, or Healing appear.</div>`,
 
     'chapter-1': `
       <div class="eyebrow">GAME BASICS · PAGE 3</div>
       <h2>1. Understanding Grandis Legacy and the Battlefield</h2>
-      <p>Grandis Legacy is a Trading Card Game built around <strong>3 Hero vs 3 Hero</strong> battles. Players manage Hero positions, use cards from the Main Deck, Rank Up, and use Legacy to maintain their strategy after a Hero is defeated.</p>
+      <p>Grandis Legacy is an <strong>RPG-Style TCG</strong> focused on Hero progression, tactical positioning, Class-based play, and Legacy after defeat. The standard format in this Rulebook uses <strong>3 Heroes per player</strong>.</p>
       <div class="two-col">
         <div class="rule-card"><h3>Primary win condition</h3><p>Defeat all 3 opposing Heroes.</p></div>
         <div class="rule-card"><h3>Deck-out</h3><p>If the Main Deck is empty and the mandatory Draw Phase draw cannot be performed, that player loses.</p></div>
@@ -31,7 +31,7 @@
         <tr><td>Racial Token</td><td>Used for Racial Traits.</td></tr>
         <tr><td>Main Deck</td><td>Source of Skill, Item, and Event Cards.</td></tr>
         <tr><td>Discard Pile</td><td>Holds resolved or discarded cards.</td></tr>
-        <tr><td>Mana Pool</td><td>Holds available Mana Shards.</td></tr>
+        <tr><td>Shard Deck</td><td>Exactly 12 Shards; supplies the Shard Pool.</td></tr><tr><td>Shard Pool</td><td>Holds available Mana Shards and Class Shards.</td></tr>
         <tr><td>Hand</td><td>A player's private cards.</td></tr>
       </tbody></table></div>
       <p><strong>Legacy Deck:</strong> three Hero progression packages. Each package contains Hero Rank I, Rank II, Rank III, and 1 Legacy Card. <strong>Main Deck:</strong> contains Skill, Item, and Event Cards; it is shuffled and supplies cards to the Hand.</p>`,
@@ -45,7 +45,7 @@
         <li>Place Hero Rank I in Left, Center, and Right.</li>
         <li>Shuffle the Main Deck.</li>
         <li>Draw 6 cards as your opening hand.</li>
-        <li>Start with 0 Mana Shards, Mana Regen 2, and 2 Racial Tokens.</li>
+        <li>Build and shuffle a 12-card Shard Deck. Draw 6 cards as your Opening Hand, then draw 3 Starting Shards into the Shard Pool. Start with Mana Regen 1 and 2 Racial Tokens.</li>
         <li>Determine the first player and begin at the Draw Phase.</li>
       </ol>
       <div class="table-wrap"><table><thead><tr><th>Section</th><th>Rule</th></tr></thead><tbody>
@@ -64,8 +64,8 @@
         <li><strong>Reform:</strong> Support, Tribute, Legacy Ability, Reposition.</li>
         <li><strong>End:</strong> Resolve Status/end-of-turn effects; reduce Hand to 8; pass turn.</li>
       </ul>
-      <h3>Mana Pool and Mana Shard</h3>
-      <p>Mana Shards pay for cards and abilities. Available Mana is stored in the Mana Pool. <strong>Mana Pool maximum: 12.</strong> Mana Cost is the amount of Mana paid. Mana Regen is gained during the Draw Phase and can increase to 6.</p>
+      <h3>Shard Deck and Shard Pool</h3>
+      <p>The <strong>Shard Deck</strong> contains exactly 12 Shards. It contains 1 Class Shard for each unique Class represented by selected Ultimate Cards (max 1 per Class, max 3 total); remaining slots are Mana Shards. The <strong>Shard Pool</strong> holds available Shards. A Mana Shard is worth 1 Mana. A matching Class Shard is worth 2 Mana for a Skill of that Class; otherwise it is worth 1. Mana Regen starts at 1 and can increase to 6. Used Shards return to the bottom of their owner's Shard Deck; returned Class Shards form the deepest bottom segment. When an effect selects an opponent's Shard, selection is blind/face-down until committed.</p>
       <div class="callout warning"><strong>Timing:</strong> cards can only be used during the phase or timing stated on the card. <strong>The first player cannot attack during their first turn.</strong></div>`,
 
     'chapter-3': `
@@ -89,7 +89,7 @@
       <p>HP, EXP, Status, Attachment, Casting, and Exhaust move with the Hero. Reposition from a card effect does not automatically Exhaust unless stated.</p>
       <ul><li>All non-Area Attacks must choose a target, unless the card determines its own target or states that it does not use a target.</li><li>The number of targets follows the card text.</li><li>An Attack that selects multiple positions follows the card choices; each affected Hero receives a separate Response opportunity.</li><li>Legacy is not a Hero target unless a card specifically targets a position and allows Legacy.</li></ul>
       <div class="callout info"><strong>Position impact:</strong> Hero position limits Attack targets during the Battle Phase. Card use outside the Battle Phase is not position-restricted unless a card states otherwise.</div>
-      <div class="callout"><strong>Manual Reposition limit:</strong> a normal/manual Reposition may be used at most once during one active turn. Deploy and Reform share this limit. Reposition caused by a card, Ability, Racial Trait, Legacy Ability, Response, or other effect does not use this limit.</div>`,
+      <div class="callout"><strong>Manual Reposition limit:</strong> a normal/manual Reposition may be used at most once during one active turn. Deploy and Reform share this limit. Reposition caused by a card, Ability, Racial Trait, Legacy Ability, Response, or other effect does not use this limit.</div><div class="callout warning"><strong>Automatic Center - 1v1:</strong> when each player has exactly 1 active non-Legacy Hero remaining, both active Heroes automatically move to Center without Exhaust.</div>`,
 
     'chapter-4': `
       <div class="eyebrow">POSITIONING SYSTEM · PAGE 6</div>
@@ -109,7 +109,7 @@
         <div><b>Card Codex</b><span>Card identification code.</span></div>
       </div>
       <p><strong>Use the Hero's Class and Rank to determine which Skills can be played.</strong></p>
-      <h3>Exhaust and Racial Token</h3>
+      <h3>Exhaust and Racial Token</h3><div class="callout"><strong>Normal Skill Exhaust:</strong> after a successful normal Skill use, its source Hero becomes Exhausted unless the card/effect explicitly says otherwise. Item Cards do not Exhaust a Hero by default.</div>
       <div class="two-col"><div class="rule-card"><h3>Ready</h3><p>A Hero can perform legal active actions.</p><p><strong>Exhausted:</strong> the Hero cannot perform normal active Skill or Ability actions.</p></div><div class="rule-card"><h3>Return to Ready</h3><p>A Hero normally becomes Ready during its owner's Draw Phase. A Hero that is still Casting remains Exhausted.</p><p><strong>Racial Token:</strong> maximum pool 2. A player may use at most 1 Racial Token during one active turn.</p></div></div>
       <div class="callout">A legal <strong>Racial Trait</strong> can still be used while the Hero is Exhausted, unless the card states otherwise.</div>`,
 
@@ -123,7 +123,7 @@
       <h3>Rank Up</h3>
       <p>When a Hero's total EXP reaches the requirement for the next Rank, replace that Hero Card with the corresponding Rank card.</p>
       <div class="table-wrap"><table><thead><tr><th>EXP</th><th>New Rank</th><th>Rank Up Bonus</th></tr></thead><tbody><tr><td>300</td><td>Rank II</td><td>Draw 2 cards and Mana Regen +1.</td></tr><tr><td>700</td><td>Rank III</td><td>Draw 3 cards and Mana Regen +1.</td></tr></tbody></table></div>
-      <p>When Ranking Up, move all EXP Cards beneath the Hero to the Discard Pile. Damage already taken still counts against the new Max HP. Status, Attachment, Casting, and Exhaust remain with the Hero. The Mana Pool does not increase immediately.</p>
+      <p>When Ranking Up, move all EXP Cards beneath the Hero to the Discard Pile. Damage already taken still counts against the new Max HP. Status, Attachment, Casting, and Exhaust remain with the Hero. The Shard Pool does not increase immediately.</p>
       <div class="callout info">Reducing EXP does not make a Hero Rank down. A Rank III Hero cannot Rank Up again.</div>`,
 
     'chapter-7': `
@@ -177,7 +177,7 @@
       <p>After an action is played and its costs are paid, the opponent receives a Response opportunity. If a Response is answered again, resolve effects from the most recently played card back toward the original action.</p>
       <div class="table-wrap"><table><thead><tr><th>Defense result</th><th>Meaning</th></tr></thead><tbody><tr><td>Block</td><td>Reduces damage, including to 0.</td></tr><tr><td>Dodge</td><td>The Hero avoids the Attack.</td></tr><tr><td>Redirect</td><td>Changes the Attack target according to the card text.</td></tr><tr><td>Negate / Cancel</td><td>Stops a card or effect according to the card text.</td></tr></tbody></table></div>
       <div class="callout info"><strong>Area and multi-target:</strong> each affected Hero receives its own Response opportunity.</div>
-      <h3>Attachment</h3>
+      <div class="callout warning"><strong>Committed Response and additional cost:</strong> all required additional costs must be payable before a Response is available. Confirming the Response commits it and closes the previous Response Window; mandatory additional-cost selection is then completed before the chain continues. The player cannot cancel that committed Response.</div><h3>Attachment</h3>
       <ul><li>Each Hero has 2 Attachment Slots.</li><li>A card becomes an Attachment if its effect remains active after the card is played and must be tracked for later timing.</li><li>An effect that resolves immediately is not placed in an Attachment Slot.</li><li>A slot must be available before playing a card that requires an Attachment.</li><li>Attachment follows the Hero during Reposition.</li><li>Use the same counter to track remaining turns or uses.</li><li>When the effect ends, is used, or the Hero is defeated, the card goes to Discard.</li></ul>
       <h3>Casting</h3>
       <div class="callout warning"><strong>Casting locks the target position, not the Hero.</strong> Choose the opposing position when Casting is played. When released, Casting hits the Hero currently occupying that position.</div>
@@ -195,7 +195,7 @@
         <tr><td>Stun</td><td>The Hero cannot be chosen as the user or source of a Skill, Item, Event, Ability, or active effect while Stun is active.</td></tr>
       </tbody></table></div>
       <div class="callout"><strong>Status duration:</strong> duration decreases during the Hero owner's End Phase and ends when it reaches 0. Poison deals damage before its duration decreases.</div>
-      <h3>Healing</h3>
+      <div class="callout warning"><strong>Status Stacking:</strong> reapplying Poison, Burn, Freeze, or Stun adds the new duration to remaining duration. Reapplying Bleed does not add duration; keep the higher duration.</div><h3>Healing</h3>
       <ul><li>Healing cannot exceed Max HP.</li><li>Single-target healing requires an injured Hero without Bleed.</li><li>For multi-target healing, Heroes at full HP, defeated Heroes, and Heroes with Bleed are skipped.</li><li>Healing Done and Healing Received modifiers apply when present.</li></ul>
       <div class="callout info"><strong>Taunt</strong> is an Attachment effect that limits Attack choices; it is not one of the Status effects above.</div>`,
 
@@ -217,17 +217,17 @@
       brandTitle:'Player Rulebook', searchTrigger:'Search rulebook...', sidebarHome:'Rulebook Season 1',
       navGroups:['GETTING STARTED','HERO & LEGACY','CARDS & RESOLUTION','REFERENCE'],
       navLinks:{'chapter-1':'Understanding Grandis Legacy','chapter-2':'Setup, Turn, Mana','chapter-3':'Heroes & Combat','chapter-4':'Positioning System','chapter-5':'Hero Card & Exhaust','chapter-6':'Tribute & Rank Up','chapter-7':'Legacy, Defeat, Revive','chapter-8':'Main Deck & Skill Card','chapter-9':'Skill Symbols & Types','chapter-10':'Response, Attachment, Casting','chapter-11':'Status & Healing','chapter-12':'Quick Reference'},
-      homeLink:'← Grandis Legacy Home', searchPlaceholder:'Search rules, e.g. Casting, Poison, Rank Up...', searchEmpty:'Type to search the entire Player Rulebook.', searchNone:'No matching result found in Player Rulebook v2.2.',
-      arvonLaunch:'Ask rules & cards', arvonPanel:'Rules & Card Guide · Rulebook v2.2 + Season 1', arvonInput:'Ask Arvon about rules or cards...', arvonWelcome:'I am Arvon. Ask me about Grandis Legacy rules, Season 1 cards, or card interactions. I will use the Rulebook and official Season 1 card data available on this site.',
-      arvonNote:'Local sources: Rulebook v2.2 + official Season 1 card data. Advanced rulings can also use the Arvon authority backend when connected.', arvonSearching:'Checking rules and cards…', arvonMissing:'I could not find a clear answer in the local Rulebook or Season 1 card data. Try the exact card name or the exact term printed on the card.', sourceWord:'Open Chapter', pdf:'assets/Grandis_Legacy_Player_Rulebook_v2.2_EN.pdf'
+      homeLink:'← Grandis Legacy Home', searchPlaceholder:'Search rules, e.g. Casting, Poison, Rank Up...', searchEmpty:'Type to search the entire Player Rulebook.', searchNone:'No matching result found in Player Rulebook v2.5.',
+      arvonLaunch:'Ask rules & cards', arvonPanel:'Rules & Card Guide · Rulebook v2.5 + Season 1', arvonInput:'Ask Arvon about rules or cards...', arvonWelcome:'I am Arvon. Ask me about Grandis Legacy rules, Season 1 cards, or card interactions. I will use the Rulebook and official Season 1 card data available on this site.',
+      arvonNote:'Local sources: Rulebook v2.5 + official Season 1 card data. Advanced rulings can also use the Arvon authority backend when connected.', arvonSearching:'Checking rules and cards…', arvonMissing:'I could not find a clear answer in the local Rulebook or Season 1 card data. Try the exact card name or the exact term printed on the card.', sourceWord:'Open Chapter', pdf:'assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf'
     },
     id: {
       brandTitle:'Panduan Pemain', searchTrigger:'Cari panduan...', sidebarHome:'Panduan Pemain Season 1',
       navGroups:['MULAI','HERO & LEGACY','KARTU & PENYELESAIAN','REFERENSI'],
       navLinks:{'chapter-1':'Mengenal Grandis Legacy','chapter-2':'Persiapan, Turn, Mana','chapter-3':'Hero & Pertarungan','chapter-4':'Positioning System','chapter-5':'Hero Card & Exhaust','chapter-6':'Tribute & Rank Up','chapter-7':'Legacy, Defeat, Revive','chapter-8':'Main Deck & Skill Card','chapter-9':'Simbol & Jenis Skill','chapter-10':'Response, Attachment, Casting','chapter-11':'Status & Healing','chapter-12':'Ringkasan Cepat'},
-      homeLink:'← Beranda Grandis Legacy', searchPlaceholder:'Cari aturan, mis. Casting, Poison, Rank Up...', searchEmpty:'Ketik untuk mencari di seluruh Panduan Pemain.', searchNone:'Tidak ada hasil yang cocok di Panduan Pemain v2.2.',
-      arvonLaunch:'Tanya aturan & kartu', arvonPanel:'Panduan Aturan & Kartu · Rulebook v2.2 + Season 1', arvonInput:'Tanya Arvon soal aturan atau kartu...', arvonWelcome:'Saya Arvon. Tanyakan aturan Grandis Legacy, kartu Season 1, atau interaksi antar-kartu. Saya akan memakai Rulebook dan data kartu Season 1 resmi yang tersedia di website ini.',
-      arvonNote:'Sumber lokal: Rulebook v2.2 + data kartu Season 1 resmi. Ruling lanjutan juga dapat memakai backend authority Arvon jika terhubung.', arvonSearching:'Memeriksa aturan dan kartu…', arvonMissing:'Saya belum menemukan jawaban yang cukup jelas di Rulebook atau data kartu Season 1 lokal. Coba gunakan nama kartu atau istilah yang tertulis pada kartu.', sourceWord:'Buka Chapter', pdf:'assets/Grandis_Legacy_Panduan_Pemain_v2.2_ID.pdf'
+      homeLink:'← Beranda Grandis Legacy', searchPlaceholder:'Cari aturan, mis. Casting, Poison, Rank Up...', searchEmpty:'Ketik untuk mencari di seluruh Panduan Pemain.', searchNone:'Tidak ada hasil yang cocok di Panduan Pemain v2.5.',
+      arvonLaunch:'Tanya aturan & kartu', arvonPanel:'Panduan Aturan & Kartu · Rulebook v2.5 + Season 1', arvonInput:'Tanya Arvon soal aturan atau kartu...', arvonWelcome:'Saya Arvon. Tanyakan aturan Grandis Legacy, kartu Season 1, atau interaksi antar-kartu. Saya akan memakai Rulebook dan data kartu Season 1 resmi yang tersedia di website ini.',
+      arvonNote:'Sumber lokal: Rulebook v2.5 + data kartu Season 1 resmi. Ruling lanjutan juga dapat memakai backend authority Arvon jika terhubung.', arvonSearching:'Memeriksa aturan dan kartu…', arvonMissing:'Saya belum menemukan jawaban yang cukup jelas di Rulebook atau data kartu Season 1 lokal. Coba gunakan nama kartu atau istilah yang tertulis pada kartu.', sourceWord:'Buka Chapter', pdf:'assets/Grandis_Legacy_Panduan_Pemain_v2.5_ID.pdf'
     }
   };
 
@@ -455,7 +455,7 @@
       const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
         question:q,
         language,
-        source:'Grandis Legacy Rulebook v2.2 + Season 1 cards v0.14.2 + Hero Component Authority v1.0.0',
+        source:'Grandis Legacy Rulebook v2.5 + Season 1 cards v0.15.0 + Hero Component Authority v1.0.0',
         requestedSources:['rulebook','season1_cards','hero_components','authority'],
         translationPolicy:{presentationOnly:true,preserveOfficialTerms:arvonCore?.OFFICIAL_TERMS||[],preserveCardNames:true,uncertainLanguageFallback:'en'}
       })});

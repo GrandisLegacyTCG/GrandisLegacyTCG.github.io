@@ -1,8 +1,8 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.28.0",
+  "version": "1.29.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.28 \u2014 production /pvp mirror synchronized to canonical PvP v3.39 while preserving the approved homepage layout.",
+  "description": "Grandis Legacy Website v1.29 \u2014 RPG-Style TCG production site with Rulebook v2.5 EN/ID, 200-card Season 1 authority, Shard Deck/Shard Pool terminology, and PvP v3.40 mirror.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
     "test": "node tests/run-v126-mobile-play-online.cjs && node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v128-pvp-production-sync.cjs && node tests/run-v121-showcase-scale.cjs && node tests/run-v121-hf1-mobile-pvp-footer-draw.cjs",

@@ -477,6 +477,16 @@
       "sha256": "99649abd062d36f8d215bf0dd27c714878b9340abb1d96f50a4bac68b951a476",
       "bytes": 72408
     },
+    "S1-ITM-019": {
+      "file": "S1-ITM-019.webp",
+      "sha256": "025c28e66bf7add0911435c2e6737c66423f6afd6aaaa0b89aa86c3145bd2193",
+      "bytes": 61596
+    },
+    "S1-ITM-020": {
+      "file": "S1-ITM-020.webp",
+      "sha256": "18d99513312e214d8869a3ed14392542b26d7e0164032b07aafac73bf3d72f8c",
+      "bytes": 58112
+    },
     "S1-MAG-001": {
       "file": "S1-MAG-001.webp",
       "sha256": "3cc572f2b4c813faf7fbddeedd568089829ae5c676d181babad895826a36bff6",
@@ -991,28 +1001,6 @@
       "file": "S1-WAR-L002.webp",
       "sha256": "4798fa285bb95e61819c7f1722bda2a4fd18e27ea2cacf0c0b7cf5d28cd4db00",
       "bytes": 65842
-    }
-  },
-  "ui": {
-    "Back-of-Card-Legacy-Deck.webp": {
-      "sha256": "9c7d91fb5789493a951878aa26f45681d769f787c269a860f701a37ece018d28",
-      "bytes": 25956
-    },
-    "Back-of-Card-Main-Deck.webp": {
-      "sha256": "9add0915f7ca981dbf6b52aeaddeed43d9db9e2070c791507459d8e9b6995c8f",
-      "bytes": 20678
-    },
-    "Mana-Shard-Thumb.webp": {
-      "sha256": "d67530e1ec04053c53062741756f070e99a607af8a007b131d70083c9850faa6",
-      "bytes": 31752
-    },
-    "Racial-Token-Head.webp": {
-      "sha256": "57036f1998bda6b4de001e91ef6879036987ff901653209a92e653f511325112",
-      "bytes": 27298
-    },
-    "Racial-Token-Tail.webp": {
-      "sha256": "2c4947aa137ee15967c3f4342fe00179ff90dee5fe87d9162ca5d766896426c2",
-      "bytes": 13620
     }
   }
 }

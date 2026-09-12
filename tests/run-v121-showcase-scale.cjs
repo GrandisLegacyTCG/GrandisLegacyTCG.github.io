@@ -1,7 +1,7 @@
 'use strict';
 const assert=require('assert'),fs=require('fs'),path=require('path');
 const root=path.resolve(__dirname,'..');
-const data=require(path.join(root,'authority/season1/cards.runtime.v0.14.2.json'));
+const data=require(path.join(root,'authority/season1/cards.runtime.v0.15.0.json'));
 const by=Object.fromEntries(data.cards.map(c=>[c.card_id,c]));
 const hp={"S1-ARC-H001":90,"S1-ARC-H002":110,"S1-ARC-H003":130,"S1-WAR-H001":90,"S1-WAR-H002":120,"S1-WAR-H003":150,"S1-WAR-H004":100,"S1-WAR-H005":120,"S1-WAR-H006":150};
 for(const [id,v] of Object.entries(hp))assert.strictEqual(by[id].hp,v,`${id} HP`);
@@ -22,5 +22,5 @@ assert(app.includes('document.scrollingElement||document.documentElement||docume
 const s2=require(path.join(root,'pvp/starter_deck_examples/starter_02_saint_crusader_grand_ranger_GL_DECK_1_0.json'));
 const c2=Object.fromEntries(s2.main_deck.map(x=>[x.card_id,x.quantity]));
 assert.strictEqual(c2['S1-ARC-006'],1);assert.strictEqual(c2['S1-ARC-014'],1);
-assert.strictEqual(require('../package.json').version,'1.28.0');
-console.log('PASS Website v1.28 Cards.png visual scale restored + v1.20 update preserved');
+assert.strictEqual(require('../package.json').version,'1.29.0');
+console.log('PASS Website v1.29 Cards.png visual scale restored + v1.20 update preserved');

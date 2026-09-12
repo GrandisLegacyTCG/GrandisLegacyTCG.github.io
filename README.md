@@ -1,29 +1,20 @@
-# Grandis Legacy Website v1.28
+# Grandis Legacy Website v1.29
 
-Deployable GitHub Pages package for the Grandis Legacy public website, online Rulebook v2.2, and production PvP frontend at `/pvp/`.
+Release date: 2026-09-13.
 
-## Production PvP synchronization
+Deployable GitHub Pages package for the Grandis Legacy public website, online Rulebook v2.5 EN/ID, 200-card Season 1 database, and production PvP frontend at `/pvp/`.
 
-Website v1.28 mirrors canonical PvP v3.39 `public/` byte-for-byte into `/pvp/`. The production frontend therefore includes:
+## Current authority
 
-- manual Reposition maximum once per active turn;
-- immediate authoritative battle SFX before board import/render;
-- Binding Light / committed counter-response Card Played chain recording;
-- Spectral Grappling Hook / Escape Arrow generic commit-payment hierarchy;
-- four-slot 100/200 EXP stack presentation with Exhausted bottom-to-top orientation;
-- existing structural Hero/Legacy parity, Game Over `BACK TO LOBBY`, and Heal semantic VFX/audio behavior.
+- Product branding: **Grandis Legacy — RPG-Style TCG**
+- Source Authority Stack: v1.8.1
+- Season 1 Runtime Data: v0.15.0 / 200 cards
+- Rulebook: v2.5 EN/ID
+- PvP frontend mirror: v3.40
+- Current resource terminology: **Shard Deck**, **Shard Pool**, **Mana Shard**, **Class Shard**
 
-The matching live authoritative backend is PvP v3.39.
+The card database includes S1-ITM-019 Warp Scroll and S1-ITM-020 Freeze Bomb. The online Rulebook content and downloadable EN/ID PDFs are synchronized to v2.5. Mobile **Play it Online** routes to PvP.
 
-## Online Rulebook
+The `/pvp/` directory mirrors the canonical PvP v3.40 `public/` frontend. Deploy the matching PvP v3.40 authoritative backend separately.
 
-The Website bundles and links only Player Rulebook **v2.2** in English and Indonesian. Setup remains 0 starting Mana, Mana Regen 2, and 2 Racial Tokens. Manual Reposition is documented as maximum once per active turn across Deploy + Reform, while Reposition caused by cards/effects is exempt.
-
-## Authority
-
-- Source Stack: v1.7.5
-- PvP: v3.39
-- Rulebook: v2.2
-- Website: v1.28
-
-Unrelated homepage structure and canonical 198-card Website index are preserved.
+See `release/RELEASE_NOTE_v1.29.md` and `release/VERIFICATION_v1.29.md`.
