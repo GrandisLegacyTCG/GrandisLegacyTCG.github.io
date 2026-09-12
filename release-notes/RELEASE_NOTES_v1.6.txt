@@ -1,0 +1,18 @@
+Grandis Legacy Website v1.6
+Release date: 2026-08-22
+
+Homepage
+- Reduced the top whitespace between the fixed header and the Hero content on desktop.
+- Added modest breathing room above and below the Features band without changing card sizing.
+- Converted the Discover artwork carousel into a circular/infinite loop: Venom Binding appears to the left of Smite and navigation wraps seamlessly in both directions.
+- Preserved the locked Discover artwork sizing and mobile swipe behavior from v1.5.
+
+Rulebook / Arvon
+- Expanded Arvon from a Rulebook-only guide into a Rules & Card Guide.
+- Added a lightweight local Season 1 card index derived from the packaged official runtime card data.
+- Arvon can now answer direct Season 1 card questions locally (card text, cost, metadata) and search card names/classes/types.
+- Added local interaction handling for Double Casting response windows, including Negate/Cancel behavior, grounded in the Double Casting runtime policy and Rulebook Chapter 10.
+- Preserved the optional authority/backend hook for advanced rulings.
+
+Preserved
+- Homepage GA4, PvP public frontend, bilingual Rulebook, PDFs, navigation dots, link behavior, and shared Season 1 assets from v1.5.

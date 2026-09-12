@@ -1,0 +1,18 @@
+Grandis Legacy Website v1.5
+Release date: 2026-08-22
+
+Homepage
+- Reduced excessive vertical whitespace between Hero, Discover, Features, Build Your Perfect Deck, and Play sections without changing the locked Discover carousel sizing.
+- Navigation dots now land on the first visible content inside Discover, Features, Build, and Play instead of the padded section boundary.
+- Reduced the Play Grandis Legacy Today panel height on desktop, with additional height-aware scaling on shorter laptop viewports.
+- Mobile horizontal overflow is locked globally; only the Discover carousel responds to left/right swipe gestures.
+- Discord links open in a new browser tab.
+- Rulebook remains an internal same-tab destination.
+
+Package organization
+- Moved release-note history into /release-notes/ to keep the repository root clean.
+
+Preserved
+- Homepage GA4 measurement ID G-FVQCYF8PKQ.
+- Rulebook bilingual web content and Arvon assistant.
+- Public PvP frontend and shared Season 1 assets from the v1.4 baseline.

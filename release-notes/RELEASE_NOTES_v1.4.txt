@@ -1,0 +1,9 @@
+Grandis Legacy Website v1.4 — 2026-08-22
+
+- Discover section now scales down on short desktop/laptop viewports without changing other homepage sections.
+- Mobile artwork carousel uses full-image contain sizing.
+- Mobile Build Your Perfect Deck card fan is optically centered.
+- Added five desktop section navigation dots: Hero, Discover, Features, Build, Play.
+- Rulebook Hero Detail labels now match the new visual and no longer use legacy 1–10 markers.
+- Rulebook Skill Symbols now use the official badge artwork extracted from the Rulebook.
+- Arvon avatar crops closer to the face.

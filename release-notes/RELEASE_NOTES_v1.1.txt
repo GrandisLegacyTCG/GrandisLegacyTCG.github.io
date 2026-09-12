@@ -1,0 +1,11 @@
+Grandis Legacy Website v1.1
+
+Fixes:
+- Correct contact email to grandislegacy.tcg@gmail.com.
+- Replace placeholder Discord circle with Discord logo; invite remains https://discord.gg/xg6zTeRCBP.
+- Deck Builder link rotation: header Style 1, hero CTA Style 2, Build section Style 1, footer Style 2.
+- Use the bundled 1920x1080 PvP background for the Play preview instead of the aggressively compressed derived preview.
+- Use higher-resolution Grandis Legacy logo from project assets.
+- Avoid an additional lossy WebP generation on large concept-art display assets; lossless PNG copies are used with mild sharpening.
+
+Note: the original full-resolution concept artwork embedded in Figma cannot currently be exported through the connected View seat because the Figma MCP quota/export permission is exhausted. This release avoids additional compression but does not invent missing source detail.

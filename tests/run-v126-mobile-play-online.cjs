@@ -1,0 +1,15 @@
+'use strict';
+const fs=require('fs'),path=require('path'),assert=require('assert');
+const root=path.resolve(__dirname,'..');
+const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const css=fs.readFileSync(path.join(root,'css/site.css'),'utf8');
+const js=fs.readFileSync(path.join(root,'js/site.js'),'utf8');
+const canonical='https://grandislegacytcg.github.io/pvp/';
+const heroMatch=html.match(/<a class="button button-primary button-large" href="([^"]+)">Play it Online<\/a>/);
+assert(heroMatch,'Hero Play it Online anchor missing');
+assert.strictEqual(heroMatch[1],canonical,'Hero Play it Online must remain a direct canonical anchor');
+assert(html.includes('css/site.css?v=1.26.0'),'Homepage CSS cache marker was not bumped for the touch fix');
+assert(/\.hero-card-showcase\{[^}]*pointer-events:none/.test(css),'scaled decorative Hero showcase must not intercept mobile taps');
+assert(/\.hero-copy\{[^}]*position:relative;z-index:2/.test(css),'Hero CTA layer must sit above the decorative card showcase');
+assert(!/document\.addEventListener\(['"]click['"][\s\S]{0,120}preventDefault\(\)/.test(js),'Homepage must not globally prevent anchor navigation');
+console.log('PASS Website v1.26: mobile Play it Online is a direct anchor and scaled decorative Hero art cannot intercept its touch target.');
