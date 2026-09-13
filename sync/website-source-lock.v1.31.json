@@ -1,23 +1,23 @@
 {
   "schema_version": "1.0.0",
-  "website_version": "1.29",
+  "website_version": "1.31",
   "generated_at": "2026-09-13",
   "source_stack": {
-    "one_source_authority": "1.8.1",
+    "one_source_authority": "1.8.2",
     "season1_cards": "0.15.0",
     "hero_components": "1.0.0",
     "canonical_registry_hash": "ce79e5a97c115507f68734887160b575840899056e1533488e3fddd3a11fec1f",
     "hero_component_registry_hash": "487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9"
   },
   "embedded_pvp": {
-    "pvp_version": "3.40",
-    "build_id": "gl-pvp-3.40-2026-09-13",
-    "source_stack": "1.8.1",
+    "pvp_version": "3.42",
+    "build_id": "gl-pvp-3.42-2026-09-13",
+    "source_stack": "1.8.2",
     "runtime_data": "0.15.0",
     "effect_recipe": "0.14.0",
     "runtime_foundation": "1.93",
     "runtime_core": "0.61",
-    "application_runtime_sync": "2.56"
+    "application_runtime_sync": "2.57"
   },
   "contracts": {
     "card_count": 200,
@@ -34,26 +34,26 @@
       "hero_compositions": 30
     },
     "manual_reposition_limit": "v1.0",
-    "rulebook_version": "2.5"
+    "rulebook_version": "2.6"
   },
   "files": {
-    "authority/season1/cards.runtime.v0.15.0.json": "8e198c60d067f70fe15a103259b0e479977710a76ddfadfc290a5acf040c50a8",
+    "authority/season1/cards.runtime.v0.15.0.json": "3bfb7409cd5da66f0c22d906f2d77ae49854ea7b77a33d3b16ae5c9ec257f8b4",
     "authority/season1/hero-components.runtime.v1.0.0.json": "a83013797330e67b9afff60fa053946123e5f4aae65154dbbeb8cbc55374ed81",
-    "rulebook/js/card-index.js": "85a81c477d192ae544f661a98ecc2780190b2971511447d81b7c02861945427c",
+    "rulebook/js/card-index.js": "17f5e95d4ba52194d32c0c8e627a38742115fd2f0315091b263ad378d5d5c3fb",
     "rulebook/js/hero-components.js": "b4f095118c2776a1fa4009f014cda60aecfb1e4329106326b261a93578998945",
     "shared/season1/v1/manifest.json": "d8a122d48e58c5f0f378595f1689ffb6403183c6609d9f8fe032c37c12550ff8",
     "pvp/assets/audio/Coin Flip.mp3": "b4842f9a3f2d25004223313f5473bef74afd79915b6af9bdb35c70f6df8c2b50",
     "pvp/assets/audio/Card Sound.mp3": "1c04e41918b392a643c22d6c02ef34eeab0341c70d46b7d517078725b79d8ee4",
-    "pvp/js/app.bundle.js": "4aa7367a91371043dec3e6d840db77793049073577a66afa6828f4bb753cb165",
-    "pvp/js/pvp-network.js": "e9ac5e4e65f9c645d9e64ec2d843b4ce4325986c5e50a663ff328a663f801483",
-    "pvp/PVP_FRONTEND_BUILD.json": "0bbcfc34285be186bdf70fac62e210677fa9df3d3ef55dae7a62416a270d84ea",
+    "pvp/js/app.bundle.js": "181e1a859cf7de51c3315c60990780581bd9c7de968d38efe04da1e4144e4773",
+    "pvp/js/pvp-network.js": "29052ec607e8ede0b3ce9c330578a561728e2ed983d71c49f92daa348d956556",
+    "pvp/PVP_FRONTEND_BUILD.json": "f7b2a4971b629806669f83b10ebe5448fbef7c1238414fd0297f6f968ce618ea",
     "pvp/assets/battle/Heal.png": "5ab9da2f756f10083a169d541cbd8e2c4f475b083db5215ee3265a07fc224370",
     "pvp/assets/audio/battle/Heal.mp3": "cc1b799d0a163ac839956b0790b9718bffa2e7f17c6dd6c020afc6c3a3745e96",
     "pvp/assets/exp/Stack 100-200EXP.png": "cadec62c02c8427f13e07490068b31de1f59643a220a5fa0540fd01a16e2250b",
-    "rulebook/index.html": "fac9b9851ee664aa81441f26b820b3869184882243ebb5da3a4971b8c8a3c776",
-    "rulebook/js/rulebook.js": "f67aa719eb944b31b8d6a7a7ffcc9a1e951fa58e630e8749a07515aeed0fb6c0",
-    "rulebook/assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf": "1416cfdef170ed453de34f538747abc525a5c6e99821b233ea3fda08bf038d14",
-    "rulebook/assets/Grandis_Legacy_Panduan_Pemain_v2.5_ID.pdf": "59abf3d8f57d1d784de04bfac69f96af6ec74a7cb87b24d40fc68a2a4d4c693b"
+    "rulebook/index.html": "2a6428fb6fab500032fdf5ca86d644d636f84447a08fc238fc2c351688b9ee93",
+    "rulebook/js/rulebook.js": "5af23ab2ee509e376ab0a390679336541f764ff7da54dc4c0940ceebf2a7ab4e",
+    "rulebook/assets/Grandis_Legacy_Player_Rulebook_v2.6_EN.pdf": "b3f4cfba40350666cde07e1f22743b2774573fa61d749bb63babd98c7cfa6738",
+    "rulebook/assets/Grandis_Legacy_Panduan_Pemain_v2.6_ID.pdf": "57e1b46d56c5d4aa034589e73279d7771f58059736ce1603696cb44afa7fa79a"
   },
   "revised_card_ids": [
     "S1-ARC-011",

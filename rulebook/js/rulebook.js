@@ -10,7 +10,7 @@
       <p class="lead">Grandis Legacy Season 1 player guide for RPG-Style TCG play; the standard format uses 3 Heroes per player.</p>
       <div class="hero-actions">
         <a class="primary-action" href="#chapter-1">Start reading</a>
-        <a class="secondary-action" data-pdf-button href="assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf" target="_blank" rel="noopener">Open English PDF</a>
+        <a class="secondary-action" data-pdf-button href="assets/Grandis_Legacy_Player_Rulebook_v2.6_EN.pdf" target="_blank" rel="noopener">Open English PDF</a>
       </div>
       <div class="callout info"><strong>Reading order:</strong> Chapters 1-8 explain the core game functions. Use the following chapters when Skill symbols, Response, Attachment, Casting, Status, or Healing appear.</div>`,
 
@@ -65,7 +65,7 @@
         <li><strong>End:</strong> Resolve Status/end-of-turn effects; reduce Hand to 8; pass turn.</li>
       </ul>
       <h3>Shard Deck and Shard Pool</h3>
-      <p>The <strong>Shard Deck</strong> contains exactly 12 Shards. It contains 1 Class Shard for each unique Class represented by selected Ultimate Cards (max 1 per Class, max 3 total); remaining slots are Mana Shards. The <strong>Shard Pool</strong> holds available Shards. A Mana Shard is worth 1 Mana. A matching Class Shard is worth 2 Mana for a Skill of that Class; otherwise it is worth 1. Mana Regen starts at 1 and can increase to 6. Used Shards return to the bottom of their owner's Shard Deck; returned Class Shards form the deepest bottom segment. When an effect selects an opponent's Shard, selection is blind/face-down until committed.</p>
+      <p>The <strong>Shard Deck</strong> contains exactly 12 Shards. It contains 1 Class Shard for each unique Class represented by selected Ultimate Cards (max 1 per Class, max 3 total); remaining slots are Mana Shards. The <strong>Shard Pool</strong> holds available Shards. A Mana Shard is worth 1 Mana. A matching Class Shard is worth 2 Mana for a Skill of that Class; otherwise it is worth 1. Mana Regen starts at 1 and can increase to 6. Used Shards return to the bottom of their owner's Shard Deck as one batch per payment. For a Skill payment, return Mana Shards first, then nonmatching Class Shards, with the matching Class Shard deepest within that payment batch. A later payment forms a new batch below the entire earlier batch. When an effect selects an opponent's Shard, selection is blind/face-down until committed.</p>
       <div class="callout warning"><strong>Timing:</strong> cards can only be used during the phase or timing stated on the card. <strong>The first player cannot attack during their first turn.</strong></div>`,
 
     'chapter-3': `
@@ -217,17 +217,17 @@
       brandTitle:'Player Rulebook', searchTrigger:'Search rulebook...', sidebarHome:'Rulebook Season 1',
       navGroups:['GETTING STARTED','HERO & LEGACY','CARDS & RESOLUTION','REFERENCE'],
       navLinks:{'chapter-1':'Understanding Grandis Legacy','chapter-2':'Setup, Turn, Mana','chapter-3':'Heroes & Combat','chapter-4':'Positioning System','chapter-5':'Hero Card & Exhaust','chapter-6':'Tribute & Rank Up','chapter-7':'Legacy, Defeat, Revive','chapter-8':'Main Deck & Skill Card','chapter-9':'Skill Symbols & Types','chapter-10':'Response, Attachment, Casting','chapter-11':'Status & Healing','chapter-12':'Quick Reference'},
-      homeLink:'← Grandis Legacy Home', searchPlaceholder:'Search rules, e.g. Casting, Poison, Rank Up...', searchEmpty:'Type to search the entire Player Rulebook.', searchNone:'No matching result found in Player Rulebook v2.5.',
-      arvonLaunch:'Ask rules & cards', arvonPanel:'Rules & Card Guide · Rulebook v2.5 + Season 1', arvonInput:'Ask Arvon about rules or cards...', arvonWelcome:'I am Arvon. Ask me about Grandis Legacy rules, Season 1 cards, or card interactions. I will use the Rulebook and official Season 1 card data available on this site.',
-      arvonNote:'Local sources: Rulebook v2.5 + official Season 1 card data. Advanced rulings can also use the Arvon authority backend when connected.', arvonSearching:'Checking rules and cards…', arvonMissing:'I could not find a clear answer in the local Rulebook or Season 1 card data. Try the exact card name or the exact term printed on the card.', sourceWord:'Open Chapter', pdf:'assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf'
+      homeLink:'← Grandis Legacy Home', searchPlaceholder:'Search rules, e.g. Casting, Poison, Rank Up...', searchEmpty:'Type to search the entire Player Rulebook.', searchNone:'No matching result found in Player Rulebook v2.6.',
+      arvonLaunch:'Ask rules & cards', arvonPanel:'Rules & Card Guide · Rulebook v2.6 + Season 1', arvonInput:'Ask Arvon about rules or cards...', arvonWelcome:'I am Arvon. Ask me about Grandis Legacy rules, Season 1 cards, or card interactions. I will use the Rulebook and official Season 1 card data available on this site.',
+      arvonNote:'Local sources: Rulebook v2.6 + official Season 1 card data. Advanced rulings can also use the Arvon authority backend when connected.', arvonSearching:'Checking rules and cards…', arvonMissing:'I could not find a clear answer in the local Rulebook or Season 1 card data. Try the exact card name or the exact term printed on the card.', sourceWord:'Open Chapter', pdf:'assets/Grandis_Legacy_Player_Rulebook_v2.6_EN.pdf'
     },
     id: {
       brandTitle:'Panduan Pemain', searchTrigger:'Cari panduan...', sidebarHome:'Panduan Pemain Season 1',
       navGroups:['MULAI','HERO & LEGACY','KARTU & PENYELESAIAN','REFERENSI'],
       navLinks:{'chapter-1':'Mengenal Grandis Legacy','chapter-2':'Persiapan, Turn, Mana','chapter-3':'Hero & Pertarungan','chapter-4':'Positioning System','chapter-5':'Hero Card & Exhaust','chapter-6':'Tribute & Rank Up','chapter-7':'Legacy, Defeat, Revive','chapter-8':'Main Deck & Skill Card','chapter-9':'Simbol & Jenis Skill','chapter-10':'Response, Attachment, Casting','chapter-11':'Status & Healing','chapter-12':'Ringkasan Cepat'},
       homeLink:'← Beranda Grandis Legacy', searchPlaceholder:'Cari aturan, mis. Casting, Poison, Rank Up...', searchEmpty:'Ketik untuk mencari di seluruh Panduan Pemain.', searchNone:'Tidak ada hasil yang cocok di Panduan Pemain v2.5.',
-      arvonLaunch:'Tanya aturan & kartu', arvonPanel:'Panduan Aturan & Kartu · Rulebook v2.5 + Season 1', arvonInput:'Tanya Arvon soal aturan atau kartu...', arvonWelcome:'Saya Arvon. Tanyakan aturan Grandis Legacy, kartu Season 1, atau interaksi antar-kartu. Saya akan memakai Rulebook dan data kartu Season 1 resmi yang tersedia di website ini.',
-      arvonNote:'Sumber lokal: Rulebook v2.5 + data kartu Season 1 resmi. Ruling lanjutan juga dapat memakai backend authority Arvon jika terhubung.', arvonSearching:'Memeriksa aturan dan kartu…', arvonMissing:'Saya belum menemukan jawaban yang cukup jelas di Rulebook atau data kartu Season 1 lokal. Coba gunakan nama kartu atau istilah yang tertulis pada kartu.', sourceWord:'Buka Chapter', pdf:'assets/Grandis_Legacy_Panduan_Pemain_v2.5_ID.pdf'
+      arvonLaunch:'Tanya aturan & kartu', arvonPanel:'Panduan Aturan & Kartu · Rulebook v2.6 + Season 1', arvonInput:'Tanya Arvon soal aturan atau kartu...', arvonWelcome:'Saya Arvon. Tanyakan aturan Grandis Legacy, kartu Season 1, atau interaksi antar-kartu. Saya akan memakai Rulebook dan data kartu Season 1 resmi yang tersedia di website ini.',
+      arvonNote:'Sumber lokal: Rulebook v2.6 + data kartu Season 1 resmi. Ruling lanjutan juga dapat memakai backend authority Arvon jika terhubung.', arvonSearching:'Memeriksa aturan dan kartu…', arvonMissing:'Saya belum menemukan jawaban yang cukup jelas di Rulebook atau data kartu Season 1 lokal. Coba gunakan nama kartu atau istilah yang tertulis pada kartu.', sourceWord:'Buka Chapter', pdf:'assets/Grandis_Legacy_Panduan_Pemain_v2.6_ID.pdf'
     }
   };
 
@@ -455,7 +455,7 @@
       const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
         question:q,
         language,
-        source:'Grandis Legacy Rulebook v2.5 + Season 1 cards v0.15.0 + Hero Component Authority v1.0.0',
+        source:'Grandis Legacy Rulebook v2.6 + Season 1 cards v0.15.0 + Hero Component Authority v1.0.0',
         requestedSources:['rulebook','season1_cards','hero_components','authority'],
         translationPolicy:{presentationOnly:true,preserveOfficialTerms:arvonCore?.OFFICIAL_TERMS||[],preserveCardNames:true,uncertainLanguageFallback:'en'}
       })});

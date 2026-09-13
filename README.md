@@ -1,8 +1,8 @@
-# Grandis Legacy Website v1.29
+# Grandis Legacy Website v1.31
 
 Release date: 2026-09-13.
 
-Deployable GitHub Pages package for the Grandis Legacy public website, online Rulebook v2.5 EN/ID, 200-card Season 1 database, and production PvP frontend at `/pvp/`.
+Deployable GitHub Pages package for the Grandis Legacy public website, online Rulebook v2.6 EN/ID, 200-card Season 1 database, and production PvP frontend at `/pvp/`.
 
 ## Current authority
 
@@ -15,6 +15,6 @@ Deployable GitHub Pages package for the Grandis Legacy public website, online Ru
 
 The card database includes S1-ITM-019 Warp Scroll and S1-ITM-020 Freeze Bomb. The online Rulebook content and downloadable EN/ID PDFs are synchronized to v2.5. Mobile **Play it Online** routes to PvP.
 
-The `/pvp/` directory mirrors the canonical PvP v3.40 `public/` frontend. Deploy the matching PvP v3.40 authoritative backend separately.
+The `/pvp/` directory mirrors the canonical PvP v3.42 `public/` frontend. Deploy the matching PvP v3.42 authoritative backend separately.
 
 See `release/RELEASE_NOTE_v1.29.md` and `release/VERIFICATION_v1.29.md`.

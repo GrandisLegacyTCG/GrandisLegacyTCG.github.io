@@ -9,7 +9,7 @@ const cardsPath = path.join(root, 'authority/season1/cards.runtime.v0.15.0.json'
 const componentsPath = path.join(root, 'authority/season1/hero-components.runtime.v1.0.0.json');
 const cardsOut = path.join(root, 'rulebook/js/card-index.js');
 const componentsOut = path.join(root, 'rulebook/js/hero-components.js');
-const lockOut = path.join(root, 'sync/website-source-lock.v1.29.json');
+const lockOut = path.join(root, 'sync/website-source-lock.v1.31.json');
 
 const CARD_HASH = 'ce79e5a97c115507f68734887160b575840899056e1533488e3fddd3a11fec1f';
 const HERO_HASH = '487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9';
@@ -104,8 +104,8 @@ const cardIndex = data.cards.map(card => normalizeTermsDeep({
 }));
 
 const meta = {
-  website_version: '1.29',
-  source_stack: 'Grandis Legacy Source Authority Stack v1.8.1',
+  website_version: '1.31',
+  source_stack: 'Grandis Legacy Source Authority Stack v1.8.2',
   cards_version: '0.15.0',
   hero_components_version: '1.0.0',
   canonical_registry_hash: CARD_HASH,
@@ -122,24 +122,24 @@ fs.writeFileSync(componentsOut, `window.GRANDIS_HERO_COMPONENT_AUTHORITY=${JSON.
 
 const lock = {
   schema_version: '1.0.0',
-  website_version: '1.29',
+  website_version: '1.31',
   generated_at: '2026-09-13',
   source_stack: {
-    one_source_authority: '1.8.1',
+    one_source_authority: '1.8.2',
     season1_cards: '0.15.0',
     hero_components: '1.0.0',
     canonical_registry_hash: CARD_HASH,
     hero_component_registry_hash: HERO_HASH
   },
   embedded_pvp: {
-    pvp_version: '3.40',
-    build_id: 'gl-pvp-3.40-2026-09-13',
-    source_stack: '1.8.1',
+    pvp_version: '3.42',
+    build_id: 'gl-pvp-3.42-2026-09-13',
+    source_stack: '1.8.2',
     runtime_data: '0.15.0',
     effect_recipe: '0.14.0',
     runtime_foundation: '1.93',
     runtime_core: '0.61',
-    application_runtime_sync: '2.56'
+    application_runtime_sync: '2.57'
   },
   contracts: {
     card_count: 200,
@@ -147,7 +147,7 @@ const lock = {
     renamed_card: { card_id: 'S1-THF-010', current_name: 'Back Slash', retired_name: 'Back Stab' },
     hero_component_counts: { racial_traits: 6, class_abilities: 16, hero_profiles: 10, hero_compositions: 30 },
     manual_reposition_limit: 'v1.0',
-    rulebook_version: '2.5'
+    rulebook_version: '2.6'
   },
   files: {
     'authority/season1/cards.runtime.v0.15.0.json': fileDigest(cardsPath),
@@ -165,10 +165,10 @@ const lock = {
     'pvp/assets/exp/Stack 100-200EXP.png': fileDigest(path.join(root, 'pvp/assets/exp/Stack 100-200EXP.png')),
     'rulebook/index.html': fileDigest(path.join(root, 'rulebook/index.html')),
     'rulebook/js/rulebook.js': fileDigest(path.join(root, 'rulebook/js/rulebook.js')),
-    'rulebook/assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf': fileDigest(path.join(root, 'rulebook/assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf')),
-    'rulebook/assets/Grandis_Legacy_Panduan_Pemain_v2.5_ID.pdf': fileDigest(path.join(root, 'rulebook/assets/Grandis_Legacy_Panduan_Pemain_v2.5_ID.pdf'))
+    'rulebook/assets/Grandis_Legacy_Player_Rulebook_v2.6_EN.pdf': fileDigest(path.join(root, 'rulebook/assets/Grandis_Legacy_Player_Rulebook_v2.6_EN.pdf')),
+    'rulebook/assets/Grandis_Legacy_Panduan_Pemain_v2.6_ID.pdf': fileDigest(path.join(root, 'rulebook/assets/Grandis_Legacy_Panduan_Pemain_v2.6_ID.pdf'))
   },
   revised_card_ids: REVISED_IDS
 };
 fs.writeFileSync(lockOut, `${JSON.stringify(lock, null, 2)}\n`);
-console.log('PASS: Arvon index built for Website v1.29 with Rulebook v2.5, 200-card Season 1 v0.15.0, Hero Component Authority v1.0.0, and PvP v3.40.');
+console.log('PASS: Arvon index built for Website v1.31 with Rulebook v2.6, 200-card Season 1 v0.15.0, Hero Component Authority v1.0.0, and PvP v3.42.');

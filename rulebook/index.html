@@ -20,7 +20,7 @@
 </div>
 <button aria-expanded="false" aria-label="Buka navigasi" class="sidebar-toggle" type="button">☰</button>
 <button aria-label="Cari rulebook" class="search-trigger" type="button"><span class="search-icon">⌕</span><span data-ui="search-trigger-text">Cari rulebook...</span><kbd>Ctrl K</kbd></button>
-<div class="topbar-actions"><div aria-label="Language" class="language-switch" role="group"><button aria-pressed="true" data-lang="en" type="button">EN</button><button aria-pressed="false" data-lang="id" type="button">ID</button></div><a class="pdf-button" data-pdf-button="" href="assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf" rel="noopener" target="_blank">PDF</a></div>
+<div class="topbar-actions"><div aria-label="Language" class="language-switch" role="group"><button aria-pressed="true" data-lang="en" type="button">EN</button><button aria-pressed="false" data-lang="id" type="button">ID</button></div><a class="pdf-button" data-pdf-button="" href="assets/Grandis_Legacy_Player_Rulebook_v2.6_EN.pdf" rel="noopener" target="_blank">PDF</a></div>
 </header>
 <div class="docs-shell">
 <aside aria-label="Rulebook navigation" class="docs-sidebar" id="docs-sidebar">
@@ -63,7 +63,7 @@
 <p class="lead">Panduan bermain Grandis Legacy Season 1 untuk RPG-Style TCG; format standar menggunakan 3 Hero per player.</p>
 <div class="hero-actions">
 <a class="primary-action" href="#chapter-1">Mulai membaca</a>
-<a class="secondary-action" data-pdf-button="" href="assets/Grandis_Legacy_Player_Rulebook_v2.5_EN.pdf" rel="noopener" target="_blank">Buka PDF asli</a>
+<a class="secondary-action" data-pdf-button="" href="assets/Grandis_Legacy_Player_Rulebook_v2.6_EN.pdf" rel="noopener" target="_blank">Buka PDF asli</a>
 </div>
 <div class="callout info"><strong>Urutan membaca:</strong> Chapter 1-8 menjelaskan fungsi utama permainan. Chapter berikutnya digunakan ketika simbol Skill, Response, Attachment, Casting, Status, atau Healing muncul.</div>
 </section>
@@ -117,7 +117,7 @@
 <li><strong>End:</strong> Status dan efek akhir turn, kurangi Hand sampai 8, lalu ganti pemain.</li>
 </ul>
 <h3>Mana</h3>
-<p><strong>Shard Deck</strong> berisi tepat 12 Shard. Buat 1 Class Shard untuk setiap Class unik dari Ultimate Card terpilih (maks 1 per Class, maks 3 total); slot sisanya Mana Shard. <strong>Shard Pool</strong> menyimpan Shard yang tersedia. Mana Shard bernilai 1 Mana. Matching Class Shard bernilai 2 Mana untuk Skill dengan Class yang sama; selain itu bernilai 1. Mana Regen mulai 1 dan dapat meningkat sampai 6. Shard yang dipakai kembali ke bottom Shard Deck pemilik; Class Shard yang kembali berada paling dalam. Jika efek memilih Shard lawan, pilih secara blind/face-down sampai pilihan dikunci.</p>
+<p><strong>Shard Deck</strong> berisi tepat 12 Shard. Buat 1 Class Shard untuk setiap Class unik dari Ultimate Card terpilih (maks 1 per Class, maks 3 total); slot sisanya Mana Shard. <strong>Shard Pool</strong> menyimpan Shard yang tersedia. Mana Shard bernilai 1 Mana. Matching Class Shard bernilai 2 Mana untuk Skill dengan Class yang sama; selain itu bernilai 1. Mana Regen mulai 1 dan dapat meningkat sampai 6. Shard yang dipakai kembali ke bottom Shard Deck sebagai satu batch untuk setiap pembayaran. Dalam pembayaran Skill, urutkan Mana Shard lebih dulu, lalu Class Shard nonmatching, dan matching Class Shard paling bawah dalam batch tersebut. Pembayaran berikutnya membentuk batch baru di bawah seluruh batch sebelumnya. Jika efek memilih Shard lawan, pilih secara blind/face-down sampai pilihan dikunci.</p>
 <div class="callout warning"><strong>Timing:</strong> kartu hanya dapat digunakan pada fase atau kesempatan yang tertulis pada kartu. <strong>Pemain pertama tidak dapat menyerang pada turn pertamanya.</strong></div>
 </section>
 <section class="doc-section" data-page="5" data-tags="attack target area of attack range attack area attack reposition hp exp target normal left center right response damage" id="chapter-3">
@@ -271,7 +271,7 @@
 <span class="arvon-avatar"><img alt="" src="assets/general-arvon-avatar.webp"/></span><span class="arvon-launch-copy"><b>Arvon</b><small data-ui="arvon-launch-sub">Ask the Rulebook</small></span>
 </button>
 <section aria-label="Arvon Rules and Card Assistant" class="arvon-panel" hidden="" id="arvon-panel">
-<header><div><span class="arvon-avatar"><img alt="" src="assets/general-arvon-avatar.webp"/></span><div><b>Arvon</b><small data-ui="arvon-panel-sub">Rules &amp; Card Guide · Rulebook v2.5 + Season 1</small></div></div><button aria-label="Close Arvon" id="arvon-close" type="button">×</button></header>
+<header><div><span class="arvon-avatar"><img alt="" src="assets/general-arvon-avatar.webp"/></span><div><b>Arvon</b><small data-ui="arvon-panel-sub">Rules &amp; Card Guide · Rulebook v2.6 + Season 1</small></div></div><button aria-label="Close Arvon" id="arvon-close" type="button">×</button></header>
 <div aria-live="polite" class="arvon-messages" id="arvon-messages">
 <div class="chat-row bot"><div class="bubble" data-ui="arvon-welcome">I am Arvon. Ask me about current Grandis Legacy rules, Season 1 cards, or Hero compositions.</div></div>
 </div>
@@ -281,6 +281,6 @@
 <script src="js/hero-components.js?v=1.0.0"></script>
   <script src="js/card-index.js?v=0.15.0"></script>
   <script src="js/arvon-core.js?v=1.9.0"></script>
-<script src="js/rulebook.js?v=2.5.0"></script>
+<script src="js/rulebook.js?v=2.6.0"></script>
 </body>
 </html>
