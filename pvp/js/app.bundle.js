@@ -1,11 +1,11 @@
-/* Grandis Legacy shared gameplay application v3.2 — PvP v3.42 / VS AI v6.37 stable reference.
+/* Grandis Legacy shared gameplay application v3.2 — PvP v3.41 / VS AI v6.35 stable reference.
    One Source Authority v1.8.2 + Runtime Foundation v1.93 / Runtime Core v0.61 / Runtime Data v0.15.0.
    This gameplay/UI bundle is the next shared authority for Local AI and the future PvP rebuild; only intent controller and network transport may differ. */
 (function(){
   'use strict';
   var GL_APP_MODE=String((typeof window!=='undefined'&&window.GL_APP_MODE)||'LOCAL_AI').toUpperCase();
   var IS_PVP_APP=GL_APP_MODE==='PVP';
-  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.42 · VS AI v6.37 Stable Reference · One Source v1.8.2 · Runtime Data v0.15.0 · Foundation v1.93 · Core v0.61':'Grandis Legacy VS AI v6.37 · Shared Gameplay Bundle v3.2 · One Source v1.8.2 · Runtime Data v0.15.0 · Foundation v1.93 · Core v0.61';
+  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.41 · VS AI v6.35 Stable Reference · One Source v1.8.2 · Runtime Data v0.15.0 · Foundation v1.93 · Core v0.61':'Grandis Legacy VS AI v6.35 · Shared Gameplay Bundle v3.2 · One Source v1.8.2 · Runtime Data v0.15.0 · Foundation v1.93 · Core v0.61';
   var PHASES=['Draw','Deploy','Battle','Reform','End'];
   var LANE_ORDER=['LEFT','CENTER','RIGHT'];
   var EXP_MAX_TOTAL=700;
@@ -14,7 +14,7 @@
   var GL_LAB_MANA_DECK_SIZE=12, GL_LAB_START_MANA_CARDS=3;
   var GL_LAB_MANA_CLASS_BY_PREFIX={WAR:'Warrior',MAG:'Mage',ARC:'Archer',CLE:'Cleric',THF:'Thief'};
   var GL_LAB_MANA_ASSET={Generic:'assets/mana-shards/Generic.webp',Warrior:'assets/mana-shards/Warrior.webp',Mage:'assets/mana-shards/Mage.webp',Archer:'assets/mana-shards/Archer.webp',Cleric:'assets/mana-shards/Cleric.webp',Thief:'assets/mana-shards/Thief.webp'};
-  var GL_ASSET_REV='gl-pvp-3.42-osa-1.8.2';
+  var GL_ASSET_REV='gl-pvp-3.41-osa-1.8.2';
   var GL_REMOTE_CARD_BASE='https://grandislegacytcg.github.io/shared/season1/v1/cards/';
   var GL_SHARED_CARD_BASE='https://grandislegacytcg.github.io/shared/season1/v1/cards/';
   var GL_CARD_ZOOM_ID=null;
@@ -628,10 +628,6 @@
     return captureVisualRect('[data-hand-side="'+side+'"][data-hand-slot-index="'+Number(index)+'"]')||(side==='PLAYER'?captureVisualRect('.handPanel'):captureVisualRect('.strip .backs'));
   }
   function isMobileViewport(){return typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(max-width: 760px)').matches;}
-  function isTouchFirstViewport(){return typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(hover: none), (pointer: coarse)').matches;}
-  function isTouchTabletViewport(){return !isMobileViewport()&&isTouchFirstViewport();}
-  function clearTouchHandSelection(keep){if(typeof document==='undefined')return;Array.prototype.forEach.call(document.querySelectorAll('.hand-card.touch-selected'),function(cardEl){if(cardEl===keep)return;cardEl.classList.remove('touch-selected');cardEl.removeAttribute('aria-selected');});}
-  function selectTouchHandCard(cardEl){if(!cardEl)return false;clearTouchHandSelection(cardEl);cardEl.classList.add('touch-selected');cardEl.setAttribute('aria-selected','true');var art=cardEl.querySelector('.hand-art');if(art&&art.blur)art.blur();v94HoverZoomHide();return true;}
   var GL_MOBILE_GAME_SCROLL_TOP=0;
   function mobileGameplayScroller(){if(typeof document==='undefined')return null;return document.scrollingElement||document.documentElement||document.body||null;}
   function setMobileGameplayScrollMode(active){if(typeof document==='undefined')return false;var enabled=!!active&&isMobileViewport();if(document.documentElement&&document.documentElement.classList&&typeof document.documentElement.classList.toggle==='function'){document.documentElement.classList.toggle('gl-mobile-game-scroll-active',enabled);if(enabled)document.documentElement.classList.remove('gl-animation-scroll-locked');}if(document.body&&document.body.classList&&typeof document.body.classList.toggle==='function'){document.body.classList.toggle('gl-mobile-game-scroll-active',enabled);if(enabled)document.body.classList.remove('gl-animation-scroll-locked');}if(document.documentElement&&document.documentElement.style&&typeof document.documentElement.style.removeProperty==='function')document.documentElement.style.removeProperty('--gl-mobile-viewport-height');return enabled;}
@@ -6707,18 +6703,17 @@ function getActivatedHeroAbilities(state, side, lane){
     return '<article class="hero-lane hero-panel '+(terminalDefeated?'terminal-defeated-slot ':'')+esc(selection)+'" data-side="'+esc(side)+'" data-lane="'+esc(lane)+'" data-slot-mode="'+(terminalDefeated?'DEFEATED':'HERO')+'">'+(isAI?attachments+stage:stage+attachments)+'</article>';
   }
   function resourceZone(side,type,count,clickable,extraClass,regen,topCardId,racialCount){
-    var isMana=type==='Shard Pool',isShardDeck=type==='Shard Deck',isMain=type==='Main Deck',isLegacy=type==='Legacy Deck',isDiscard=type==='Discard Pile';
-    var icon=(isMana||isShardDeck)?'https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Mana-Shard-Thumb.webp':(isLegacy?'https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Legacy-Deck.webp':(isDiscard?(topCardId?thumbFor(topCardId):''):'https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Main-Deck.webp'));
+    var isMana=type==='Shard Pool',isMain=type==='Main Deck',isLegacy=type==='Legacy Deck',isDiscard=type==='Discard Pile';
+    var icon=isMana?'assets/cards/ui/Mana-Shard-Thumb.webp':(isLegacy?'assets/cards/ui/Back-of-Card-Legacy-Deck.webp':(isDiscard?(topCardId?thumbFor(topCardId):''):'assets/cards/ui/Back-of-Card-Main-Deck.webp'));
     var emptyDiscard=isDiscard&&!topCardId;
-    var cls='zone '+(isMana?'zone--mana':isShardDeck?'zone--shard-deck':isLegacy?'zone--legacy':isDiscard?'zone--discard':'zone--card')+' '+(emptyDiscard?'zone--empty-discard ':'')+(extraClass||'');
+    var cls='zone '+(isMana?'zone--mana':isLegacy?'zone--legacy':isDiscard?'zone--discard':'zone--card')+' '+(emptyDiscard?'zone--empty-discard ':'')+(extraClass||'');
     var attrs=' data-zone-side="'+esc(side)+'" data-zone-type="'+esc(type)+'"';
     if(isDiscard) attrs+=' data-discard-side="'+esc(side)+'"';
     if(isLegacy&&side==='PLAYER') attrs+=' data-legacy-side="PLAYER"';
     var number=isMana?('<span class="mana-current">'+esc(Number(count||0))+'</span><i>/</i><span class="mana-max">12</span>'):esc(count||0);
     var imageHtml=icon?'<img src="'+esc(icon)+'" alt="'+esc(type)+'">':'';
-    var footer=isMana?'<em>Mana Regen +'+esc(regen||1)+'</em>':(isShardDeck?'<em>REGEN +'+esc(regen||1)+'</em>':'');
-    var inner='<span>'+esc(type)+'</span><div class="zoneCard zone-card-stack '+(isMana?'zone-card-stack--mana ':'')+(emptyDiscard?'zone-card-stack--empty':'')+'">'+imageHtml+'<b'+(isMana?' class="mana-value"':'')+'>'+number+'</b></div>'+footer;
-    return '<button class="'+cls+'" type="button"'+attrs+((isLegacy&&side!=='PLAYER')||isMain||isMana||isShardDeck?' aria-disabled="true"':'')+'>'+inner+'</button>';
+    var inner='<span>'+esc(type)+'</span><div class="zoneCard zone-card-stack '+(isMana?'zone-card-stack--mana ':'')+(emptyDiscard?'zone-card-stack--empty':'')+'">'+imageHtml+'<b'+(isMana?' class="mana-value"':'')+'>'+number+'</b></div>'+(isMana?'<em>Mana Regen +'+esc(regen||1)+'</em>':'');
+    return '<button class="'+cls+'" type="button"'+attrs+((isLegacy&&side!=='PLAYER')||isMain||isMana?' aria-disabled="true"':'')+'>'+inner+'</button>';
   }
   function mobileRacialResourceZone(side,count){
     var racialValue=Math.max(0,Math.min(2,Number(count||0)));
@@ -6727,23 +6722,6 @@ function getActivatedHeroAbilities(state, side, lane){
       return '<img src="'+src+'" alt="Racial Token '+(i+1)+' '+(active?'available':'spent')+'">';
     }).join('');
     return '<div class="zone mobile-racial-zone" data-zone-side="'+esc(side)+'" data-zone-type="Racial Token" aria-label="Racial Tokens '+racialValue+' of 2"><span>Racial</span><div class="mobile-racial-token-stack">'+faces+'</div></div>';
-  }
-  function mobileShardRacialTokens(side,state){
-    var racialValue=Math.max(0,Math.min(2,Number(side==='AI'?state.aiRacial:state.racial)||0));
-    var faces=[0,1].map(function(i){var active=i<racialValue,src=active?'https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Racial-Token-Head.webp':'https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Racial-Token-Tail.webp';return '<img src="'+src+'" alt="Racial Token '+(i+1)+' '+(active?'available':'spent')+'">';}).join('');
-    return '<div class="mobile-shard-racial" aria-label="Racial Tokens '+racialValue+' of 2"><small>RACIAL</small><div>'+faces+'</div></div>';
-  }
-  function mobileShardPoolRow(side,state){
-    var shards=manaPoolCardsForSide(state,side),shardHtml='';
-    shards.forEach(function(sh){var label=sh.kind==='CLASS'?(sh.class_name+' Shard'):'Mana Shard',hidden=!!hiddenManaDrawToken(side,sh.uid);shardHtml+='<button class="gl-lab-mana-card mobile-shard-card '+(sh.kind==='CLASS'?'is-class':'is-generic')+' '+(hidden?'is-opening-draw-hidden':'')+'" type="button" data-mana-side="'+esc(side)+'" data-mana-uid="'+esc(sh.uid)+'" aria-label="'+esc(label)+'" title="'+esc(label)+'"><img src="'+esc(manaShardAsset(sh))+'" alt="'+esc(label)+'"></button>';});
-    pendingManaDrawReservations(side).forEach(function(r){shardHtml+='<span class="gl-lab-mana-card mobile-shard-card is-pending-draw" data-mana-side="'+esc(side)+'" data-mana-pending-id="'+esc(r.id)+'" aria-hidden="true"></span>';});
-    return '<div class="mobile-shard-pool mobile-shard-pool--'+(side==='AI'?'opponent':'player')+'" aria-label="'+esc(side)+' Shard Pool"><strong>SHARD POOL</strong><div class="mobile-shard-scroll">'+shardHtml+'</div>'+mobileShardRacialTokens(side,state)+'</div>';
-  }
-  function mobileField(side,heroes,state){
-    var isAI=side==='AI',legacy=isAI?state.aiLegacyCount:state.playerLegacyCount,main=isAI?state.aiDeckCount:state.playerDeckCount,discardList=isAI?(state.aiDiscard||[]):(state.playerDiscard||[]),discard=discardList.length,regen=isAI?state.aiManaRegen:state.manaRegen;
-    var shardDeck=resourceZone(side,'Shard Deck',manaDeckForSide(state,side).length,false,'',regen,null,0),legacyZone=resourceZone(side,'Legacy Deck',legacy,side==='PLAYER',''),mainZone=resourceZone(side,'Main Deck',main,false,'',null,null,0),discardZone=resourceZone(side,'Discard Pile',discard,true,'',null,discardList.length?discardList[discardList.length-1]:null);
-    var left=isAI?(mainZone+discardZone):(legacyZone+shardDeck),right=isAI?(legacyZone+shardDeck):(discardZone+mainZone);
-    return '<section class="field '+(isAI?'field--opponent ai-field':'field--player player-field')+' mobile-shard-field"><aside class="resource-rail">'+left+'</aside><div class="hero-row '+(isAI?'hero-row--opponent':'hero-row--player')+'">'+LANE_ORDER.map(function(lane){return heroPanel(side,lane,heroes[lane],state);}).join('')+'</div>'+mobileShardPoolRow(side,state)+'<aside class="resource-rail">'+right+'</aside></section>';
   }
   function labResourceZone(side,type,count,clickable,topCardId){
     var isMain=type==='Main Deck',isLegacy=type==='Legacy Deck',isDiscard=type==='Discard Pile',isManaDeck=type==='Shard Deck';
@@ -6766,7 +6744,6 @@ function getActivatedHeroAbilities(state, side, lane){
     return '<div class="gl-lab-mana-pool gl-lab-mana-pool--'+(side==='AI'?'opponent':'player')+'" aria-label="'+esc(side)+' Shard Pool"><div class="gl-lab-racial">'+v94RacialCoins(side,racial)+'</div><div class="gl-lab-mana-row">'+shardHtml+'</div></div>';
   }
   function field(side,heroes,state){
-    if(isMobileViewport())return mobileField(side,heroes,state);
     var isAI=side==='AI',legacy=isAI?state.aiLegacyCount:state.playerLegacyCount;
     var main=isAI?state.aiDeckCount:state.playerDeckCount,discardList=isAI?(state.aiDiscard||[]):(state.playerDiscard||[]),discard=discardList.length;
     var manaDeck=labManaDeckZone(side,state),legacyZone=labResourceZone(side,'Legacy Deck',legacy,side==='PLAYER',null);
@@ -6903,7 +6880,7 @@ function getActivatedHeroAbilities(state, side, lane){
     var activeLabel=state.preGame?'Opening Match':(state.turn==='PLAYER'?'Your Turn':(IS_PVP_APP?(opponentBattlefieldName+' Turn'):'AI Turn'));
     var aiLine=state.preGame?'Waiting':(state.turn==='AI'?(IS_PVP_APP?'Playing':(state.aiPresentationStatus||'Thinking')):'Waiting');
     var latestLog=(state.log&&state.log[0])||'No match log yet.';
-    root.innerHTML='<div class="app battlefield-app v94-app v96-app '+(isMobileViewport()?'mobile-restored-layout ':'')+(state.turn==='AI'?'turn-ai':'turn-player')+' '+((state.responseWindow&&pvpLocalOwnsResponseWindow(state.responseWindow))?'response-active':'')+'"><main class="gl-app">'+
+    root.innerHTML='<div class="app battlefield-app v94-app v96-app '+(state.turn==='AI'?'turn-ai':'turn-player')+' '+((state.responseWindow&&pvpLocalOwnsResponseWindow(state.responseWindow))?'response-active':'')+'"><main class="gl-app">'+
       '<section class="main-stage gl-board">'+
         '<div class="pvp-identity-strip pvp-identity-strip--opponent" data-pvp-identity-side="AI"><header class="player-name player-name--opponent"><b class="pvp-player-display-name">'+esc(IS_PVP_APP?opponentBattlefieldName:'LOCAL AI')+'</b> <span class="pvp-player-deck-name">'+esc(state.aiDeckName||'Opponent')+'</span></header>'+pvpSignalHtml('AI')+'</div>'+
         '<section class="hand-area hand-area--opponent"><div class="hand-spacer" aria-hidden="true"></div><div class="strip v94-strip"><div class="backs hand-row opponent-hand">'+visibleAIHand.map(function(entry,i){return hiddenCardBack(entry,i,visibleAIHandCount);}).join('')+'</div></div>'+v94RacialCoins('AI',state.aiRacial)+'</section>'+
@@ -6950,7 +6927,7 @@ function getActivatedHeroAbilities(state, side, lane){
     if(IS_PVP_APP&&typeof window!=='undefined'&&typeof window.GL_PVP_AFTER_RENDER==='function'){try{window.GL_PVP_AFTER_RENDER();}catch(ignore){}}
     if(appState&&appState.gameOver&&!appState.gameResultShown)setTimeout(function(){if(appState&&appState.gameOver&&!appState.gameResultShown)showResult();},0);
   }
-  function handCard(id,idx,state,fanIndex,fanCount,hidden){var style=fanStyle(fanIndex,fanCount,'PLAYER');if(hidden)return'<article class="cardTile hand-card hand-slot-placeholder" data-hand-index="'+idx+'" data-hand-slot-index="'+idx+'" data-hand-side="PLAYER" style="'+style+'" aria-hidden="true"></article>';if(id==='__HIDDEN_CARD_BACK__'||id==='__HIDDEN_CARD__')return'<article class="cardTile hand-card spectator-hand-back unavailable" data-hand-index="'+idx+'" data-hand-slot-index="'+idx+'" data-hand-side="PLAYER" style="'+style+'" aria-label="Hidden Main Deck card"><span class="hand-art" aria-hidden="true"><img src="https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Main-Deck.webp" alt="Hidden Main Deck card"></span><div class="hand-actions"></div></article>';var c=card(id),lp=state?legalPlayState(state,id):{can:false,reasons:['match not started']},tp=state?legalTributeState(state,id):{can:false,reasons:['match not started']},actions='<button class="mini-action preview-card-action touch-tablet-preview" type="button" data-preview="'+esc(id)+'">Preview</button>',drawBusy=(GL_HIDDEN_DRAW_TOKENS.PLAYER||[]).length>0,selected=!drawBusy&&!!(state&&state.pending&&state.pending.card_id===id&&Number(state.pending.hand_index)===Number(idx));if(!drawBusy&&(!state||!state.pending)){if(lp.can)actions+='<button class="mini-action play-card-action" type="button" data-play-index="'+idx+'">Play</button>';if(tp.can)actions+='<button class="mini-action tribute-card-action" type="button" data-tribute-index="'+idx+'">Tribute</button>';}return'<article class="cardTile hand-card '+(selected?'is-selected ':'')+((!drawBusy&&(lp.can||tp.can))?'legal playable':'unavailable')+'" data-hand-index="'+idx+'" data-hand-slot-index="'+idx+'" data-card-id="'+esc(id)+'" data-hand-side="PLAYER" style="'+style+'"><button class="hand-art" type="button" data-preview="'+esc(id)+'" aria-label="Preview '+esc(cardName(c))+'"><img src="'+esc(thumbFor(id))+'" alt="'+esc(cardName(c))+'"></button><div class="hand-actions">'+actions+'</div></article>'; }
+  function handCard(id,idx,state,fanIndex,fanCount,hidden){var style=fanStyle(fanIndex,fanCount,'PLAYER');if(hidden)return'<article class="cardTile hand-card hand-slot-placeholder" data-hand-index="'+idx+'" data-hand-slot-index="'+idx+'" data-hand-side="PLAYER" style="'+style+'" aria-hidden="true"></article>';if(id==='__HIDDEN_CARD_BACK__'||id==='__HIDDEN_CARD__')return'<article class="cardTile hand-card spectator-hand-back unavailable" data-hand-index="'+idx+'" data-hand-slot-index="'+idx+'" data-hand-side="PLAYER" style="'+style+'" aria-label="Hidden Main Deck card"><span class="hand-art" aria-hidden="true"><img src="https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Main-Deck.webp" alt="Hidden Main Deck card"></span><div class="hand-actions"></div></article>';var c=card(id),lp=state?legalPlayState(state,id):{can:false,reasons:['match not started']},tp=state?legalTributeState(state,id):{can:false,reasons:['match not started']},actions='',drawBusy=(GL_HIDDEN_DRAW_TOKENS.PLAYER||[]).length>0,selected=!drawBusy&&!!(state&&state.pending&&state.pending.card_id===id&&Number(state.pending.hand_index)===Number(idx));if(!drawBusy&&(!state||!state.pending)){if(lp.can)actions+='<button class="mini-action play-card-action" type="button" data-play-index="'+idx+'">Play</button>';if(tp.can)actions+='<button class="mini-action tribute-card-action" type="button" data-tribute-index="'+idx+'">Tribute</button>';}return'<article class="cardTile hand-card '+(selected?'is-selected ':'')+((!drawBusy&&(lp.can||tp.can))?'legal playable':'unavailable')+'" data-hand-index="'+idx+'" data-hand-slot-index="'+idx+'" data-card-id="'+esc(id)+'" data-hand-side="PLAYER" style="'+style+'"><button class="hand-art" type="button" data-preview="'+esc(id)+'" aria-label="Preview '+esc(cardName(c))+'"><img src="'+esc(thumbFor(id))+'" alt="'+esc(cardName(c))+'"></button><div class="hand-actions">'+actions+'</div></article>'; }
   function opponentPlayedDetail(a,state){ return opponentEventDetail(a); }
 
   function opponentPlayedVisibleEvents(state){
@@ -7553,14 +7530,13 @@ function getActivatedHeroAbilities(state, side, lane){
     Array.prototype.forEach.call(document.querySelectorAll('[data-played-history-side]'),function(btn){btn.onclick=function(){v94ShowPlayedHistory(btn.getAttribute('data-played-history-side'));};});
     var combinedHistory=$('cardPlayedHistoryButton'); if(combinedHistory) combinedHistory.onclick=v96ShowCardPlayedHistory;
     Array.prototype.forEach.call(document.querySelectorAll('[data-played-preview-side]'),function(btn){btn.onclick=function(){var side=btn.getAttribute('data-played-preview-side'),evt=v94EventsForSide(appState,side)[0];if(evt)v94ShowPlayedDetail(side,evt.id);};});
-    Array.prototype.forEach.call(document.querySelectorAll('.combined-played-card[data-preview]'),function(tile){tile.addEventListener('pointerenter',function(ev){if(!ev||ev.pointerType!=='touch')v80CardPlayedHoverShow(tile.getAttribute('data-preview'),tile);});tile.addEventListener('pointerleave',function(ev){if(!ev||ev.pointerType!=='touch')v80CardPlayedHoverHide(tile);});tile.addEventListener('focus',function(){if(!isTouchFirstViewport())v80CardPlayedHoverShow(tile.getAttribute('data-preview'),tile);});tile.addEventListener('blur',function(){if(!tile.matches||!tile.matches(':hover'))v80CardPlayedHoverHide(tile);});});
+    Array.prototype.forEach.call(document.querySelectorAll('.combined-played-card[data-preview]'),function(tile){tile.addEventListener('pointerenter',function(ev){if(!ev||ev.pointerType!=='touch')v80CardPlayedHoverShow(tile.getAttribute('data-preview'),tile);});tile.addEventListener('pointerleave',function(ev){if(!ev||ev.pointerType!=='touch')v80CardPlayedHoverHide(tile);});tile.addEventListener('focus',function(){if(!isMobileViewport())v80CardPlayedHoverShow(tile.getAttribute('data-preview'),tile);});tile.addEventListener('blur',function(){if(!tile.matches||!tile.matches(':hover'))v80CardPlayedHoverHide(tile);});});
     Array.prototype.forEach.call(document.querySelectorAll('[data-preview]'),function(el){if(el.closest&&(el.closest('.hand-card')||el.closest('.combined-played-card')))return;el.addEventListener('pointerenter',function(){v94SetCardZoom(el.getAttribute('data-preview'));});el.addEventListener('focus',function(){v94SetCardZoom(el.getAttribute('data-preview'));});});
     Array.prototype.forEach.call(document.querySelectorAll('.hand-card[data-card-id]'),function(cardEl){
       var el=cardEl.querySelector('.hand-art[data-preview]');if(!el)return;
       cardEl.addEventListener('pointerenter',function(ev){if(!ev||ev.pointerType!=='touch')v59HandHoverZoomShow(el.getAttribute('data-preview'),cardEl);});
       cardEl.addEventListener('pointerleave',function(ev){if(!ev||ev.pointerType!=='touch')v59HandHoverZoomHide(cardEl);});
-      el.addEventListener('focus',function(){if(!isTouchFirstViewport())v59HandHoverZoomShow(el.getAttribute('data-preview'),cardEl);});
-      el.addEventListener('click',function(ev){if(!isTouchTabletViewport())return;var already=cardEl.classList.contains('touch-selected');if(!already){ev.preventDefault();ev.stopPropagation();selectTouchHandCard(cardEl);}});
+      el.addEventListener('focus',function(){if(!isMobileViewport())v59HandHoverZoomShow(el.getAttribute('data-preview'),cardEl);});
       el.addEventListener('blur',function(){if(!cardEl.matches||!cardEl.matches(':hover'))v59HandHoverZoomHide(cardEl);});
       bindMobileHandLongPress(el);
     });
@@ -7573,7 +7549,6 @@ function getActivatedHeroAbilities(state, side, lane){
     document.addEventListener('contextmenu',function(ev){if(ev.target&&ev.target.closest&&ev.target.closest('.hand-card'))ev.preventDefault();});
     document.addEventListener('dragstart',function(ev){if(ev.target&&ev.target.closest&&ev.target.closest('.hand-card'))ev.preventDefault();});
     document.body.addEventListener('click', function(ev){
-      if(isTouchTabletViewport()&&!ev.target.closest('.hand-card'))clearTouchHandSelection(null);
       var safeDuringLock=ev.target.closest('#soundToggleButton,#mobileSoundToggleButton,#mobileMatchMenuButton,#mobileMatchMenuClose,#mobileMatchMenuOverlay,#mobileDeckSetupButton,#mobileSurrenderButton,#pvpRoomMobileButton,#gameResultBackLobby,[data-preview],#previewClose,#infoClose,#choiceClose');
       if(gameplayInputLocked()&&!safeDuringLock){ev.preventDefault();ev.stopPropagation();return;}
       if(ev.target.closest('#gameResultBackLobby')){ returnToLobbyAfterGameResult(); return; }

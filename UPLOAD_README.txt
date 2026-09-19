@@ -1,4 +1,4 @@
-Grandis Legacy Website v1.31
+Grandis Legacy Website v1.30
 
 FULL REPLACEMENT package for the public GrandisLegacyTCG.github.io repository.
 

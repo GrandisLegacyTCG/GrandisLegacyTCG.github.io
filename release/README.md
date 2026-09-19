@@ -1,3 +1,7 @@
-# Active Release — Website v1.31
+# Active Release — Website v1.30
 
-See `RELEASE_NOTE_v1.31.md` and `VERIFICATION_v1.31.md`. Historical release material remains for audit history.
+Current release files:
+- `RELEASE_NOTE_v1.29.md`
+- `VERIFICATION_v1.29.md`
+
+Historical release material remains for audit history.

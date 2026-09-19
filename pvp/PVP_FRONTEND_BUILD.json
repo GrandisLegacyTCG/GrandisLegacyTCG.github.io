@@ -1,13 +1,11 @@
 {
   "schema_version": "1.0.0",
-  "pvp_version": "v3.42",
-  "build_id": "gl-pvp-3.42-2026-09-13",
+  "pvp_version": "3.41",
+  "build_id": "gl-pvp-3.41-2026-09-13",
   "production_frontend_url": "https://grandislegacytcg.github.io/pvp/",
   "production_frontend_owner": "GrandisLegacyTCG.github.io repository /pvp/ directory",
   "source_directory": "PvP repository public/",
   "deployment_mode": "website-embedded-production-frontend",
   "northflank_services": 2,
-  "note": "Production /pvp is served from the Website repository mirror. PvP v3.42 keeps Source Stack v1.8.2 gameplay authority while restoring the stable mobile battlefield with a Shard Pool rail and adding touch-tablet card selection with persistent Preview/Play/Tribute actions.",
-  "version": "3.42",
-  "vs_ai_reference": "v6.37"
+  "note": "Production /pvp is served from the Website repository mirror. PvP v3.41 promotes Playtest Lab v0.15 gameplay authority, Shard Deck/Shard Pool terminology, 200-card Season 1 data, Range + Area behavior, Legacy defeat handling, and current battlefield UI parity."
 }

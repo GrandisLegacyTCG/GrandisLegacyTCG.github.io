@@ -67,8 +67,8 @@ const canonicalAssets = plain(runtimeBrowser.GL_ASSET_MANIFEST);
 const PVP_CARD_HASH = CARD_HASH;
 const sharedManifest = json('shared/season1/v1/manifest.json');
 
-assert.strictEqual(require('../package.json').version, '1.31.0');
-assert.strictEqual(meta.website_version, '1.31');
+assert.strictEqual(require('../package.json').version, '1.30.0');
+assert.strictEqual(meta.website_version, '1.30');
 assert.strictEqual(meta.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(meta.hero_component_registry_hash, HERO_HASH);
 assert.strictEqual(cards.length, 200);
@@ -179,7 +179,7 @@ const rulebookJs = read('rulebook/js/rulebook.js');
 assert.ok(rulebookJs.includes('Normal cards: maximum 3 copies; Ultimate: maximum 1 copy.'), 'English Rulebook copy limit is not 3/1.');
 assert.ok(rulebookJs.includes('assets/Grandis_Legacy_Panduan_Pemain_v2.6_ID.pdf'), 'Rulebook v2.6 ID PDF route missing.');
 assert.ok(rulebook.includes('js/rulebook.js?v=2.6.0'), 'Rulebook JS cache revision was not bumped.');
-assert.ok(read('pvp/index.html').includes('gl-pvp-3.42-responsive-ui'), 'Production Website /pvp frontend is not PvP v3.42.');
+assert.ok(read('pvp/index.html').includes('gl-pvp-3.41-playtest-v014'), 'Production Website /pvp frontend is not PvP v3.41.');
 const embeddedNetwork = read('pvp/js/pvp-network.js');
 for (const retired of ['racial_second_chance','resolveSecondChanceChoice','data-second-chance-choice']) assert.ok(!embeddedNetwork.includes(retired), `${retired} remains in embedded PvP routing.`);
 for (const name of fs.readdirSync(path.join(root, 'pvp/starter_deck_examples')).filter(file => file.endsWith('.json'))) {
@@ -207,8 +207,8 @@ for (const old of ['freesound_community-coin-flip-37787','freesound_community-fl
   assert.ok(!fs.readdirSync(path.join(root, 'pvp/assets/audio')).some(name => name.includes(old)), `Stale embedded audio file remains: ${old}.`);
 }
 
-const lock = json('sync/website-source-lock.v1.31.json');
-assert.strictEqual(lock.website_version, '1.31');
+const lock = json('sync/website-source-lock.v1.30.json');
+assert.strictEqual(lock.website_version, '1.30');
 assert.strictEqual(lock.source_stack.canonical_registry_hash, CARD_HASH);
 assert.strictEqual(lock.source_stack.hero_component_registry_hash, HERO_HASH);
 assert.deepStrictEqual(lock.contracts.hero_component_counts, { racial_traits:6, class_abilities:16, hero_profiles:10, hero_compositions:30 });
@@ -217,6 +217,6 @@ for (const [rel, expected] of Object.entries(lock.files)) assert.strictEqual(dig
 for (const rel of ['js/site.js','rulebook/js/arvon-core.js','rulebook/js/rulebook.js','tools/build-arvon-index.cjs','tools/build-file-manifest.cjs']) {
   new Function(read(rel));
 }
-assert.strictEqual(lock.embedded_pvp.pvp_version, '3.42');
+assert.strictEqual(lock.embedded_pvp.pvp_version, '3.41');
 assert.strictEqual(lock.embedded_pvp.source_stack, '1.8.2');
-console.log('PASS Website v1.31: 200 canonical physical artworks, Warp Scroll + Freeze Bomb, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2.6, v1.7 homepage layout, PvP v3.42 production embed, and source lock.');
+console.log('PASS Website v1.30: 200 canonical physical artworks, Warp Scroll + Freeze Bomb, all 30 revised cards, Back Slash, renamed audio, multilingual Arvon, Rulebook v2.6, v1.7 homepage layout, PvP v3.41 production embed, and source lock.');
