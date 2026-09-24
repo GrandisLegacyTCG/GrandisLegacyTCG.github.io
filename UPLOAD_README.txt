@@ -1,4 +1,4 @@
-Grandis Legacy Website v1.30
+Grandis Legacy Website v1.32
 
 FULL REPLACEMENT package for the public GrandisLegacyTCG.github.io repository.
 
@@ -15,7 +15,7 @@ GitHub Desktop workflow:
 6. GitHub Pages setting: Deploy from a branch -> main -> / (root).
 
 Production locks:
-- Website: v1.29
+- Website: v1.32
 - Rulebook: latest bilingual EN/ID release included in this package
 - Season 1 cards: 200
 - Terminology: Shard Deck / Shard Pool / Mana Shard / Class Shard

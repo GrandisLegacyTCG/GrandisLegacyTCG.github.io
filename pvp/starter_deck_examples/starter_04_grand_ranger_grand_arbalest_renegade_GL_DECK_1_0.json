@@ -1,7 +1,7 @@
 {
   "schema_version": "GL-DECK-1.0",
   "builder_version": "2.27-classic-split",
-  "deck_name": "Starter 1 - ElementalLord/Conqueror/Renegade",
+  "deck_name": "Starter 4 - GrandRanger/GrandArbalest/Renegade",
   "format": "Grandis Legacy Source Authority v1.9.2 / Starter Deck Authority v1.6.1 / 60-card Main Deck",
   "main_deck_count": 60,
   "legacy_package_count": 3,
@@ -9,12 +9,12 @@
   "legacy_deck_label": "Legacy Deck",
   "legacy_deck_package_slots": [
     {
-      "progression": "S1-MAG-H001",
-      "legacy": "S1-MAG-L002"
+      "progression": "S1-ARC-H001",
+      "legacy": "S1-ARC-L002"
     },
     {
-      "progression": "S1-WAR-H001",
-      "legacy": "S1-WAR-L001"
+      "progression": "S1-ARC-H004",
+      "legacy": "S1-ARC-L001"
     },
     {
       "progression": "S1-THF-H001",
@@ -23,60 +23,60 @@
   ],
   "legacy_deck_expanded": [
     {
-      "card_id": "S1-MAG-H001",
-      "card_name": "Vaelis Stormweave",
+      "card_id": "S1-ARC-H001",
+      "card_name": "Korvak Ironfang",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-1",
-      "package_name": "Vaelis Stormweave + Arcane Wand"
+      "package_name": "Korvak Ironfang + Falconer’s Whistle"
     },
     {
-      "card_id": "S1-MAG-H002",
-      "card_name": "Vaelis Stormweave",
+      "card_id": "S1-ARC-H002",
+      "card_name": "Korvak Ironfang",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-1",
-      "package_name": "Vaelis Stormweave + Arcane Wand"
+      "package_name": "Korvak Ironfang + Falconer’s Whistle"
     },
     {
-      "card_id": "S1-MAG-H003",
-      "card_name": "Vaelis Stormweave",
+      "card_id": "S1-ARC-H003",
+      "card_name": "Korvak Ironfang",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-1",
-      "package_name": "Vaelis Stormweave + Arcane Wand"
+      "package_name": "Korvak Ironfang + Falconer’s Whistle"
     },
     {
-      "card_id": "S1-MAG-L002",
-      "card_name": "Arcane Wand",
+      "card_id": "S1-ARC-L002",
+      "card_name": "Falconer’s Whistle",
       "card_type": "Legacy",
       "package_id": "CUSTOM-SLOT-1",
-      "package_name": "Vaelis Stormweave + Arcane Wand"
+      "package_name": "Korvak Ironfang + Falconer’s Whistle"
     },
     {
-      "card_id": "S1-WAR-H001",
-      "card_name": "Draxen Blacksand",
+      "card_id": "S1-ARC-H004",
+      "card_name": "Alden Sterling",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-2",
-      "package_name": "Draxen Blacksand + Warrior’s Relic"
+      "package_name": "Alden Sterling + Golden Arrows"
     },
     {
-      "card_id": "S1-WAR-H002",
-      "card_name": "Draxen Blacksand",
+      "card_id": "S1-ARC-H005",
+      "card_name": "Alden Sterling",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-2",
-      "package_name": "Draxen Blacksand + Warrior’s Relic"
+      "package_name": "Alden Sterling + Golden Arrows"
     },
     {
-      "card_id": "S1-WAR-H003",
-      "card_name": "Draxen Blacksand",
+      "card_id": "S1-ARC-H006",
+      "card_name": "Alden Sterling",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-2",
-      "package_name": "Draxen Blacksand + Warrior’s Relic"
+      "package_name": "Alden Sterling + Golden Arrows"
     },
     {
-      "card_id": "S1-WAR-L001",
-      "card_name": "Warrior’s Relic",
+      "card_id": "S1-ARC-L001",
+      "card_name": "Golden Arrows",
       "card_type": "Legacy",
       "package_id": "CUSTOM-SLOT-2",
-      "package_name": "Draxen Blacksand + Warrior’s Relic"
+      "package_name": "Alden Sterling + Golden Arrows"
     },
     {
       "card_id": "S1-THF-H001",
@@ -111,12 +111,12 @@
   "side_deck_count": 12,
   "side_deck_package_slots": [
     {
-      "progression": "S1-MAG-H001",
-      "legacy": "S1-MAG-L002"
+      "progression": "S1-ARC-H001",
+      "legacy": "S1-ARC-L002"
     },
     {
-      "progression": "S1-WAR-H001",
-      "legacy": "S1-WAR-L001"
+      "progression": "S1-ARC-H004",
+      "legacy": "S1-ARC-L001"
     },
     {
       "progression": "S1-THF-H001",
@@ -125,60 +125,60 @@
   ],
   "side_deck_expanded": [
     {
-      "card_id": "S1-MAG-H001",
-      "card_name": "Vaelis Stormweave",
+      "card_id": "S1-ARC-H001",
+      "card_name": "Korvak Ironfang",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-1",
-      "package_name": "Vaelis Stormweave + Arcane Wand"
+      "package_name": "Korvak Ironfang + Falconer’s Whistle"
     },
     {
-      "card_id": "S1-MAG-H002",
-      "card_name": "Vaelis Stormweave",
+      "card_id": "S1-ARC-H002",
+      "card_name": "Korvak Ironfang",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-1",
-      "package_name": "Vaelis Stormweave + Arcane Wand"
+      "package_name": "Korvak Ironfang + Falconer’s Whistle"
     },
     {
-      "card_id": "S1-MAG-H003",
-      "card_name": "Vaelis Stormweave",
+      "card_id": "S1-ARC-H003",
+      "card_name": "Korvak Ironfang",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-1",
-      "package_name": "Vaelis Stormweave + Arcane Wand"
+      "package_name": "Korvak Ironfang + Falconer’s Whistle"
     },
     {
-      "card_id": "S1-MAG-L002",
-      "card_name": "Arcane Wand",
+      "card_id": "S1-ARC-L002",
+      "card_name": "Falconer’s Whistle",
       "card_type": "Legacy",
       "package_id": "CUSTOM-SLOT-1",
-      "package_name": "Vaelis Stormweave + Arcane Wand"
+      "package_name": "Korvak Ironfang + Falconer’s Whistle"
     },
     {
-      "card_id": "S1-WAR-H001",
-      "card_name": "Draxen Blacksand",
+      "card_id": "S1-ARC-H004",
+      "card_name": "Alden Sterling",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-2",
-      "package_name": "Draxen Blacksand + Warrior’s Relic"
+      "package_name": "Alden Sterling + Golden Arrows"
     },
     {
-      "card_id": "S1-WAR-H002",
-      "card_name": "Draxen Blacksand",
+      "card_id": "S1-ARC-H005",
+      "card_name": "Alden Sterling",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-2",
-      "package_name": "Draxen Blacksand + Warrior’s Relic"
+      "package_name": "Alden Sterling + Golden Arrows"
     },
     {
-      "card_id": "S1-WAR-H003",
-      "card_name": "Draxen Blacksand",
+      "card_id": "S1-ARC-H006",
+      "card_name": "Alden Sterling",
       "card_type": "Hero",
       "package_id": "CUSTOM-SLOT-2",
-      "package_name": "Draxen Blacksand + Warrior’s Relic"
+      "package_name": "Alden Sterling + Golden Arrows"
     },
     {
-      "card_id": "S1-WAR-L001",
-      "card_name": "Warrior’s Relic",
+      "card_id": "S1-ARC-L001",
+      "card_name": "Golden Arrows",
       "card_type": "Legacy",
       "package_id": "CUSTOM-SLOT-2",
-      "package_name": "Draxen Blacksand + Warrior’s Relic"
+      "package_name": "Alden Sterling + Golden Arrows"
     },
     {
       "card_id": "S1-THF-H001",
@@ -214,69 +214,89 @@
   "validation_warnings": [],
   "main_deck": [
     {
-      "card_id": "S1-MAG-002",
-      "card_name": "Ice Lance",
+      "card_id": "S1-ARC-002",
+      "card_name": "Poison Arrow",
       "quantity": 2
     },
     {
-      "card_id": "S1-MAG-004",
-      "card_name": "Mana Shield",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-MAG-005",
-      "card_name": "Mirror Image",
-      "quantity": 2
-    },
-    {
-      "card_id": "S1-MAG-006",
-      "card_name": "Meditation",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-MAG-007",
-      "card_name": "Tornado",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-MAG-008",
-      "card_name": "Frostbite",
+      "card_id": "S1-ARC-003",
+      "card_name": "Escape Arrow",
       "quantity": 3
     },
     {
-      "card_id": "S1-MAG-011",
-      "card_name": "Ice Block",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-MAG-015",
-      "card_name": "Permafrost",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-MAG-016",
-      "card_name": "Nova Strike",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-MAG-017",
-      "card_name": "Frostfire Nova",
+      "card_id": "S1-ARC-005",
+      "card_name": "Reload",
       "quantity": 2
     },
     {
-      "card_id": "S1-MAG-018",
-      "card_name": "Double Casting",
+      "card_id": "S1-ARC-008",
+      "card_name": "Ambush Shot",
+      "quantity": 2
+    },
+    {
+      "card_id": "S1-ARC-010",
+      "card_name": "Arrow Barrage",
+      "quantity": 1
+    },
+    {
+      "card_id": "S1-ARC-012",
+      "card_name": "Deflect Arrow",
+      "quantity": 2
+    },
+    {
+      "card_id": "S1-ARC-014",
+      "card_name": "Replenish",
+      "quantity": 2
+    },
+    {
+      "card_id": "S1-ARC-015",
+      "card_name": "Power Shot",
+      "quantity": 1
+    },
+    {
+      "card_id": "S1-ARC-016",
+      "card_name": "Soul Blast Shot",
+      "quantity": 1
+    },
+    {
+      "card_id": "S1-ARC-018",
+      "card_name": "Charged Shot",
+      "quantity": 1
+    },
+    {
+      "card_id": "S1-ARC-019",
+      "card_name": "Long Range Shot",
+      "quantity": 1
+    },
+    {
+      "card_id": "S1-ARC-020",
+      "card_name": "Piercing Bolt",
+      "quantity": 1
+    },
+    {
+      "card_id": "S1-ARC-021",
+      "card_name": "Aura Infusion Bolt",
+      "quantity": 1
+    },
+    {
+      "card_id": "S1-ARC-022",
+      "card_name": "Singularity Reload",
+      "quantity": 1
+    },
+    {
+      "card_id": "S1-ARC-023",
+      "card_name": "Cross Bolt",
+      "quantity": 2
+    },
+    {
+      "card_id": "S1-ARC-024",
+      "card_name": "Colossal Dreadbolt",
       "quantity": 1
     },
     {
       "card_id": "S1-THF-003",
       "card_name": "Evasion",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-THF-005",
-      "card_name": "Steal",
-      "quantity": 1
+      "quantity": 3
     },
     {
       "card_id": "S1-THF-010",
@@ -286,7 +306,7 @@
     {
       "card_id": "S1-THF-011",
       "card_name": "Elusive Escape",
-      "quantity": 2
+      "quantity": 1
     },
     {
       "card_id": "S1-THF-012",
@@ -294,8 +314,8 @@
       "quantity": 2
     },
     {
-      "card_id": "S1-THF-013",
-      "card_name": "Venom Strike",
+      "card_id": "S1-THF-014",
+      "card_name": "Viper’s Fang",
       "quantity": 2
     },
     {
@@ -314,63 +334,23 @@
       "quantity": 1
     },
     {
-      "card_id": "S1-WAR-002",
-      "card_name": "Power Slash",
+      "card_id": "S1-THF-026",
+      "card_name": "Dodge Instinct",
       "quantity": 1
     },
     {
-      "card_id": "S1-WAR-004",
-      "card_name": "Cover Up",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-WAR-007",
-      "card_name": "Upward Thrust",
+      "card_id": "S1-THF-027",
+      "card_name": "Camouflage",
       "quantity": 2
     },
     {
-      "card_id": "S1-WAR-009",
-      "card_name": "Rage Swing",
-      "quantity": 2
+      "card_id": "S1-THF-029",
+      "card_name": "Flash Combo",
+      "quantity": 3
     },
     {
-      "card_id": "S1-WAR-010",
-      "card_name": "Rage Blast",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-WAR-011",
-      "card_name": "Side Step",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-WAR-012",
-      "card_name": "Deflect",
-      "quantity": 2
-    },
-    {
-      "card_id": "S1-WAR-014",
-      "card_name": "Final Grit",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-WAR-015",
-      "card_name": "Charge Attack",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-WAR-016",
-      "card_name": "Whirlwind",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-WAR-017",
-      "card_name": "Fiery Thrust",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-WAR-018",
-      "card_name": "Execute",
+      "card_id": "S1-EVT-001",
+      "card_name": "Begin Anew",
       "quantity": 1
     },
     {
@@ -386,7 +366,7 @@
     {
       "card_id": "S1-EVT-004",
       "card_name": "Relentless Leveling",
-      "quantity": 1
+      "quantity": 2
     },
     {
       "card_id": "S1-EVT-007",
@@ -394,13 +374,8 @@
       "quantity": 1
     },
     {
-      "card_id": "S1-EVT-009",
-      "card_name": "Tactical Adaptation",
-      "quantity": 1
-    },
-    {
-      "card_id": "S1-EVT-010",
-      "card_name": "Déjà vu",
+      "card_id": "S1-EVT-008",
+      "card_name": "Forged Alliance",
       "quantity": 1
     },
     {
@@ -419,6 +394,11 @@
       "quantity": 1
     },
     {
+      "card_id": "S1-ITM-012",
+      "card_name": "Spectral Grappling Hook",
+      "quantity": 1
+    },
+    {
       "card_id": "S1-ITM-016",
       "card_name": "Chain Mail",
       "quantity": 1
@@ -427,36 +407,34 @@
       "card_id": "S1-ITM-018",
       "card_name": "Magic Compass",
       "quantity": 2
-    },
-    {
-      "card_id": "S1-ITM-020",
-      "card_name": "Freeze Bomb",
-      "quantity": 1
     }
   ],
   "default_formation": {
-    "LEFT": "S1-MAG-H001",
-    "CENTER": "S1-WAR-H001",
+    "LEFT": "S1-ARC-H001",
+    "CENTER": "S1-ARC-H004",
     "RIGHT": "S1-THF-H001"
   },
   "source_database_version": "Grandis Legacy Source Authority v1.9.2 · Starter Deck Authority v1.6.1 · canonical registry 85d25ebda9bb2bc260983a566e6d430dde97bfc7a32e8042ec2fddfeaff1b42f",
   "builder_version_note": "Style 2 v2.27 / Deck Builder v1.31 allows export at any Main Deck count within the existing 80-card cutting workspace. Normal cards remain maximum 3 copies and Ultimate remains maximum 1 copy. Official match legality is validated by VS AI and PvP.",
-  "active_starter_id": "starter_01_elemental_lord_conqueror_renegade",
-  "active_starter_slot": 1,
+  "active_starter_id": "starter_04_grand_ranger_grand_arbalest_renegade",
+  "active_starter_slot": 4,
   "starter_authority_version": "v1.6.1",
   "authority_status": "ACTIVE_CANONICAL",
   "authority_provenance": {
-    "source_type": "NEW_USER_UPLOAD_PATCH",
-    "source_filename": "Starter_1_ElementalLord_Conqueror_Renegade.json",
-    "source_sha256": "f63e14a9cc43729fe2e27d77a6d1606a067bc399a5230fa2489eded3ad066353",
-    "previous_authority_source_sha256": "e1c918811f031cd23aca00f17d29e95351b5b75d257ada85b0cda950e8451c1d",
-    "adopted_in_osa": "v1.9.2",
-    "gameplay_semantics_preserved_from_input": true
+    "source_type": "NEW_USER_UPLOAD",
+    "source_filename": "Starter_4_GrandRanger_GrandArbalest_Renegade.json",
+    "source_sha256": "527407b9eb90dbcbb04313c78316585b85d8e311767ca5dd35788e62cc0c8904",
+    "adopted_in_osa": "v1.9.1",
+    "gameplay_semantics_preserved": true,
+    "retained_from_osa": "v1.9.1",
+    "retained_canonical_sha256": "65ca9b390c13e02684fec60f08ccc17fbaef6ccf92061b484b08f0bad035e4e3",
+    "current_authority": "v1.9.2",
+    "gameplay_semantics_unchanged": true
   },
   "generated_only": true,
   "do_not_edit": true,
-  "canonical_source": "Authority/Game/Starter-Decks/Active/starter_01_elemental_lord_conqueror_renegade.json",
-  "canonical_source_sha256": "15788ed47922f3a517992e58da7c3e887bc9618c91421a365f90459155a0a795",
+  "canonical_source": "Authority/Game/Starter-Decks/Active/starter_04_grand_ranger_grand_arbalest_renegade.json",
+  "canonical_source_sha256": "ea077eb002c51376ba3ae891ce01175becb86c285a4511a3ea914b1e91b1e4c7",
   "generation": {
     "generator": "Authority/Runtime/Validators/generate-v1.9.2.cjs",
     "generator_version": "1.9.2-starter1-generator.1",

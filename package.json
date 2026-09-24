@@ -1,11 +1,11 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.30.0",
+  "version": "1.32.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.30 — Rulebook v2.6 EN/ID, PvP v3.41 production mirror, Source Stack v1.8.2, corrected per-payment Shard return authority, and 200-card Season 1 database.",
+  "description": "Grandis Legacy Website v1.32 — final PvP v3.43 /pvp frontend mirror, Rulebook v2.6 EN/ID, 200-card Season 1 database; external real-network verification remains pending.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
-    "test": "node tests/run-v126-mobile-play-online.cjs && node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v128-pvp-production-sync.cjs && node tests/run-v121-showcase-scale.cjs && node tests/run-v121-hf1-mobile-pvp-footer-draw.cjs",
+    "test": "node tests/run-v126-mobile-play-online.cjs && node tests/run-v19-website.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v131-pvp-production-sync.cjs && node tests/run-v121-showcase-scale.cjs && node tests/run-v121-hf1-mobile-pvp-footer-draw.cjs",
     "manifest": "node tools/build-file-manifest.cjs",
     "verify:manifest": "node tools/verify-file-manifest.cjs",
     "verify": "npm run build:arvon && npm run qa:layout && npm test && npm run manifest && npm run verify:manifest && npm test",

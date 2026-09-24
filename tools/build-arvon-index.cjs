@@ -9,7 +9,7 @@ const cardsPath = path.join(root, 'authority/season1/cards.runtime.v0.15.0.json'
 const componentsPath = path.join(root, 'authority/season1/hero-components.runtime.v1.0.0.json');
 const cardsOut = path.join(root, 'rulebook/js/card-index.js');
 const componentsOut = path.join(root, 'rulebook/js/hero-components.js');
-const lockOut = path.join(root, 'sync/website-source-lock.v1.30.json');
+const lockOut = path.join(root, 'sync/website-source-lock.v1.31.json');
 
 const CARD_HASH = 'ce79e5a97c115507f68734887160b575840899056e1533488e3fddd3a11fec1f';
 const HERO_HASH = '487aa2620b5be99480a81d462082f1a35ee637ec2cc38ebf42b1bcf1103d06c9';
@@ -104,7 +104,7 @@ const cardIndex = data.cards.map(card => normalizeTermsDeep({
 }));
 
 const meta = {
-  website_version: '1.30',
+  website_version: '1.31',
   source_stack: 'Grandis Legacy Source Authority Stack v1.8.2',
   cards_version: '0.15.0',
   hero_components_version: '1.0.0',
@@ -122,7 +122,7 @@ fs.writeFileSync(componentsOut, `window.GRANDIS_HERO_COMPONENT_AUTHORITY=${JSON.
 
 const lock = {
   schema_version: '1.0.0',
-  website_version: '1.30',
+  website_version: '1.31',
   generated_at: '2026-09-13',
   source_stack: {
     one_source_authority: '1.8.2',
@@ -132,8 +132,8 @@ const lock = {
     hero_component_registry_hash: HERO_HASH
   },
   embedded_pvp: {
-    pvp_version: '3.41',
-    build_id: 'gl-pvp-3.41-2026-09-13',
+    pvp_version: '3.42',
+    build_id: 'gl-pvp-3.42-2026-09-13',
     source_stack: '1.8.2',
     runtime_data: '0.15.0',
     effect_recipe: '0.14.0',
@@ -171,4 +171,4 @@ const lock = {
   revised_card_ids: REVISED_IDS
 };
 fs.writeFileSync(lockOut, `${JSON.stringify(lock, null, 2)}\n`);
-console.log('PASS: Arvon index built for Website v1.30 with Rulebook v2.6, 200-card Season 1 v0.15.0, Hero Component Authority v1.0.0, and PvP v3.41.');
+console.log('PASS: Arvon index built for Website v1.31 with Rulebook v2.6, 200-card Season 1 v0.15.0, Hero Component Authority v1.0.0, and PvP v3.42.');

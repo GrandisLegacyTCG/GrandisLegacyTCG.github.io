@@ -1,11 +1,11 @@
-/* Grandis Legacy PvP v3.41 — static GitHub Pages frontend config.
+/* Grandis Legacy PvP v3.43 Candidate 2R-A — static GitHub Pages frontend config.
    Northflank remains the authoritative Room 1 / Room 2 WebSocket backend. */
 (function(){
   'use strict';
   window.GL_APP_MODE='PVP';
   window.GL_CONFIG={
-    version:'Grandis Legacy PvP v3.41 — GitHub Pages frontend bridge',
-    buildId:'gl-pvp-3.41-2026-09-13',
+    version:'Grandis Legacy PvP v3.43 Candidate 2R-A — GitHub Pages frontend bridge',
+    buildId:'gl-pvp-3.43-candidate2r-part-a-2026-09-23',
     mode:'server-authoritative-human-vs-human',
     wsPath:'/ws',
     publicFrontendUrl:'https://grandislegacytcg.github.io/pvp/',
