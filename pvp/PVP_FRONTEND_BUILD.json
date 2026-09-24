@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
-  "pvp_version": "v3.44",
-  "package_version": "3.0.44",
-  "build_id": "gl-pvp-3.44-lobby-network-repair-2026-09-24",
+  "pvp_version": "v3.45",
+  "package_version": "3.0.45",
+  "build_id": "gl-pvp-3.45-server-lobby-fix-2026-09-24",
   "release_ready": true,
   "production_frontend_url": "https://grandislegacytcg.github.io/pvp/",
   "production_frontend_owner": "GrandisLegacyTCG.github.io repository /pvp/ directory",
@@ -24,9 +24,11 @@
   "active_starters": 5,
   "canonical_cards": 200,
   "shared_asset_root": "https://grandislegacytcg.github.io/shared/season1/v1/",
-  "lobby_presentation": "legacy pvp-v260 family preserved from the current/v3.42 source; exact v2.6.14 archive unavailable in execution workspace",
-  "rank_preview": "Lobby-only Rank I\u2013III local presentation state; no gameplay/network mutation",
+  "lobby_presentation": "legacy pvp-v260 family + exact Deck Builder v1.31 Style 1 formation/rank/dropdown control patterns; exact v2.6.14 archive unavailable in execution workspace",
+  "rank_preview": "Lobby-only Deck Builder Style 1 Rank I\u2013III local presentation state below formation; no gameplay/network mutation",
   "battlefield_preserved": true,
-  "website_target_version": "v1.33",
-  "note": "v3.44 changes only Lobby/network integration, release metadata, and connection diagnostics. The v3.43 Battlefield/gameplay authority remains locked."
+  "website_target_version": "v1.34",
+  "note": "v3.45 fixes the proven Northflank Docker build omission and Lobby controls only. Current Battlefield/gameplay authority remains locked.",
+  "hero_formation": "Deck Builder Style 1 swap controls; starter formation changes are validated server-side and applied at match start",
+  "server_packaging_fix": "Dockerfile now copies canonical server/ modules required by server.js, including gameplay-intent-router.mjs"
 }
