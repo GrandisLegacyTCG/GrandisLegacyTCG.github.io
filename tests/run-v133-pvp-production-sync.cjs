@@ -1,0 +1,17 @@
+'use strict';
+const fs=require('fs'),path=require('path'),crypto=require('crypto'),assert=require('assert');
+const root=path.resolve(__dirname,'..');
+const pvp=path.join(root,'pvp');
+const pkg=JSON.parse(fs.readFileSync(path.join(root,'package.json'),'utf8'));
+assert.strictEqual(pkg.version,'1.33.0');
+const meta=JSON.parse(fs.readFileSync(path.join(pvp,'PVP_FRONTEND_BUILD.json'),'utf8'));
+assert.strictEqual(meta.pvp_version,'v3.44');
+assert.strictEqual(meta.website_target_version,'v1.33');
+const cfg=fs.readFileSync(path.join(pvp,'config.js'),'utf8');
+assert(cfg.includes("room1WsBase:'wss://p01--grandis-legacy-pvp--2kwws8nzlcc2.code.run'"));
+assert(cfg.includes("room2WsBase:'wss://p01--grandis-legacy-pvp-room2--2kwws8nzlcc2.code.run'"));
+assert(cfg.includes("wsPath:'/ws'"));
+const net=fs.readFileSync(path.join(pvp,'js/pvp-network.js'),'utf8');
+assert(net.includes('id="pvpRankLabel"')&&net.includes("lobbyRankPreview:1"));
+assert(net.includes("if(/(^|\\.)github\\.io$/.test(host))throw new Error("));
+console.log(JSON.stringify({ok:true,website:pkg.version,pvp:meta.pvp_version,roomEndpoints:true,rankPreview:true},null,2));
