@@ -1,4 +1,4 @@
-# Grandis Legacy Website v1.35
+# Grandis Legacy Website v1.36
 
 Release date: 2026-09-24.
 
@@ -10,11 +10,11 @@ Deployable GitHub Pages package for the Grandis Legacy public website, online Ru
 - Source Authority Stack: v1.8.1
 - Season 1 Runtime Data: v0.15.0 / 200 cards
 - Rulebook: v2.5 EN/ID
-- PvP frontend mirror: v3.46
+- PvP frontend mirror: v3.47
 - Current resource terminology: **Shard Deck**, **Shard Pool**, **Mana Shard**, **Class Shard**
 
 The card database includes S1-ITM-019 Warp Scroll and S1-ITM-020 Freeze Bomb. The online Rulebook content and downloadable EN/ID PDFs are synchronized to v2.5. Mobile **Play it Online** routes to PvP.
 
-The `/pvp/` directory is the exact byte-for-byte mirror of the final Grandis Legacy PvP v3.46 `public/` frontend. External real-network verification remains pending deployment-environment acceptance.
+The `/pvp/` directory is the exact byte-for-byte mirror of the final Grandis Legacy PvP v3.47 `public/` frontend. External real-network verification remains pending deployment-environment acceptance.
 
-See `release/WEBSITE_v1.35_RELEASE_NOTES.md` and `release/PVP_v3.46_WEBSITE_MIRROR_AUDIT.md`.
+See `release/WEBSITE_v1.36_RELEASE_NOTES.md` and `release/PVP_v3.47_WEBSITE_MIRROR_AUDIT.md`.

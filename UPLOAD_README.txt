@@ -1,4 +1,4 @@
-Grandis Legacy Website v1.35
+Grandis Legacy Website v1.36
 
 FULL REPLACEMENT package for the public GrandisLegacyTCG.github.io repository.
 
@@ -15,11 +15,11 @@ GitHub Desktop workflow:
 6. GitHub Pages setting: Deploy from a branch -> main -> / (root).
 
 Production locks:
-- Website: v1.35
+- Website: v1.36
 - Rulebook: latest bilingual EN/ID release included in this package
 - Season 1 cards: 200
 - Terminology: Shard Deck / Shard Pool / Mana Shard / Class Shard
-- Embedded production PvP frontend: Grandis Legacy PvP v3.46 exact /public mirror
+- Embedded production PvP frontend: Grandis Legacy PvP v3.47 exact /public mirror
 
 Because production PvP is served from Website /pvp/, deploy this Website package whenever the canonical PvP public frontend changes.
 

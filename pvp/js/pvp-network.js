@@ -1,10 +1,10 @@
-/* Grandis Legacy PvP v3.46 rank-selector UI integration controller.
+/* Grandis Legacy PvP v3.47 safe v3.45 rebuild + approved Rank-selector UI port.
    Candidate 2 source/presentation architecture is preserved. Gameplay is intent-only on the client:
    server validation/canonical runtime commits authoritative state, then viewer-safe snapshots cross the
    PvP presentation adapter before the shared VS AI v6.42 Candidate 15 renderer. */
 (function(){
   'use strict';
-  var VERSION='Grandis Legacy PvP v3.46 · Deck Builder Style 1 Rank Selector Visual Parity · OSA v1.9.5 · 2 Players + 4 Spectators';
+  var VERSION='Grandis Legacy PvP v3.47 · Safe v3.45 Server Baseline + Deck Builder Style 1 Rank Selector · OSA v1.9.5 · 2 Players + 4 Spectators';
   var STORE_KEY='grandis_legacy_pvp_v20_client_id';
   var ROOM_KEY='grandis_legacy_pvp_v20_room';
   var NAME_KEY='grandis_legacy_pvp_v20_name';
@@ -12,7 +12,7 @@
   var ws=null,reconnectTimer=null,reconnectDelay=1200,intentTimeoutTimer=null,connectTimeoutTimer=null;
   var state={connected:false,connectionState:'idle',connectionMessage:'',connectionUrl:'',snapshot:null,room:'LOBBY',name:'',role:'player',deckKey:'',loadedDeckKey:'',customDeck:null,customDeckName:'',clientId:'',lobbyRankPreview:1,lobbyFormation:null,lastAppliedRevision:0,applyingServer:false,intentInFlight:false,intentBaseRevision:0,intentName:'',intentActionId:'',intentSentAt:0,actionSequence:0,seatToken:'',lastMatchStatus:'setup',seenAnimationIds:{},lastCoinAnimationKey:'',coinResultReadyKey:'',mobileHandScrollLeft:0,mobileHandMode:'preserve',mobileHandApplyToken:0,mobileHandHooksInstalled:false,spectatorLobbyView:false,spectatorBattlefieldEntered:false,nameDraft:'',roomGeneration:0,reloadAfterRoomReset:false,latencyMs:null,opponentLatencyMs:null,lastPingSentAt:0,lastPongAt:0};
   var DEPLOY_CONFIG=window.GL_PVP_CONFIG||window.GL_CONFIG||{};
-  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.46-rank-selector-ui-2026-09-24');
+  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.47-safe-rank-sync-2026-09-24');
   function fixedDeploymentRoom(){var n=Number(DEPLOY_CONFIG.roomId||0);return n===1||n===2?n:0;}
   function roomNumber(){var fixed=fixedDeploymentRoom();if(fixed)return fixed;try{return Number(new URL(location.href).searchParams.get('server'))===2?2:1;}catch(e){return 1;}}
   function roomDisplayName(){return DEPLOY_CONFIG.roomName||('PvP Room '+roomNumber());}

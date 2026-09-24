@@ -1,11 +1,11 @@
 {
   "name": "grandis-legacy-website",
-  "version": "1.35.0",
+  "version": "1.36.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.35 \u2014 exact PvP v3.46 /pvp frontend mirror; unrelated Website content/shared assets preserved.",
+  "description": "Grandis Legacy Website v1.36 \u2014 exact PvP v3.47 /pvp frontend mirror from the safe v3.45-based Runtime Sync repair release; unrelated Website content/shared assets preserved.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
-    "test": "node tests/run-v126-mobile-play-online.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v135-pvp-production-sync.cjs",
+    "test": "node tests/run-v126-mobile-play-online.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v136-pvp-production-sync.cjs",
     "manifest": "node tools/build-file-manifest.cjs",
     "verify:manifest": "node tools/verify-file-manifest.cjs",
     "verify": "npm run build:arvon && npm run qa:layout && npm test && npm run manifest && npm run verify:manifest && npm test",
@@ -13,6 +13,6 @@
     "qa:homepage": "node tools/capture-homepage-qa.cjs",
     "test:v133:pvp": "node tests/run-v133-pvp-production-sync.cjs",
     "test:v134:pvp": "node tests/run-v134-pvp-production-sync.cjs",
-    "test:v135:pvp": "node tests/run-v135-pvp-production-sync.cjs"
+    "test:v136:pvp": "node tests/run-v136-pvp-production-sync.cjs"
   }
 }
