@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
-  "pvp_version": "v3.49",
-  "package_version": "3.0.49",
-  "build_id": "gl-pvp-3.49-shard-parity-final-2026-09-26",
+  "pvp_version": "v3.50",
+  "package_version": "3.0.50",
+  "build_id": "gl-pvp-3.50-animation-parity-final-2026-09-26",
   "release_ready": true,
   "production_frontend_url": "https://grandislegacytcg.github.io/pvp/",
   "production_frontend_owner": "GrandisLegacyTCG.github.io repository /pvp/ directory",
-  "source_directory": "PvP v3.49 final repository public/",
+  "source_directory": "PvP v3.50 final repository public/",
   "deployment_mode": "website-embedded-production-frontend",
   "network_verification": "external-verification-required-for-live-room-services",
   "northflank_services": 2,
@@ -27,8 +27,8 @@
   "lobby_presentation": "v3.45 approved Lobby + exact Deck Builder v1.31 Style 1 Rank selector visual component ported from v3.46 reference only",
   "rank_preview": "Lobby-only Deck Builder Style 1 Rank I\u2013III local presentation state below formation; no gameplay/network mutation",
   "battlefield_preserved": true,
-  "website_target_version": "v1.38",
-  "note": "v3.49 final Shard parity: Part 1 server-authoritative Shard interactions retained; Starting Shard, Draw Phase Regen, pool-cap and effect-based Shard gain presentation now use one authoritative animation path; mobile/tablet Main Deck draw pre-flight timing aligned with desktop; final two-client browser regressions required.",
+  "website_target_version": "v1.39",
+  "note": "v3.50 final non-Shard animation parity: authoritative PvP presentation now bridges approved shared motions for secondary Hand-to-Discard, Attachment-to-Discard, Legacy Field-to-Legacy Deck on Revive, and normal Attack held-card lifecycle through Response/post-resolution continuation. PvP v3.49 Shard system and Main Deck mobile draw timing remain locked.",
   "hero_formation": "Deck Builder Style 1 swap controls; starter formation changes are validated server-side and applied at match start",
   "server_packaging_fix": "Dockerfile now copies canonical server/ modules required by server.js, including gameplay-intent-router.mjs"
 }

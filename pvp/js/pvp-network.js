@@ -4,7 +4,7 @@
    PvP presentation adapter before the shared VS AI v6.42 Candidate 15 renderer. */
 (function(){
   'use strict';
-  var VERSION='Grandis Legacy PvP v3.49 · Shard System Parity Part 1 · Server-Authoritative Pending Choice · OSA v1.9.5 · 2 Players + 4 Spectators';
+  var VERSION='Grandis Legacy PvP v3.50 · Non-Shard Animation Parity · Server-Authoritative Presentation · OSA v1.9.5 · 2 Players + 4 Spectators';
   var STORE_KEY='grandis_legacy_pvp_v20_client_id';
   var ROOM_KEY='grandis_legacy_pvp_v20_room';
   var NAME_KEY='grandis_legacy_pvp_v20_name';
@@ -12,7 +12,7 @@
   var ws=null,reconnectTimer=null,reconnectDelay=1200,intentTimeoutTimer=null,connectTimeoutTimer=null;
   var state={connected:false,connectionState:'idle',connectionMessage:'',connectionUrl:'',snapshot:null,room:'LOBBY',name:'',role:'player',deckKey:'',loadedDeckKey:'',customDeck:null,customDeckName:'',clientId:'',lobbyRankPreview:1,lobbyFormation:null,lastAppliedRevision:0,applyingServer:false,intentInFlight:false,intentBaseRevision:0,intentName:'',intentActionId:'',intentSentAt:0,actionSequence:0,seatToken:'',lastMatchStatus:'setup',seenAnimationIds:{},lastCoinAnimationKey:'',coinResultReadyKey:'',mobileHandScrollLeft:0,mobileHandMode:'preserve',mobileHandApplyToken:0,mobileHandHooksInstalled:false,spectatorLobbyView:false,spectatorBattlefieldEntered:false,nameDraft:'',roomGeneration:0,reloadAfterRoomReset:false,latencyMs:null,opponentLatencyMs:null,lastPingSentAt:0,lastPongAt:0};
   var DEPLOY_CONFIG=window.GL_PVP_CONFIG||window.GL_CONFIG||{};
-  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.49-shard-parity-final-2026-09-26');
+  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.50-animation-parity-final-2026-09-26');
   function fixedDeploymentRoom(){var n=Number(DEPLOY_CONFIG.roomId||0);return n===1||n===2?n:0;}
   function roomNumber(){var fixed=fixedDeploymentRoom();if(fixed)return fixed;try{return Number(new URL(location.href).searchParams.get('server'))===2?2:1;}catch(e){return 1;}}
   function roomDisplayName(){return DEPLOY_CONFIG.roomName||('PvP Room '+roomNumber());}
@@ -216,6 +216,12 @@
       var evt=localizeAnimationEvent(raw,seat),plan={event:evt,captured:null};
       if(evt.kind==='card_play'&&b.captureAuthoritativePlayedCardMotion){
         plan.captured=b.captureAuthoritativePlayedCardMotion(evt.card_id,evt.actor_side,{hand_index:evt.hand_index,source_side:evt.source_side||evt.actor_side,source_lane:evt.source_lane,target_side:evt.target_side,target_lane:evt.target_lane,target_lanes:evt.target_lanes,triple_shot_area:!!evt.triple_shot_area});
+      }else if(evt.kind==='hand_to_discard'&&b.captureAuthoritativeHandDiscardMotion){
+        plan.captured=b.captureAuthoritativeHandDiscardMotion(evt.actor_side,evt.hand_index,evt.card_id);
+      }else if(evt.kind==='attachment_to_discard'&&b.captureAuthoritativeAttachmentDiscardMotion){
+        plan.captured=b.captureAuthoritativeAttachmentDiscardMotion(evt.actor_side,evt.lane,evt.slot,evt.card_id);
+      }else if(evt.kind==='legacy_to_deck'&&b.captureAuthoritativeLegacyToDeckMotion){
+        plan.captured=b.captureAuthoritativeLegacyToDeckMotion(evt.actor_side,evt.lane,evt.card_id);
       }else if(evt.kind==='tribute'&&b.captureAuthoritativeTributeMotion){
         plan.captured=b.captureAuthoritativeTributeMotion(evt.actor_side,evt.hand_index,evt.card_id,evt.target_lane);
       }else if(evt.kind==='rank_up'&&b.captureAuthoritativeRankUpMotion){
@@ -239,10 +245,16 @@
     (plans||[]).forEach(function(plan){
       var evt=plan&&plan.event;if(!evt)return;
       if(evt.kind==='card_play'){
-        var moved=!!(plan.captured&&b.commitAuthoritativePlayedCardMotion&&b.commitAuthoritativePlayedCardMotion(plan.captured,evt.destination||{type:'target'}));
+        var moved=false;
+        if(evt.held_until_resolution&&evt.hold_key&&plan.captured&&b.beginAuthoritativeHeldPlayedCardMotion)moved=!!b.beginAuthoritativeHeldPlayedCardMotion(plan.captured,evt.hold_key);
+        else if(plan.captured&&b.commitAuthoritativePlayedCardMotion)moved=!!b.commitAuthoritativePlayedCardMotion(plan.captured,evt.destination||{type:'target'});
         if(!moved&&b.playAuthoritativeCardSound)b.playAuthoritativeCardSound();
         ok=moved||ok;
       }
+      else if(evt.kind==='held_card_release'&&b.releaseAuthoritativeHeldCardMotion)ok=b.releaseAuthoritativeHeldCardMotion(evt.hold_key,evt.destination||{type:'discard',side:evt.actor_side})||ok;
+      else if(evt.kind==='hand_to_discard'&&plan.captured&&b.queueCapturedAuthoritativeHandDiscardMotion)ok=b.queueCapturedAuthoritativeHandDiscardMotion(plan.captured)||ok;
+      else if(evt.kind==='attachment_to_discard'&&plan.captured&&b.queueCapturedAuthoritativeAttachmentDiscardMotion)ok=b.queueCapturedAuthoritativeAttachmentDiscardMotion(plan.captured)||ok;
+      else if(evt.kind==='legacy_to_deck'&&plan.captured&&b.queueCapturedAuthoritativeLegacyToDeckMotion)ok=b.queueCapturedAuthoritativeLegacyToDeckMotion(plan.captured)||ok;
       else if(evt.kind==='tribute'&&plan.captured&&b.queueAuthoritativeTributeMotion)ok=b.queueAuthoritativeTributeMotion(plan.captured)||ok;
       else if(evt.kind==='rank_up'&&plan.captured&&b.queueCapturedAuthoritativeRankUpMotion)ok=b.queueCapturedAuthoritativeRankUpMotion(plan.captured)||ok;
       else if(evt.kind==='rank_up'&&b.queueAuthoritativeRankUpMotion)ok=b.queueAuthoritativeRankUpMotion(evt.actor_side,evt.lane,evt.to_card_id,evt.exp_card_ids||[])||ok;

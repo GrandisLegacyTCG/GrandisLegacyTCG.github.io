@@ -6,7 +6,7 @@
   var GL_APP_MODE=String((typeof window!=='undefined'&&window.GL_APP_MODE)||'LOCAL_AI').toUpperCase();
   var IS_PVP_APP=GL_APP_MODE==='PVP';
   var IS_TUTORIAL_APP=GL_APP_MODE==='TUTORIAL';
-  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.49 · Shard Parity Final · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61':(IS_TUTORIAL_APP?'Grandis Legacy Tutorial v0.68 GitHub Pages · VS AI v6.42 Base · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61':'Grandis Legacy VS AI v6.42 · Shared Gameplay Bundle v3.2 · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61');
+  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.50 · Animation Parity Final · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61':(IS_TUTORIAL_APP?'Grandis Legacy Tutorial v0.68 GitHub Pages · VS AI v6.42 Base · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61':'Grandis Legacy VS AI v6.42 · Shared Gameplay Bundle v3.2 · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61');
   var PHASES=['Draw','Deploy','Battle','Reform','End'];
   var LANE_ORDER=['LEFT','CENTER','RIGHT'];
   var EXP_MAX_TOTAL=700;
@@ -566,7 +566,7 @@
   function capturePlayedCardMotion(cardId,side,action){
     if(!animationDocumentReady()) return null;
     action=action||{};
-    var from=side==='PLAYER'?captureVisualRect('.hand-card[data-hand-index="'+Number(action.hand_index)+'"] .hand-art'):captureAIHandAnimationRect();
+    var from=side==='PLAYER'?(captureVisualRect('.hand-card[data-hand-index="'+Number(action.hand_index)+'"] .hand-art')||captureHandSlotRect('PLAYER',Number(action.hand_index))||captureVisualRect('.handPanel')):captureAIHandAnimationRect();
     var sourceAnchor=multiTargetAttackAnimationUsesSource(cardId,action);
     var sourceTarget=(action.source_side&&action.source_lane)?captureVisualRect('.hero-panel[data-side="'+action.source_side+'"][data-lane="'+action.source_lane+'"] .heroImg'):null;
     var targetLane=action.target_lane||((action.target_lanes&&action.target_lanes.length)?action.target_lanes[0]:null);
@@ -780,7 +780,7 @@
   }
   function captureTributeCardMotion(side,handIndex,cardId,lane){
     if(!animationDocumentReady()) return null;
-    var from=side==='PLAYER'?captureVisualRect('.hand-card[data-hand-index="'+Number(handIndex)+'"] .hand-art'):captureAIHandAnimationRect();
+    var from=side==='PLAYER'?(captureVisualRect('.hand-card[data-hand-index="'+Number(handIndex)+'"] .hand-art')||captureHandSlotRect('PLAYER',Number(handIndex))||captureVisualRect('.handPanel')):captureAIHandAnimationRect();
     var target=captureVisualRect('.hero-panel[data-side="'+side+'"][data-lane="'+lane+'"] .heroImg');
     return {side:side,card_id:cardId,from:from,target:target};
   }
@@ -806,7 +806,7 @@
   }
   function captureHandDiscardMotion(side,handIndex,cardId){
     if(!animationDocumentReady() || !cardId) return null;
-    var from=side==='PLAYER'?captureVisualRect('.hand-card[data-hand-index="'+Number(handIndex)+'"] .hand-art'):captureAIHandAnimationRect();
+    var from=side==='PLAYER'?(captureVisualRect('.hand-card[data-hand-index="'+Number(handIndex)+'"] .hand-art')||captureHandSlotRect('PLAYER',Number(handIndex))||captureVisualRect('.handPanel')):captureAIHandAnimationRect();
     var to=captureVisualRect('[data-zone-side="'+side+'"][data-zone-type="Discard Pile"] .zoneCard');
     return from&&to?{card_id:cardId,from:from,to:to}:null;
   }
@@ -818,6 +818,27 @@
     var to=captureVisualRect('[data-zone-side="'+side+'"][data-zone-type="Discard Pile"] .zoneCard');
     if(!from||!to) return false;
     return queueVisualCardMotion(thumbFor(cardId),from,[{rect:to}],390);
+  }
+
+  function captureAuthoritativeAttachmentDiscardMotion(side,lane,slot,cardId){
+    if(!animationDocumentReady() || !cardId) return null;
+    var from=captureVisualRect('.slot[data-attachment-side="'+side+'"][data-attachment-lane="'+lane+'"][data-attachment-slot="'+Number(slot)+'"]');
+    var to=captureVisualRect('[data-zone-side="'+side+'"][data-zone-type="Discard Pile"] .zoneCard');
+    return from&&to?{card_id:cardId,from:from,to:to}:null;
+  }
+  function queueCapturedAuthoritativeAttachmentDiscardMotion(snapshot){
+    if(!snapshot) return false;
+    return queueVisualCardMotion(thumbFor(snapshot.card_id),snapshot.from,[{rect:snapshot.to}],390);
+  }
+  function captureAuthoritativeLegacyToDeckMotion(side,lane,cardId){
+    if(!animationDocumentReady() || !cardId) return null;
+    var from=captureVisualRect('.hero-panel[data-side="'+side+'"][data-lane="'+lane+'"] .heroImg');
+    var to=captureVisualRect('[data-zone-side="'+side+'"][data-zone-type="Legacy Deck"] .zoneCard');
+    return from&&to?{card_id:cardId,from:from,to:to}:null;
+  }
+  function queueCapturedAuthoritativeLegacyToDeckMotion(snapshot){
+    if(!snapshot) return false;
+    return queueVisualCardMotion(thumbFor(snapshot.card_id),snapshot.from,[{rect:snapshot.to}],470);
   }
 
   function shuffleDeck(deckArray){
@@ -10313,6 +10334,14 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
     playOpeningCoinSound:playOpeningCoinSound,
     captureAuthoritativePlayedCardMotion:function(cardId,side,action){ return capturePlayedCardMotion(cardId,side,action||{}); },
     commitAuthoritativePlayedCardMotion:function(snapshot,destination){ return commitAuthoritativePlayedCardMotion(snapshot,destination||{type:'target'}); },
+    beginAuthoritativeHeldPlayedCardMotion:function(snapshot,holdKey){ return beginHeldTargetCardMotion(snapshot,holdKey); },
+    releaseAuthoritativeHeldCardMotion:function(holdKey,destination){ return releaseHeldCardMotion(holdKey,destination||{}); },
+    captureAuthoritativeHandDiscardMotion:function(side,handIndex,cardId){ return captureHandDiscardMotion(side,handIndex,cardId); },
+    queueCapturedAuthoritativeHandDiscardMotion:function(snapshot){ return queueHandDiscardMotion(snapshot); },
+    captureAuthoritativeAttachmentDiscardMotion:captureAuthoritativeAttachmentDiscardMotion,
+    queueCapturedAuthoritativeAttachmentDiscardMotion:queueCapturedAuthoritativeAttachmentDiscardMotion,
+    captureAuthoritativeLegacyToDeckMotion:captureAuthoritativeLegacyToDeckMotion,
+    queueCapturedAuthoritativeLegacyToDeckMotion:queueCapturedAuthoritativeLegacyToDeckMotion,
     queueAuthoritativeDrawMotion:function(side,cardId,count){var n=Math.max(1,Number(count||1)),events=[],hand=sideHand(appState,side)||[];for(var i=0;i<n;i++)events.push({id:'external-'+(++GL_ANIMATION_SEQUENCE),type:'CARD_DRAWN',side:side,card_id:cardId,hand_index:Math.max(0,hand.length-n+i),reason:'CARD_EFFECT'});return queueDrawEvents(events,appState);},
     queueAuthoritativeDrawEvents:function(events){focusMobilePlayerHand({lockRight:true});return queueDrawEvents(clone(events||[]),appState);},
     queueAuthoritativeShardGainMotions:function(entries,options){return queueAuthoritativeShardGainMotions(clone(entries||[]),options||{});},

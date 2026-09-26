@@ -1,7 +1,7 @@
-Grandis Legacy Website v1.38
+Grandis Legacy Website v1.39
 
-Upload the contents of this repository to the GitHub Pages website repository.
+GitHub Pages upload package.
 
-- Website: v1.38
-- PvP mirror: v3.49
-- /pvp/ is the exact final PvP v3.49 public frontend.
+- Website: v1.39
+- PvP mirror: Grandis Legacy PvP v3.50 `/public/` copied exactly to `/pvp/`
+- Preserve the repository folder structure when uploading.

@@ -1,10 +1,9 @@
-# Grandis Legacy Website v1.38
+# Grandis Legacy Website v1.39
 
-Final GitHub Pages website package for 2026-09-26.
+Final GitHub Pages package for the Grandis Legacy website.
 
-- Website: **v1.38**
-- PvP mirror: **v3.49**
-- `/pvp/` is an exact byte mirror of the final PvP v3.49 `/public/` directory.
-- Unrelated Website content is preserved from v1.37.
+- Website: **v1.39**
+- `/pvp/`: exact public frontend mirror of **Grandis Legacy PvP v3.50**
+- Content outside `/pvp/` is retained from Website v1.38 except release/version metadata and manifests.
 
-See `release/WEBSITE_v1.38_RELEASE_NOTES.md`.
+See `release/WEBSITE_v1.39_RELEASE_NOTES.md`.
