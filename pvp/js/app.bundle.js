@@ -6,7 +6,7 @@
   var GL_APP_MODE=String((typeof window!=='undefined'&&window.GL_APP_MODE)||'LOCAL_AI').toUpperCase();
   var IS_PVP_APP=GL_APP_MODE==='PVP';
   var IS_TUTORIAL_APP=GL_APP_MODE==='TUTORIAL';
-  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.43 Candidate 2 · VS AI v6.42 Candidate 15 Battlefield · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61':(IS_TUTORIAL_APP?'Grandis Legacy Tutorial v0.68 GitHub Pages · VS AI v6.42 Base · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61':'Grandis Legacy VS AI v6.42 · Shared Gameplay Bundle v3.2 · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61');
+  var GL_VERSION=IS_PVP_APP?'Grandis Legacy PvP v3.49 · Shard Parity Final · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61':(IS_TUTORIAL_APP?'Grandis Legacy Tutorial v0.68 GitHub Pages · VS AI v6.42 Base · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61':'Grandis Legacy VS AI v6.42 · Shared Gameplay Bundle v3.2 · One Source v1.9.5 · Runtime Data v0.16.2 · Foundation v1.94.2 · Core v0.61');
   var PHASES=['Draw','Deploy','Battle','Reform','End'];
   var LANE_ORDER=['LEFT','CENTER','RIGHT'];
   var EXP_MAX_TOTAL=700;
@@ -475,6 +475,7 @@
   }
   var GL_HIDDEN_DRAW_TOKENS={PLAYER:[],AI:[]};
   var GL_HIDDEN_MANA_DRAW_TOKENS={PLAYER:[],AI:[]};
+  var GL_HIDDEN_AUTHORITATIVE_SHARD_SLOTS={PLAYER:{},AI:{}};
   /* v0.10 staged Draw Phase presentation. Destination zones are not mutated until the flying card arrives. */
   var GL_PENDING_DRAW_RESERVATIONS={PLAYER:[],AI:[]};
   var GL_PENDING_MANA_DRAW_RESERVATIONS={PLAYER:[],AI:[]};
@@ -750,7 +751,7 @@
         function done(){revealGroup(group);setTimeout(runNext,50);}
         if(parts.every(function(part){return part.from&&part.to;})){
           if(parts.length>1)queueParallelVisualCardMotions(parts.map(function(part){return{src:part.src,from:part.from,to:part.to};}),360,{play_sound:true,onFinish:done});
-          else queueVisualCardMotion(parts[0].src,parts[0].from,[{rect:parts[0].to}],360,{play_sound:true,onFinish:done});
+          else queueVisualCardMotion(parts[0].src,parts[0].from,[{rect:parts[0].to}],360,{play_sound:true,eager_start:isMobileViewport(),onFinish:done});
           queued=true;
         }else done();
       }
@@ -758,10 +759,10 @@
         var openingGroup=group.some(function(e){return e&&e.reason==='OPENING_HAND';});
         var drawPhaseGroup=group.some(function(e){return e&&e.side==='PLAYER'&&e.reason==='MANDATORY_DRAW_PHASE';});
         focusMobilePlayerHand({targetIndex:Number(latest.hand_index),ensureVisible:(openingGroup||drawPhaseGroup)});
-        nextVisualFrame(function(){nextVisualFrame(animateVisibleTarget);});
+        nextVisualFrame(animateVisibleTarget);
       }else animateVisibleTarget();
     }
-    if(playerEvents.length&&isMobileViewport())nextVisualFrame(function(){nextVisualFrame(runNext);});else runNext();
+    if(playerEvents.length&&isMobileViewport())nextVisualFrame(runNext);else runNext();
     return queued;
   }
 
@@ -1608,6 +1609,25 @@
     drawn.forEach(function(sh){addHiddenManaDrawToken(side,sh.uid);});render();var index=0,back='https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Legacy-Deck.webp';
     function next(){if(index>=drawn.length)return;var sh=drawn[index++];nextVisualFrame(function(){var from=captureVisualRect('[data-zone-side="'+side+'"][data-zone-type="Shard Deck"] .zoneCard'),to=captureVisualRect('.gl-lab-mana-card[data-mana-side="'+side+'"][data-mana-uid="'+sh.uid+'"]');function done(){removeHiddenManaDrawToken(side,sh.uid,{suppressRender:true});if(appState&&matchStarted&&!SUPPRESS_RENDER)render();if(index<drawn.length)setTimeout(next,55);}if(from&&to)queueVisualCardMotion(back,from,[{rect:to}],390,{play_sound:true,eager_start:true,onFinish:done});else done();});}next();return true;
   }
+  function prehideAuthoritativeShardEntries(entries){(entries||[]).forEach(function(e){if(e&&(e.side==='PLAYER'||e.side==='AI')&&Number.isFinite(Number(e.pool_index)))setAuthoritativeShardSlotHidden(e.side,Number(e.pool_index),true);});if(appState&&matchStarted&&!SUPPRESS_RENDER)render();return true;}
+  function queueAuthoritativeOpeningSequence(openingDrawEvents,startingShardEntries,postOpeningDrawEvents,postOpeningShardEntries){
+    openingDrawEvents=clone(openingDrawEvents||[]);startingShardEntries=clone(startingShardEntries||[]);postOpeningDrawEvents=clone(postOpeningDrawEvents||[]);postOpeningShardEntries=clone(postOpeningShardEntries||[]);
+    prehideAuthoritativeShardEntries(startingShardEntries.concat(postOpeningShardEntries));
+    function postShards(){return queueAuthoritativeShardGainMotions(postOpeningShardEntries,{prehidden:true});}
+    function postDraw(){if(postOpeningDrawEvents.length)return queueDrawEvents(postOpeningDrawEvents,appState,{onComplete:postShards});return postShards();}
+    function startingShards(){if(startingShardEntries.length)return queueAuthoritativeShardGainMotions(startingShardEntries,{prehidden:true,onComplete:postDraw});return postDraw();}
+    if(openingDrawEvents.length)return queueDrawEvents(openingDrawEvents,appState,{onComplete:startingShards});
+    return startingShards();
+  }
+  function authoritativeDrawSpecsToEvents(specs){
+    var out=[];(specs||[]).forEach(function(spec){if(!spec)return;var ids=Array.isArray(spec.card_ids)?spec.card_ids.slice():[],n=Math.max(1,Number(spec.count||ids.length||1)),hand=sideHand(appState,spec.actor_side)||[];while(ids.length<n)ids.push(spec.card_id||'__HIDDEN_CARD_BACK__');for(var i=0;i<n;i++)out.push({id:(spec.id||('external-'+(++GL_ANIMATION_SEQUENCE)))+'-'+i,type:'CARD_DRAWN',side:spec.actor_side,card_id:ids[i]||spec.card_id||'__HIDDEN_CARD_BACK__',hand_index:Math.max(0,hand.length-n+i),reason:spec.reason||'MANDATORY_DRAW_PHASE'});});return out;
+  }
+  function queueAuthoritativeDrawThenShardMotions(drawSpecs,shardEntries){
+    var drawEvents=authoritativeDrawSpecsToEvents(drawSpecs||[]);shardEntries=clone(shardEntries||[]);prehideAuthoritativeShardEntries(shardEntries);
+    function shards(){queueAuthoritativeShardGainMotions(shardEntries,{prehidden:true});}
+    if(drawEvents.length)return queueDrawEvents(drawEvents,appState,{onComplete:shards});
+    return queueAuthoritativeShardGainMotions(shardEntries,{prehidden:true});
+  }
   function drawManaCards(state,side,amount,reason){
     var deck=manaDeckForSide(state,side),pool=manaPoolCardsForSide(state,side),want=Math.max(0,Number(amount||0)),drawn=[];
     while(want-->0&&deck.length&&pool.length<GL_LAB_MANA_DECK_SIZE){var sh=deck.shift();if(sh){sh.bottom_locked=false;pool.push(sh);drawn.push(sh);}}
@@ -1616,6 +1636,30 @@
   function addHiddenManaDrawToken(side,uid){var token={token:'mana-draw-'+(++GL_ANIMATION_SEQUENCE),uid:String(uid||'')};(GL_HIDDEN_MANA_DRAW_TOKENS[side]||(GL_HIDDEN_MANA_DRAW_TOKENS[side]=[])).push(token);return token;}
   function hiddenManaDrawToken(side,uid){return (GL_HIDDEN_MANA_DRAW_TOKENS[side]||[]).find(function(x){return String(x.uid)===String(uid);})||null;}
   function removeHiddenManaDrawToken(side,uid,options){options=options||{};GL_HIDDEN_MANA_DRAW_TOKENS[side]=(GL_HIDDEN_MANA_DRAW_TOKENS[side]||[]).filter(function(x){return String(x.uid)!==String(uid);});if(!options.suppressRender&&appState&&matchStarted&&!SUPPRESS_RENDER)render();}
+  function authoritativeShardSlotHidden(side,index){var map=GL_HIDDEN_AUTHORITATIVE_SHARD_SLOTS[side]||{};return !!map[String(Number(index))];}
+  function setAuthoritativeShardSlotHidden(side,index,hidden){side=side==='AI'?'AI':'PLAYER';var map=GL_HIDDEN_AUTHORITATIVE_SHARD_SLOTS[side]||(GL_HIDDEN_AUTHORITATIVE_SHARD_SLOTS[side]={}),key=String(Number(index));if(hidden)map[key]=true;else delete map[key];return !!map[key];}
+  function queueAuthoritativeShardGainMotions(entries,options){
+    options=options||{};entries=(entries||[]).filter(function(e){return e&&(e.side==='PLAYER'||e.side==='AI')&&Number.isFinite(Number(e.pool_index));});
+    if(!entries.length||!animationDocumentReady()){if(typeof options.onComplete==='function')options.onComplete();return false;}
+    if(!options.prehidden){entries.forEach(function(e){setAuthoritativeShardSlotHidden(e.side,Number(e.pool_index),true);});if(appState&&matchStarted&&!SUPPRESS_RENDER)render();}
+    var groups=[],byIndex={};entries.forEach(function(e){var key=String(Number(e.group_index!=null?e.group_index:e.pool_index));if(!byIndex[key]){byIndex[key]=[];groups.push(byIndex[key]);}byIndex[key].push(e);});
+    groups.sort(function(a,b){return Number(a[0].group_index!=null?a[0].group_index:a[0].pool_index)-Number(b[0].group_index!=null?b[0].group_index:b[0].pool_index);});
+    var cursor=0,queued=false,back='https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Legacy-Deck.webp';
+    function finish(){if(typeof options.onComplete==='function')options.onComplete();}
+    function next(){
+      if(cursor>=groups.length){finish();return;}var group=groups[cursor++];
+      nextVisualFrame(function(){
+        var parts=group.map(function(e){return{event:e,src:back,from:captureVisualRect('[data-zone-side="'+e.side+'"][data-zone-type="Shard Deck"] .zoneCard'),to:captureVisualRect('.gl-lab-mana-card[data-mana-side="'+e.side+'"][data-mana-index="'+Number(e.pool_index)+'"]')};});
+        function done(){group.forEach(function(e){setAuthoritativeShardSlotHidden(e.side,Number(e.pool_index),false);});if(appState&&matchStarted&&!SUPPRESS_RENDER)render();if(cursor<groups.length)setTimeout(next,55);else finish();}
+        if(parts.every(function(part){return part.from&&part.to;})){
+          if(parts.length>1)queueParallelVisualCardMotions(parts.map(function(part){return{src:part.src,from:part.from,to:part.to};}),390,{play_sound:true,onFinish:done});
+          else queueVisualCardMotion(parts[0].src,parts[0].from,[{rect:parts[0].to}],390,{play_sound:true,eager_start:true,onFinish:done});
+          queued=true;
+        }else done();
+      });
+    }
+    next();return queued;
+  }
   function openingManaDrawEvents(state){
     var events=[];
     for(var i=0;i<GL_LAB_START_MANA_CARDS;i++){
@@ -6331,7 +6375,7 @@ function getActivatedHeroAbilities(state, side, lane){
     return resumeAITurnAfterPlayerResponseImmediate(state);
   }
   function clearTransientUiState(){
-    GL_PENDING_DRAW_RESERVATIONS={PLAYER:[],AI:[]};GL_PENDING_MANA_DRAW_RESERVATIONS={PLAYER:[],AI:[]};
+    GL_PENDING_DRAW_RESERVATIONS={PLAYER:[],AI:[]};GL_PENDING_MANA_DRAW_RESERVATIONS={PLAYER:[],AI:[]};GL_HIDDEN_AUTHORITATIVE_SHARD_SLOTS={PLAYER:{},AI:{}};
     GL_LAST_PLAYER_TURN_BANNER_KEY='';removePlayerTurnBanner();
     closeChoice(); closeInfo(); closeResponseWindowUI();
     if($('previewOverlay')) $('previewOverlay').classList.remove('open');
@@ -7121,7 +7165,7 @@ function getActivatedHeroAbilities(state, side, lane){
   }
   function mobileShardPoolRow(side,state){
     var shards=manaPoolCardsForSide(state,side),shardHtml='',regen=Math.max(1,Math.min(6,Number(state&&state[manaRegenKeyForSide(side)]||1)));
-    shards.forEach(function(sh,idx){var faceDown=!!(sh&&sh.hidden),label=faceDown?'Face-down opponent Shard':(sh.kind==='CLASS'?(sh.class_name+' Shard'):'Mana Shard'),uid=faceDown?('hidden-slot-'+idx):sh.uid,hidden=!!hiddenManaDrawToken(side,uid);shardHtml+='<button class="gl-lab-mana-card mobile-shard-card '+(faceDown?'is-face-down':(sh.kind==='CLASS'?'is-class':'is-generic'))+' '+(hidden?'is-opening-draw-hidden':'')+'" type="button" data-mana-side="'+esc(side)+'" data-mana-uid="'+esc(uid)+'"'+((!hidden)?' data-shard-preview-src="'+esc(manaShardAsset(sh))+'" data-shard-preview-label="'+esc(label)+'"':'')+' aria-label="'+esc(label)+'" title="'+esc(label)+'"><img src="'+esc(manaShardAsset(sh))+'" alt="'+esc(label)+'"></button>';});
+    shards.forEach(function(sh,idx){var faceDown=!!(sh&&sh.hidden),label=faceDown?'Face-down opponent Shard':(sh.kind==='CLASS'?(sh.class_name+' Shard'):'Mana Shard'),uid=faceDown?('hidden-slot-'+idx):sh.uid,hidden=!!hiddenManaDrawToken(side,uid)||authoritativeShardSlotHidden(side,idx);shardHtml+='<button class="gl-lab-mana-card mobile-shard-card '+(faceDown?'is-face-down':(sh.kind==='CLASS'?'is-class':'is-generic'))+' '+(hidden?'is-opening-draw-hidden':'')+'" type="button" data-mana-side="'+esc(side)+'" data-mana-index="'+esc(idx)+'" data-mana-uid="'+esc(uid)+'"'+((!hidden)?' data-shard-preview-src="'+esc(manaShardAsset(sh))+'" data-shard-preview-label="'+esc(label)+'"':'')+' aria-label="'+esc(label)+'" title="'+esc(label)+'"><img src="'+esc(manaShardAsset(sh))+'" alt="'+esc(label)+'"></button>';});
     pendingManaDrawReservations(side).forEach(function(r){shardHtml+='<span class="gl-lab-mana-card mobile-shard-card is-pending-draw" data-mana-side="'+esc(side)+'" data-mana-pending-id="'+esc(r.id)+'" aria-hidden="true"></span>';});
     var regenHtml='<div class="mobile-shard-regen" aria-label="Mana Regen '+esc(regen)+'"><img src="'+esc(glDieCounterAsset(regen))+'" alt="Mana Regen '+esc(regen)+'"></div>';
     return '<div class="mobile-shard-pool mobile-shard-pool--'+(side==='AI'?'opponent':'player')+'" aria-label="'+esc(side)+' Shard Pool"><strong>SHARD POOL</strong><div class="mobile-shard-pool-content">'+regenHtml+'<div class="mobile-shard-scroll">'+shardHtml+'</div></div>'+mobileShardRacialTokens(side,state)+'</div>';
@@ -7147,8 +7191,8 @@ function getActivatedHeroAbilities(state, side, lane){
   function labManaPoolRow(side,state){
     var shards=manaPoolCardsForSide(state,side),racial=side==='AI'?state.aiRacial:state.racial;
     var shardHtml=shards.map(function(sh,idx){
-      var faceDown=!!(sh&&sh.hidden),label=faceDown?'Face-down opponent Shard':(sh.kind==='CLASS'?(sh.class_name+' Shard'):'Mana Shard'),uid=faceDown?('hidden-slot-'+idx):sh.uid,hidden=!!hiddenManaDrawToken(side,uid);
-      return '<button class="gl-lab-mana-card '+(faceDown?'is-face-down':(sh.kind==='CLASS'?'is-class':'is-generic'))+' '+(hidden?'is-opening-draw-hidden':'')+'" type="button" data-mana-side="'+esc(side)+'" data-mana-uid="'+esc(uid)+'"'+((!hidden)?' data-shard-preview-src="'+esc(manaShardAsset(sh))+'" data-shard-preview-label="'+esc(label)+'"':'')+' aria-label="'+esc(label)+'" title="'+esc(label)+'"><img src="'+esc(manaShardAsset(sh))+'" alt="'+esc(label)+'"></button>';
+      var faceDown=!!(sh&&sh.hidden),label=faceDown?'Face-down opponent Shard':(sh.kind==='CLASS'?(sh.class_name+' Shard'):'Mana Shard'),uid=faceDown?('hidden-slot-'+idx):sh.uid,hidden=!!hiddenManaDrawToken(side,uid)||authoritativeShardSlotHidden(side,idx);
+      return '<button class="gl-lab-mana-card '+(faceDown?'is-face-down':(sh.kind==='CLASS'?'is-class':'is-generic'))+' '+(hidden?'is-opening-draw-hidden':'')+'" type="button" data-mana-side="'+esc(side)+'" data-mana-index="'+esc(idx)+'" data-mana-uid="'+esc(uid)+'"'+((!hidden)?' data-shard-preview-src="'+esc(manaShardAsset(sh))+'" data-shard-preview-label="'+esc(label)+'"':'')+' aria-label="'+esc(label)+'" title="'+esc(label)+'"><img src="'+esc(manaShardAsset(sh))+'" alt="'+esc(label)+'"></button>';
     }).join('');
     pendingManaDrawReservations(side).forEach(function(r){shardHtml+='<span class="gl-lab-mana-card is-pending-draw" data-mana-side="'+esc(side)+'" data-mana-pending-id="'+esc(r.id)+'" aria-hidden="true"></span>';});
     return '<div class="gl-lab-mana-pool gl-lab-mana-pool--'+(side==='AI'?'opponent':'player')+'" aria-label="'+esc(side)+' Shard Pool"><div class="gl-lab-racial">'+v94RacialCoins(side,racial)+'</div><div class="gl-lab-mana-row">'+shardHtml+'</div></div>';
@@ -10271,6 +10315,9 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
     commitAuthoritativePlayedCardMotion:function(snapshot,destination){ return commitAuthoritativePlayedCardMotion(snapshot,destination||{type:'target'}); },
     queueAuthoritativeDrawMotion:function(side,cardId,count){var n=Math.max(1,Number(count||1)),events=[],hand=sideHand(appState,side)||[];for(var i=0;i<n;i++)events.push({id:'external-'+(++GL_ANIMATION_SEQUENCE),type:'CARD_DRAWN',side:side,card_id:cardId,hand_index:Math.max(0,hand.length-n+i),reason:'CARD_EFFECT'});return queueDrawEvents(events,appState);},
     queueAuthoritativeDrawEvents:function(events){focusMobilePlayerHand({lockRight:true});return queueDrawEvents(clone(events||[]),appState);},
+    queueAuthoritativeShardGainMotions:function(entries,options){return queueAuthoritativeShardGainMotions(clone(entries||[]),options||{});},
+    queueAuthoritativeOpeningSequence:function(openingDrawEvents,startingShardEntries,postOpeningDrawEvents,postOpeningShardEntries){return queueAuthoritativeOpeningSequence(openingDrawEvents||[],startingShardEntries||[],postOpeningDrawEvents||[],postOpeningShardEntries||[]);},
+    queueAuthoritativeDrawThenShardMotions:function(drawSpecs,shardEntries){return queueAuthoritativeDrawThenShardMotions(drawSpecs||[],shardEntries||[]);},
     focusMobilePlayerHand:function(options){return focusMobilePlayerHand(options||{lockRight:true});},
     queueAuthoritativeDrawMotions:function(side,cardIds,count){var ids=Array.isArray(cardIds)?cardIds.slice():[],n=Math.max(1,Number(count||ids.length||1)),events=[],hand=sideHand(appState,side)||[];while(ids.length<n)ids.push('__HIDDEN_CARD_BACK__');for(var i=0;i<n;i++)events.push({id:'external-'+(++GL_ANIMATION_SEQUENCE),type:'CARD_DRAWN',side:side,card_id:ids[i],hand_index:Math.max(0,hand.length-n+i),reason:'CARD_EFFECT'});return queueDrawEvents(events,appState);},
     captureAuthoritativeDrawMotions:captureAuthoritativeDrawMotions,
@@ -10339,6 +10386,8 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
         beginTributeFromHand:beginTributeFromHand,
         chooseHeroFromBoard:chooseHeroFromBoard,
         setArrowBarrageSpend:setArrowBarrageSpend,
+        toggleManaShardPaymentChoice:toggleManaShardPaymentChoice,
+        toggleResponseManaShardChoice:toggleResponseManaShardChoice,
         commitMagicalSurgeChoice:commitMagicalSurgeChoice,
         commitDrawReplacementChoice:commitDrawReplacementChoice,
         selectStatusRemovalChoice:selectStatusRemovalChoice,
@@ -11998,7 +12047,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
   window.GL_LAB_V010_DRAW_SEQUENCE_QA_SELF_TEST=function(){
     initCards();var oldState=appState,oldStarted=matchStarted,oldSuppress=SUPPRESS_RENDER;
     try{
-      SUPPRESS_RENDER=true;matchStarted=true;GL_PENDING_DRAW_RESERVATIONS={PLAYER:[],AI:[]};GL_PENDING_MANA_DRAW_RESERVATIONS={PLAYER:[],AI:[]};
+      SUPPRESS_RENDER=true;matchStarted=true;GL_PENDING_DRAW_RESERVATIONS={PLAYER:[],AI:[]};GL_PENDING_MANA_DRAW_RESERVATIONS={PLAYER:[],AI:[]};GL_HIDDEN_AUTHORITATIVE_SHARD_SLOTS={PLAYER:{},AI:{}};
       var st=buildInitialMatchState();appState=st;st.preGame=null;st.turn='PLAYER';st.phase='Draw';st.cardsDrawnThisTurn={PLAYER:0,AI:0};
       /* Draw sequencing QA uses an active Arbalest so the Hero-owned Draw This Turn bookkeeping is expected to advance. */
       st.playerHeroes.LEFT.card_id='S1-ARC-H005';st.playerHeroes.LEFT.hp=100;st.playerHeroes.LEFT.maxHp=100;
@@ -12019,7 +12068,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
       commitDrawReplacementChoice(false);
       if(qr.pending||qr.playerManaPoolCards.length!==1)return{ok:false,reason:'Mana Regen did not resume only after draw-review completion',pending:qr.pending,manaCards:qr.playerManaPoolCards.length};
       return{ok:true,mainReserveBeforeCommit:true,manaReserveBeforeCommit:true,mainThenManaAuthority:true,drawReviewBeforeMana:true};
-    }catch(e){return{ok:false,error:String(e&&e.stack||e)}}finally{appState=oldState;matchStarted=oldStarted;SUPPRESS_RENDER=oldSuppress;GL_PENDING_DRAW_RESERVATIONS={PLAYER:[],AI:[]};GL_PENDING_MANA_DRAW_RESERVATIONS={PLAYER:[],AI:[]};}
+    }catch(e){return{ok:false,error:String(e&&e.stack||e)}}finally{appState=oldState;matchStarted=oldStarted;SUPPRESS_RENDER=oldSuppress;GL_PENDING_DRAW_RESERVATIONS={PLAYER:[],AI:[]};GL_PENDING_MANA_DRAW_RESERVATIONS={PLAYER:[],AI:[]};GL_HIDDEN_AUTHORITATIVE_SHARD_SLOTS={PLAYER:{},AI:{}};}
   };
 
   window.GL_LAB_V010_FINISH_QA_SELF_TEST=function(){

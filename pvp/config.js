@@ -1,11 +1,11 @@
-/* Grandis Legacy PvP v3.48 — static GitHub Pages frontend config.
+/* Grandis Legacy PvP v3.49 Final — static GitHub Pages frontend config.
    The Website /pvp/ frontend connects to the two remote Northflank-compatible WebSocket room services. */
 (function(){
   'use strict';
   window.GL_APP_MODE='PVP';
   window.GL_CONFIG={
-    version:'Grandis Legacy PvP v3.48 — Safe v3.45 Baseline + Rank Selector Port + Runtime Sync Repair',
-    buildId:'gl-pvp-3.48-safe-rank-sync-2026-09-24',
+    version:'Grandis Legacy PvP v3.49 — Shard Parity Final',
+    buildId:'gl-pvp-3.49-shard-parity-final-2026-09-26',
     mode:'server-authoritative-human-vs-human',
     wsPath:'/ws',
     connectionTimeoutMs:10000,

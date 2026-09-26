@@ -4,7 +4,7 @@
    PvP presentation adapter before the shared VS AI v6.42 Candidate 15 renderer. */
 (function(){
   'use strict';
-  var VERSION='Grandis Legacy PvP v3.48 · Final Bugfix + Mana Authority + Lobby Host Control · OSA v1.9.5 · 2 Players + 4 Spectators';
+  var VERSION='Grandis Legacy PvP v3.49 · Shard System Parity Part 1 · Server-Authoritative Pending Choice · OSA v1.9.5 · 2 Players + 4 Spectators';
   var STORE_KEY='grandis_legacy_pvp_v20_client_id';
   var ROOM_KEY='grandis_legacy_pvp_v20_room';
   var NAME_KEY='grandis_legacy_pvp_v20_name';
@@ -12,7 +12,7 @@
   var ws=null,reconnectTimer=null,reconnectDelay=1200,intentTimeoutTimer=null,connectTimeoutTimer=null;
   var state={connected:false,connectionState:'idle',connectionMessage:'',connectionUrl:'',snapshot:null,room:'LOBBY',name:'',role:'player',deckKey:'',loadedDeckKey:'',customDeck:null,customDeckName:'',clientId:'',lobbyRankPreview:1,lobbyFormation:null,lastAppliedRevision:0,applyingServer:false,intentInFlight:false,intentBaseRevision:0,intentName:'',intentActionId:'',intentSentAt:0,actionSequence:0,seatToken:'',lastMatchStatus:'setup',seenAnimationIds:{},lastCoinAnimationKey:'',coinResultReadyKey:'',mobileHandScrollLeft:0,mobileHandMode:'preserve',mobileHandApplyToken:0,mobileHandHooksInstalled:false,spectatorLobbyView:false,spectatorBattlefieldEntered:false,nameDraft:'',roomGeneration:0,reloadAfterRoomReset:false,latencyMs:null,opponentLatencyMs:null,lastPingSentAt:0,lastPongAt:0};
   var DEPLOY_CONFIG=window.GL_PVP_CONFIG||window.GL_CONFIG||{};
-  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.48-final-bugfix-2026-09-26');
+  var CLIENT_BUILD_ID=String(DEPLOY_CONFIG.buildId||'gl-pvp-3.49-shard-parity-final-2026-09-26');
   function fixedDeploymentRoom(){var n=Number(DEPLOY_CONFIG.roomId||0);return n===1||n===2?n:0;}
   function roomNumber(){var fixed=fixedDeploymentRoom();if(fixed)return fixed;try{return Number(new URL(location.href).searchParams.get('server'))===2?2:1;}catch(e){return 1;}}
   function roomDisplayName(){return DEPLOY_CONFIG.roomName||('PvP Room '+roomNumber());}
@@ -145,7 +145,7 @@
   function applyMobileHandPosition(){if(!isMobileHandViewport())return false;var el=playerHandScroller();if(!el)return false;var max=mobileHandMax(el),left=state.mobileHandMode==='follow-latest'?max:Math.max(0,Math.min(Number(state.mobileHandScrollLeft||0),max));try{el.scrollLeft=left;}catch(ignore){}state.mobileHandScrollLeft=left;return true;}
   function scheduleMobileHandPosition(mode,saved){if(!isMobileHandViewport())return false;if(mode==='follow-latest')state.mobileHandMode='follow-latest';else{state.mobileHandMode='preserve';if(saved&&Number.isFinite(Number(saved.left)))state.mobileHandScrollLeft=Number(saved.left);}var token=++state.mobileHandApplyToken,apply=function(){if(token!==state.mobileHandApplyToken)return;applyMobileHandPosition();};apply();if(typeof requestAnimationFrame==='function')requestAnimationFrame(function(){requestAnimationFrame(apply);});[40,120,260,520,900].forEach(function(ms){setTimeout(apply,ms);});return true;}
   function restoreMobileHandScroll(saved){return scheduleMobileHandPosition('preserve',saved);}
-  function snapshotHasLocalDraw(m,seat){var side=Number(seat)===2?'AI':'PLAYER',events=m&&m.lastAnimationEvents||[];return events.some(function(evt){if(!evt||!evt.id||state.seenAnimationIds[evt.id])return false;if(evt.kind==='draw'&&evt.actor_side===side)return true;if(evt.kind==='draw_batch'&&Array.isArray(evt.events))return evt.events.some(function(e){return e&&(e.side||e.actor_side)===side;});return false;});}
+  function snapshotHasLocalDraw(m,seat){var side=Number(seat)===2?'AI':'PLAYER',events=m&&m.lastAnimationEvents||[];return events.some(function(evt){if(!evt||!evt.id||state.seenAnimationIds[evt.id])return false;if(evt.kind==='draw'&&evt.actor_side===side)return true;if(evt.kind==='draw_batch'&&Array.isArray(evt.events))return evt.events.some(function(e){return e&&(e.side||e.actor_side)===side;});if(evt.kind==='opening_sequence')return ['opening_draw_events','post_opening_draw_events'].some(function(k){return Array.isArray(evt[k])&&evt[k].some(function(e){return e&&(e.side||e.actor_side)===side;});});if(evt.kind==='draw_then_shards'&&Array.isArray(evt.draw_specs))return evt.draw_specs.some(function(e){return e&&e.actor_side===side;});return false;});}
   function installMobileHandHooks(){if(state.mobileHandHooksInstalled||typeof document==='undefined')return;state.mobileHandHooksInstalled=true;document.addEventListener('scroll',function(ev){var el=ev&&ev.target;if(!isMobileHandViewport()||!el||!el.matches||!el.matches('.hand-area--player .handPanel'))return;state.mobileHandScrollLeft=Number(el.scrollLeft||0);},true);['pointerdown','touchstart','wheel'].forEach(function(type){document.addEventListener(type,function(ev){var el=ev&&ev.target&&ev.target.closest&&ev.target.closest('.hand-area--player .handPanel');if(!el||!isMobileHandViewport())return;state.mobileHandMode='preserve';state.mobileHandScrollLeft=Number(el.scrollLeft||0);state.mobileHandApplyToken++;},true);});window.GL_PVP_AFTER_RENDER=function(){syncSpectatorMatchControls();if(!isMobileHandViewport())return;var apply=function(){applyMobileHandPosition();syncSpectatorMatchControls();};if(typeof requestAnimationFrame==='function')requestAnimationFrame(function(){requestAnimationFrame(apply);});else setTimeout(apply,0);};window.GL_PVP_NOTIFY_DRAW_COMPLETE=function(){if(!isMobileHandViewport())return;state.mobileHandMode='follow-latest';scheduleMobileHandPosition('follow-latest');};}
   function clearIntentLock(reason){
     if(intentTimeoutTimer){clearTimeout(intentTimeoutTimer);intentTimeoutTimer=null;}
@@ -180,12 +180,11 @@
       overlay.classList.remove('open');overlay.removeAttribute('data-pvp-authoritative-draw-review');
     }
   }
-  function syncAuthoritativeDrawReview(){
-    var s=appState(),p=s&&s.pending,b=bridge();
-    if(!p||p.type!=='draw_replacement_choice'||!localOwnsPending()){closeAuthoritativeDrawReview();return false;}
-    // The Local AI v5.16 renderer owns both markup and behavior. On every server import,
-    // explicitly rebuild the popup from the authoritative pending object so an old/empty
-    // choice body can never survive a network snapshot.
+  function syncAuthoritativePendingChoice(){
+    var b=bridge();
+    // Every authoritative snapshot may carry a pending interaction. Rehydrate it through
+    // the shared canonical dispatcher instead of maintaining a PvP-only whitelist.
+    // The shared renderer already enforces local pending ownership and hides remote choices.
     if(b&&b.renderCurrentAuthoritativePendingChoice)return !!b.renderCurrentAuthoritativePendingChoice();
     return false;
   }
@@ -195,6 +194,15 @@
     ['side','actor_side','source_side','target_side'].forEach(function(k){if(x[k])x[k]=swapSideForSeat(x[k],seat);});
     if(x.destination&&x.destination.side)x.destination.side=swapSideForSeat(x.destination.side,seat);
     if(x.kind==='draw_batch'&&Array.isArray(x.events))x.events=x.events.map(function(e){return localizeAnimationEvent(e,seat);});
+    if(x.kind==='opening_sequence'){
+      ['opening_draw_events','post_opening_draw_events'].forEach(function(k){if(Array.isArray(x[k]))x[k]=x[k].map(function(e){return localizeAnimationEvent(e,seat);});});
+      ['starting_shard_entries','post_opening_shard_entries'].forEach(function(k){if(Array.isArray(x[k]))x[k]=x[k].map(function(e){var y=JSON.parse(JSON.stringify(e));if(y.side)y.side=swapSideForSeat(y.side,seat);return y;});});
+    }
+    if(x.kind==='shard_gain'&&Array.isArray(x.entries))x.entries=x.entries.map(function(e){var y=JSON.parse(JSON.stringify(e));if(y.side)y.side=swapSideForSeat(y.side,seat);return y;});
+    if(x.kind==='draw_then_shards'){
+      if(Array.isArray(x.draw_specs))x.draw_specs=x.draw_specs.map(function(e){return localizeAnimationEvent(e,seat);});
+      if(Array.isArray(x.shard_entries))x.shard_entries=x.shard_entries.map(function(e){var y=JSON.parse(JSON.stringify(e));if(y.side)y.side=swapSideForSeat(y.side,seat);return y;});
+    }
     return x;
   }
   function unseenAnimationEvents(m){
@@ -214,6 +222,12 @@
         plan.captured=b.captureAuthoritativeRankUpMotion(evt.actor_side,evt.lane,evt.to_card_id,evt.exp_card_ids||[]);
       }else if(evt.kind==='draw_batch'&&Array.isArray(evt.events)){
         plan.captured={events:evt.events.slice()};
+      }else if(evt.kind==='opening_sequence'){
+        plan.captured={opening_draw_events:(evt.opening_draw_events||[]).slice(),starting_shard_entries:(evt.starting_shard_entries||[]).slice(),post_opening_draw_events:(evt.post_opening_draw_events||[]).slice(),post_opening_shard_entries:(evt.post_opening_shard_entries||[]).slice()};
+      }else if(evt.kind==='shard_gain'){
+        plan.captured={entries:(evt.entries||[]).slice()};
+      }else if(evt.kind==='draw_then_shards'){
+        plan.captured={draw_specs:(evt.draw_specs||[]).slice(),shard_entries:(evt.shard_entries||[]).slice()};
       }
       state.seenAnimationIds[raw.id]=true;
       plans.push(plan);
@@ -232,6 +246,9 @@
       else if(evt.kind==='tribute'&&plan.captured&&b.queueAuthoritativeTributeMotion)ok=b.queueAuthoritativeTributeMotion(plan.captured)||ok;
       else if(evt.kind==='rank_up'&&plan.captured&&b.queueCapturedAuthoritativeRankUpMotion)ok=b.queueCapturedAuthoritativeRankUpMotion(plan.captured)||ok;
       else if(evt.kind==='rank_up'&&b.queueAuthoritativeRankUpMotion)ok=b.queueAuthoritativeRankUpMotion(evt.actor_side,evt.lane,evt.to_card_id,evt.exp_card_ids||[])||ok;
+      else if(evt.kind==='opening_sequence'&&plan.captured&&b.queueAuthoritativeOpeningSequence)ok=b.queueAuthoritativeOpeningSequence(plan.captured.opening_draw_events||[],plan.captured.starting_shard_entries||[],plan.captured.post_opening_draw_events||[],plan.captured.post_opening_shard_entries||[])||ok;
+      else if(evt.kind==='draw_then_shards'&&plan.captured&&b.queueAuthoritativeDrawThenShardMotions)ok=b.queueAuthoritativeDrawThenShardMotions(plan.captured.draw_specs||[],plan.captured.shard_entries||[])||ok;
+      else if(evt.kind==='shard_gain'&&plan.captured&&b.queueAuthoritativeShardGainMotions)ok=b.queueAuthoritativeShardGainMotions(plan.captured.entries||[])||ok;
       else if(evt.kind==='draw_batch'&&plan.captured&&b.queueAuthoritativeDrawEvents)ok=b.queueAuthoritativeDrawEvents(plan.captured.events)||ok;
       else if(evt.kind==='draw'&&b.queueAuthoritativeDrawMotions)ok=b.queueAuthoritativeDrawMotions(evt.actor_side,evt.card_ids||[evt.card_id],evt.count||1)||ok;
       else if(evt.kind==='draw'&&b.queueAuthoritativeDrawMotion)ok=b.queueAuthoritativeDrawMotion(evt.actor_side,evt.card_id,evt.count||1)||ok;
@@ -291,7 +308,7 @@
       if(previousCanonical&&b.playAuthoritativeStateDeltaPresentation)b.playAuthoritativeStateDeltaPresentation(previousCanonical,currentCanonical,{skipBattleFeedback:true});
       // VFX still waits for paint-ready Hero anchors. Audio already fired above before board import/render.
       if(battleFeedback.length)playAuthoritativeBattleFeedbackAfterRender(battleFeedback);
-      syncAuthoritativeDrawReview();
+      syncAuthoritativePendingChoice();
       syncBattlefieldIdentityHeaders();
       document.body.classList.remove('pvp-booting');
       state.lastAppliedRevision=rev;
@@ -303,12 +320,12 @@
   function pendingDecisionSide(p){if(!p)return null;return p.decision_side||p.response_owner||p.side||p.source_side||(p.type==='hand_limit_discard'?'PLAYER':null)||(p.type==='manual_reposition'?'PLAYER':null);}
   function localOwnsPending(){var s=appState(),p=s&&s.pending;if(!p)return true;return pendingDecisionSide(p)==='PLAYER';}
   function localOwnsResponse(){var s=appState(),rw=s&&s.responseWindow;if(!rw)return true;return rw.response_owner==='PLAYER';}
-  function intentNeedsPendingOwner(intent){return ['chooseHeroFromBoard','setArrowBarrageSpend','selectStatusRemovalChoice','selectSaintPurifyChoice','resolveStonebloodChoice','selectScoutingExpChoice','moveCrystalBallOrder','performDualArrowPairChoice','toggleDiscardIndex','selectCardSearchChoice','selectLegacyDefeatChoice','selectLegacyCostChoice','selectLegacyCardChoice','commitDrawReplacementChoice','confirmDrawReplacement','commitMagicalSurgeChoice','commitResponsePaymentChoice','selectOpponentHandChoice','commitOpponentHandChoice','selectOpponentManaChoiceHandle','selectResponsePaymentChoice','performOptionalSwapDecision','performOptionalTargetSwapDecision','performManualReposition','handleChoiceConfirm'].indexOf(intent)!==-1;}
+  function intentNeedsPendingOwner(intent){return ['chooseHeroFromBoard','setArrowBarrageSpend','selectStatusRemovalChoice','selectSaintPurifyChoice','resolveStonebloodChoice','selectScoutingExpChoice','moveCrystalBallOrder','performDualArrowPairChoice','toggleDiscardIndex','selectCardSearchChoice','selectLegacyDefeatChoice','selectLegacyCostChoice','selectLegacyCardChoice','commitDrawReplacementChoice','confirmDrawReplacement','commitMagicalSurgeChoice','toggleManaShardPaymentChoice','toggleResponseManaShardChoice','commitResponsePaymentChoice','selectOpponentHandChoice','commitOpponentHandChoice','selectOpponentManaChoiceHandle','selectResponsePaymentChoice','performOptionalSwapDecision','performOptionalTargetSwapDecision','performManualReposition','handleChoiceConfirm'].indexOf(intent)!==-1;}
   function intentNeedsResponseOwner(intent){return ['responseSelectNoStuck','confirmSelectedResponse','responsePassNoStuck'].indexOf(intent)!==-1;}
   function nextClientActionId(intent,base){state.actionSequence=(Number(state.actionSequence||0)+1)%1000000000;return String(state.clientId||'client')+'.'+String(base||0)+'.'+String(state.actionSequence)+'.'+String(intent||'action').replace(/[^A-Za-z0-9_.:-]/g,'').slice(0,48);}
   function runtimeIntent(intent,args){var me=state.snapshot&&state.snapshot.local;if(!me||me.role!=='player'){setStatus('offline','Spectator is read-only.');return false;}var m=match();if(!m||m.status!=='started'){setStatus('offline','Start server match first.');return false;}if(state.applyingServer){setStatus('connecting','Applying the latest server board. Please try again.');return false;}if(state.intentInFlight){setStatus('connecting','Waiting for the server to resolve '+(state.intentName||'the previous action')+'...');return false;}if(intentNeedsResponseOwner(intent)&&!localOwnsResponse()){setStatus('online','Waiting for opponent response.');return false;}if(intentNeedsPendingOwner(intent)&&!localOwnsPending()){setStatus('online','Waiting for opponent decision.');return false;}var base=currentRevision(),actionId=nextClientActionId(intent,base);var ok=send('runtime-intent',{intent:intent,args:args||[],baseRevision:base,clientActionId:actionId});if(ok){state.intentInFlight=true;state.intentBaseRevision=base;state.intentName=intent;state.intentActionId=actionId;state.intentSentAt=Date.now();armIntentTimeout();}return ok;}
   function prevent(ev){ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();}
-  function isLocalUiOnlyClick(t){return !!(t&&t.closest&&t.closest('[data-preview],#previewClose,#previewOverlay,[data-info-title],#infoClose,#infoOverlay,[data-op-event-id],[data-op-archive-id],[data-discard-side],#historyButton,#historyButtonBottom,#opponentPlayedPreviewButton,#confirmSurrenderNo,#soundToggleButton,#mobileSoundToggleButton,#mobileMatchMenuClose,#mobileMatchMenuOverlay,[data-mobile-hero-action]'));}
+  function isLocalUiOnlyClick(t){return !!(t&&t.closest&&t.closest('[data-preview],[data-shard-preview-src],#previewClose,#previewOverlay,[data-info-title],#infoClose,#infoOverlay,[data-op-event-id],[data-op-archive-id],[data-discard-side],#historyButton,#historyButtonBottom,#opponentPlayedPreviewButton,#confirmSurrenderNo,#soundToggleButton,#mobileSoundToggleButton,#mobileMatchMenuClose,#mobileMatchMenuOverlay,[data-mobile-hero-action]'));}
   function isGameplayInteractive(t){return !!(t&&t.closest&&t.closest('#app button,#app [role="button"],#app input,#app select,#app textarea,#app .hero-panel,#choiceOverlay button,#responseOverlay button'));}
   function pendingRevealsHiddenInformation(p){
     if(!p)return false;
@@ -373,6 +390,8 @@
     if((node=t.closest('[data-pvp-draw-review]'))){prevent(ev);return runtimeIntent('confirmDrawReplacement',[node.getAttribute('data-pvp-draw-review')]);}
     if((node=t.closest('[data-draw-replacement-choice]'))){prevent(ev);return runtimeIntent('confirmDrawReplacement',[node.getAttribute('data-draw-replacement-choice')==='redraw'?'redraw':'keep']);}
     if((node=t.closest('[data-magical-surge-choice]'))){prevent(ev);return runtimeIntent('commitMagicalSurgeChoice',[node.getAttribute('data-magical-surge-choice')==='yes']);}
+    if((node=t.closest('[data-response-mana-uid]'))){prevent(ev);return runtimeIntent('toggleResponseManaShardChoice',[String(node.getAttribute('data-response-mana-uid')||'')]);}
+    if((node=t.closest('[data-mana-class-uid]'))){prevent(ev);return runtimeIntent('toggleManaShardPaymentChoice',[String(node.getAttribute('data-mana-class-uid')||'')]);}
     if((node=t.closest('[data-opponent-hand-choice]'))){prevent(ev);return runtimeIntent('selectOpponentHandChoice',[Number(node.getAttribute('data-opponent-hand-choice'))]);}
     if((node=t.closest('[data-opponent-mana-choice]'))){prevent(ev);return runtimeIntent('selectOpponentManaChoiceHandle',[String(node.getAttribute('data-opponent-mana-choice')||''),Number(node.getAttribute('data-opponent-mana-revision')||currentRevision())]);}
     if((node=t.closest('[data-response-payment-index]'))){prevent(ev);return runtimeIntent('selectResponsePaymentChoice',[Number(node.getAttribute('data-response-payment-index'))]);}
