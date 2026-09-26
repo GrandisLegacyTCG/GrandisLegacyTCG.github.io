@@ -16,6 +16,7 @@ GitHub Desktop workflow:
 
 Production locks:
 - Website: v1.37
+- Rulebook: latest bilingual EN/ID release included in this package
 - Season 1 cards: 200
 - Terminology: Shard Deck / Shard Pool / Mana Shard / Class Shard
 - Embedded production PvP frontend: Grandis Legacy PvP v3.48 exact /public mirror

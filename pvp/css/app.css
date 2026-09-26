@@ -6018,13 +6018,13 @@ body.deck-setup-active{
 html.gl-active-vs-match,body.gl-active-vs-match{overscroll-behavior-y:contain}
 
 /* VS AI v6.12 — mobile cross-application hamburger navigation. */
-.gl-mobile-app-menu-button{display:none;position:fixed;top:max(10px,env(safe-area-inset-top));right:12px;z-index:880;width:36px;height:36px;padding:7px;border:1px solid rgba(255,255,255,.18);border-radius:9px;background:rgba(7,16,28,.92);box-shadow:0 8px 22px rgba(0,0,0,.34);align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.gl-mobile-app-menu-button{display:none;position:fixed;top:max(10px,env(safe-area-inset-top));right:12px;z-index:12051;width:36px;height:36px;padding:7px;border:1px solid rgba(255,255,255,.18);border-radius:9px;background:rgba(7,16,28,.92);box-shadow:0 8px 22px rgba(0,0,0,.34);align-items:center;justify-content:center;flex-direction:column;gap:4px}
 .gl-mobile-app-menu-button span{display:block;width:19px;height:2px;border-radius:3px;background:#fff}
-.gl-mobile-app-menu{position:fixed;z-index:881;width:min(230px,calc(100vw - 20px));padding:8px;border:1px solid #40566d;border-radius:12px;background:#101923;box-shadow:0 18px 42px rgba(0,0,0,.52)}
+.gl-mobile-app-menu{position:fixed;z-index:12050;width:min(230px,calc(100vw - 20px));padding:8px;border:1px solid #40566d;border-radius:12px;background:#101923;box-shadow:0 18px 42px rgba(0,0,0,.52)}
 .gl-mobile-app-menu[hidden]{display:none!important}
 .gl-mobile-app-menu a{display:block;padding:12px 14px;border-radius:8px;color:#edf5ff;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:.04em}
 .gl-mobile-app-menu a:hover,.gl-mobile-app-menu a:focus-visible{background:#172638;color:#f4d35e}
-@media(max-width:760px){.gl-mobile-app-menu-button{display:flex}}
+@media(max-width:768px){.gl-mobile-app-menu-button{display:flex}}
 
 
 /* Pending Attack Direction Indicator — v6.17/v0.45/v3.14 */
@@ -6527,3 +6527,14 @@ html.gl-ui-tablet.gl-tablet-landscape-desktop body.deck-setup-active .deck-setup
 html.gl-ui-tablet.gl-tablet-landscape-desktop body.deck-setup-active .deck-setup-screen.runtime-ui-v14-setup .deck-side{
   height:auto!important;max-height:none!important;overflow:visible!important;
 }
+
+/* PvP v3.48 final bugfix release — narrowly scoped UI corrections. */
+.pvp-v260-swap-button{background:transparent!important;box-shadow:none!important;overflow:visible!important}
+.pvp-v260-swap-button img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.pvp-v260-seat{position:relative}
+.pvp-seat-kick{position:absolute;right:8px;top:50%;transform:translateY(-50%);min-height:24px;padding:0 9px;border:1px solid #a82b40;border-radius:6px;background:#5f1320;color:#fff;font-size:9px;font-weight:900;cursor:pointer}
+.v96-app .match-panel{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)!important;overflow:visible!important}
+.v96-app .match-panel .sound-toggle{grid-column:1!important;grid-row:1!important}
+.v96-app .match-panel .pvp-room-button,.v96-app .match-panel [id*=pvpRoom]{grid-column:2!important;grid-row:1!important}
+.v96-app .match-panel .surrender{grid-column:3!important;grid-row:1!important;display:block!important;visibility:visible!important;opacity:1!important}
+@media(max-width:768px){.pvp-v260-swap-button{width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important}.pvp-seat-kick{right:6px;font-size:8px;padding:0 7px}.gl-mobile-app-menu-button{z-index:12051!important}.gl-mobile-app-menu{z-index:12050!important}}

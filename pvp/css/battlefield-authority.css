@@ -194,7 +194,7 @@ body:has(.gl-lab-authority) .hover-card-zoom.is-hand-hover img{width:100%!import
 .gl-lab-sidebar .card-played-panel{display:grid!important;grid-template-rows:auto minmax(0,1fr) 24px!important;gap:5px!important;overflow:visible!important;}.gl-lab-sidebar .card-played-panel header{display:flex!important;justify-content:space-between!important;align-items:baseline!important;}.gl-lab-sidebar .card-played-panel header strong{font-size:9px!important;color:#f1e3a1!important;}.gl-lab-sidebar .card-played-panel header span{font-size:6px!important;color:#8ea1b4!important;}.gl-lab-sidebar .played-grid{min-height:0!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(0,1fr))!important;gap:4px!important;overflow:visible!important;}.gl-lab-sidebar .combined-played-card{position:relative!important;min-width:0!important;min-height:0!important;margin:0!important;padding:2px!important;display:grid!important;place-items:center!important;border:0!important;border-radius:6px!important;background:transparent!important;overflow:hidden!important;transition:filter .08s ease,transform .08s ease!important;}.gl-lab-sidebar .combined-played-card.is-hover-lifted{z-index:980!important;filter:brightness(1.12)!important;transform:translateY(-3px)!important;}.gl-lab-sidebar .combined-played-card img{display:block!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;}.gl-lab-sidebar .combined-played-card em{position:absolute!important;left:2px!important;top:2px!important;z-index:2!important;padding:1px 3px!important;border-radius:999px!important;background:#f4d35e!important;color:#111!important;font-size:5px!important;font-style:normal!important;font-weight:900!important;}.gl-lab-sidebar .full-width{height:24px!important;margin:0!important;padding:2px!important;border:1px solid #39546f!important;border-radius:6px!important;background:#101d2b!important;font-size:7px!important;font-weight:900!important;}
 body:has(.gl-lab-authority) .hover-card-zoom.is-card-played-hover{width:172px!important;height:241px!important;max-width:172px!important;max-height:241px!important;aspect-ratio:5/7!important;z-index:980!important;pointer-events:none!important;filter:drop-shadow(0 10px 18px rgba(0,0,0,.72));}
 body:has(.gl-lab-authority) .hover-card-zoom.is-card-played-hover img{width:100%!important;height:100%!important;object-fit:contain!important;}
-.gl-lab-sidebar .match-panel{display:grid!important;grid-template-columns:1fr 1fr!important;gap:4px!important;padding:0!important;border:0!important;background:transparent!important;}.gl-lab-sidebar .match-panel button{height:27px!important;margin:0!important;padding:2px!important;border:1px solid #334b61!important;border-radius:6px!important;background:#0b1722!important;font-size:6.5px!important;font-weight:900!important;}.gl-lab-sidebar .match-panel .surrender{border-color:#783a42!important;background:#241014!important;color:#ffb7bf!important;}
+.gl-lab-sidebar .match-panel{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:4px!important;padding:0!important;border:0!important;background:transparent!important;}.gl-lab-sidebar .match-panel button{height:23px!important;margin:0!important;padding:2px!important;border:1px solid #334b61!important;border-radius:6px!important;background:#0b1722!important;font-size:6.5px!important;font-weight:900!important;}.gl-lab-sidebar .match-panel .surrender{border-color:#783a42!important;background:#241014!important;color:#ffb7bf!important;}
 
 /* Selection / attack cues remain visible on clean position boxes. */
 .gl-lab-positions .selectable-legal{box-shadow:inset 0 0 0 2px rgba(74,202,111,.75),0 0 14px rgba(74,202,111,.16)!important;}.gl-lab-positions .selectable-selected{box-shadow:inset 0 0 0 2px #f4d35e,0 0 15px rgba(244,211,94,.22)!important;}.gl-lab-positions .selectable-illegal{opacity:.64;}
@@ -380,37 +380,15 @@ html.gl-ui-tablet.gl-tablet-landscape-desktop .gl-lab-racial{height:66%!importan
 html.gl-ui-tablet.gl-tablet-landscape-desktop .gl-lab-racial .racial-coins{width:auto!important;min-width:0!important;height:100%!important;min-height:0!important;display:flex!important;flex-direction:column!important;justify-content:center!important;gap:3px!important;}
 html.gl-ui-tablet.gl-tablet-landscape-desktop .gl-lab-racial .coin{flex:1 1 0!important;width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;max-height:calc((100% - 3px)/2)!important;aspect-ratio:1/1!important;}
 
-/* PvP v3.48 — approved VS AI v6.45/v0.69 opponent-hand perimeter ownership.
-   Desktop/tablet-landscape use Battlefield authority; portrait/phone may use the v96 path.
-   Passive opponent-hand card backs render only canonical artwork pixels. */
+
+/* PvP v3.48 — approved VS AI v6.45/v0.69 opponent-hand perimeter ownership. */
 html .gl-lab-authority .gl-lab-hand--opponent .opponent-hand-slot,
 html .gl-lab-authority .gl-lab-hand--opponent .opponent-hand-slot > img.back,
 html .v96-app .hand-area--opponent .opponent-hand-slot,
-html .v96-app .hand-area--opponent .opponent-hand-slot > img.back{
-  border-width:0!important;
-  border-style:none!important;
-  border-color:transparent!important;
-  border-image:none!important;
-  outline:0!important;
-  outline-offset:0!important;
-  box-shadow:none!important;
-  background:transparent!important;
-  padding:0!important;
-}
+html .v96-app .hand-area--opponent .opponent-hand-slot > img.back{border-width:0!important;border-style:none!important;border-color:transparent!important;border-image:none!important;outline:0!important;outline-offset:0!important;box-shadow:none!important;background:transparent!important;padding:0!important}
 html .gl-lab-authority .gl-lab-hand--opponent .opponent-hand-slot > img.back,
-html .v96-app .hand-area--opponent .opponent-hand-slot > img.back{
-  border-radius:0!important;
-  filter:none!important;
-  text-shadow:none!important;
-}
+html .v96-app .hand-area--opponent .opponent-hand-slot > img.back{border-radius:0!important;filter:none!important;text-shadow:none!important}
 html .gl-lab-authority .gl-lab-hand--opponent .opponent-hand-slot::before,
 html .gl-lab-authority .gl-lab-hand--opponent .opponent-hand-slot::after,
 html .v96-app .hand-area--opponent .opponent-hand-slot::before,
-html .v96-app .hand-area--opponent .opponent-hand-slot::after{
-  content:none!important;
-  display:none!important;
-  border:0!important;
-  outline:0!important;
-  box-shadow:none!important;
-}
-
+html .v96-app .hand-area--opponent .opponent-hand-slot::after{content:none!important;display:none!important;border:0!important;outline:0!important;box-shadow:none!important}

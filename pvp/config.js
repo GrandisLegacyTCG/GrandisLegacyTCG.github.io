@@ -4,8 +4,8 @@
   'use strict';
   window.GL_APP_MODE='PVP';
   window.GL_CONFIG={
-    version:'Grandis Legacy PvP v3.48 — Card Stroke Cleanup',
-    buildId:'gl-pvp-3.48-card-stroke-cleanup-2026-09-25',
+    version:'Grandis Legacy PvP v3.48 — Safe v3.45 Baseline + Rank Selector Port + Runtime Sync Repair',
+    buildId:'gl-pvp-3.48-safe-rank-sync-2026-09-24',
     mode:'server-authoritative-human-vs-human',
     wsPath:'/ws',
     connectionTimeoutMs:10000,

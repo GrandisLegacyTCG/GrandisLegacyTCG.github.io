@@ -1571,7 +1571,7 @@
   function manaDeckForSide(state,side){var k=manaDeckKeyForSide(side);state[k]=Array.isArray(state[k])?state[k]:[];return state[k];}
   function manaPoolCardsForSide(state,side){var k=manaPoolCardsKeyForSide(side);state[k]=Array.isArray(state[k])?state[k]:[];return state[k];}
   function syncManaCountForSide(state,side){if(!state)return 0;var n=manaPoolCardsForSide(state,side).length;state[manaCountKeyForSide(side)]=n;return n;}
-  function manaShardAsset(shard){return GL_LAB_MANA_ASSET[(shard&&shard.kind==='CLASS'&&shard.class_name)||'Generic']||GL_LAB_MANA_ASSET.Generic;}
+  function manaShardAsset(shard){if(shard&&shard.hidden)return 'https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Legacy-Deck.webp';return GL_LAB_MANA_ASSET[(shard&&shard.kind==='CLASS'&&shard.class_name)||'Generic']||GL_LAB_MANA_ASSET.Generic;}
   function manaShardValueForCard(shard,c){if(!shard)return 0;if(shard.kind!=='CLASS')return 1;if(!c||!isSkillCard(c))return 1;return manaClassFromCardCode(c.card_id)===shard.class_name?2:1;}
   function manaAvailableValueForCard(state,side,c){return manaPoolCardsForSide(state,side).reduce(function(sum,sh){return sum+manaShardValueForCard(sh,c);},0);}
   function manaClassShardsInPool(state,side){return manaPoolCardsForSide(state,side).filter(function(sh){return sh&&sh.kind==='CLASS';});}
@@ -4701,7 +4701,7 @@
     if(SUPPRESS_RENDER || !$('choiceOverlay')) return;
     $('choiceTitle').textContent=p.title||'Choose Opponent Mana'; $('choiceConfirm').style.display=''; $('choiceConfirm').textContent=p.confirm_text||('Choose '+required+' Mana'); $('choiceConfirm').disabled=selected.length!==required;
     var back='https://grandislegacytcg.github.io/shared/season1/v1/cards/ui/Back-of-Card-Legacy-Deck.webp';
-    $('choiceBody').innerHTML='<p class="choice-instruction">'+esc(p.instruction||('Choose '+required+' face-down Shard'+(required===1?'':'s')+' from the opponent Shard Pool. Mana identity stays hidden while choosing.'))+'</p><div class="choice-grid card-search-choice-grid">'+choices.map(function(x,idx){var sel=selected.indexOf(idx)!==-1;return '<article class="card-search-choice '+(sel?'selected':'')+'"><button class="discard-preview" type="button" tabindex="-1" aria-label="Face-down opponent Shard"><img src="'+esc(back)+'" alt="Face-down Shard"><span>Shard</span></button><button class="discard-select" type="button" data-opponent-mana-choice="'+idx+'">'+(sel?'Selected':'Select')+'</button></article>';}).join('')+'</div>';
+    $('choiceBody').innerHTML='<p class="choice-instruction">'+esc(p.instruction||('Choose '+required+' face-down Shard'+(required===1?'':'s')+' from the opponent Shard Pool. Mana identity stays hidden while choosing.'))+'</p><div class="choice-grid card-search-choice-grid">'+choices.map(function(x,idx){var sel=selected.indexOf(idx)!==-1,hasHandle=!!(x&&x.choice_handle!=null&&String(x.choice_handle)),choiceToken=hasHandle?String(x.choice_handle):(IS_PVP_APP?'':String(idx)),disabled=(IS_PVP_APP&&!hasHandle)?' disabled aria-disabled="true"':'';return '<article class="card-search-choice '+(sel?'selected':'')+'"><button class="discard-preview" type="button" tabindex="-1" aria-label="Face-down opponent Shard"><img src="'+esc(back)+'" alt="Face-down Shard"><span>Shard</span></button><button class="discard-select" type="button" data-opponent-mana-choice="'+esc(choiceToken)+'" data-opponent-mana-revision="'+esc(p.pvp_pool_revision!=null?p.pvp_pool_revision:'')+'"'+disabled+'>'+(IS_PVP_APP&&!hasHandle?'Refreshing…':(sel?'Selected':'Select'))+'</button></article>';}).join('')+'</div>';
     $('choiceOverlay').classList.add('open'); bringModalToFront($('choiceOverlay'));
   }
   function selectOpponentManaChoice(idx){
@@ -7121,7 +7121,7 @@ function getActivatedHeroAbilities(state, side, lane){
   }
   function mobileShardPoolRow(side,state){
     var shards=manaPoolCardsForSide(state,side),shardHtml='',regen=Math.max(1,Math.min(6,Number(state&&state[manaRegenKeyForSide(side)]||1)));
-    shards.forEach(function(sh){var label=sh.kind==='CLASS'?(sh.class_name+' Shard'):'Mana Shard',hidden=!!hiddenManaDrawToken(side,sh.uid);shardHtml+='<button class="gl-lab-mana-card mobile-shard-card '+(sh.kind==='CLASS'?'is-class':'is-generic')+' '+(hidden?'is-opening-draw-hidden':'')+'" type="button" data-mana-side="'+esc(side)+'" data-mana-uid="'+esc(sh.uid)+'"'+((!hidden)?' data-shard-preview-src="'+esc(manaShardAsset(sh))+'" data-shard-preview-label="'+esc(label)+'"':'')+' aria-label="'+esc(label)+'" title="'+esc(label)+'"><img src="'+esc(manaShardAsset(sh))+'" alt="'+esc(label)+'"></button>';});
+    shards.forEach(function(sh,idx){var faceDown=!!(sh&&sh.hidden),label=faceDown?'Face-down opponent Shard':(sh.kind==='CLASS'?(sh.class_name+' Shard'):'Mana Shard'),uid=faceDown?('hidden-slot-'+idx):sh.uid,hidden=!!hiddenManaDrawToken(side,uid);shardHtml+='<button class="gl-lab-mana-card mobile-shard-card '+(faceDown?'is-face-down':(sh.kind==='CLASS'?'is-class':'is-generic'))+' '+(hidden?'is-opening-draw-hidden':'')+'" type="button" data-mana-side="'+esc(side)+'" data-mana-uid="'+esc(uid)+'"'+((!hidden)?' data-shard-preview-src="'+esc(manaShardAsset(sh))+'" data-shard-preview-label="'+esc(label)+'"':'')+' aria-label="'+esc(label)+'" title="'+esc(label)+'"><img src="'+esc(manaShardAsset(sh))+'" alt="'+esc(label)+'"></button>';});
     pendingManaDrawReservations(side).forEach(function(r){shardHtml+='<span class="gl-lab-mana-card mobile-shard-card is-pending-draw" data-mana-side="'+esc(side)+'" data-mana-pending-id="'+esc(r.id)+'" aria-hidden="true"></span>';});
     var regenHtml='<div class="mobile-shard-regen" aria-label="Mana Regen '+esc(regen)+'"><img src="'+esc(glDieCounterAsset(regen))+'" alt="Mana Regen '+esc(regen)+'"></div>';
     return '<div class="mobile-shard-pool mobile-shard-pool--'+(side==='AI'?'opponent':'player')+'" aria-label="'+esc(side)+' Shard Pool"><strong>SHARD POOL</strong><div class="mobile-shard-pool-content">'+regenHtml+'<div class="mobile-shard-scroll">'+shardHtml+'</div></div>'+mobileShardRacialTokens(side,state)+'</div>';
@@ -7146,9 +7146,9 @@ function getActivatedHeroAbilities(state, side, lane){
   function labManaDeckZone(side,state){var html=labResourceZone(side,'Shard Deck',manaDeckForSide(state,side).length,false,null),regen=Math.max(1,Math.min(6,Number(state&&state[manaRegenKeyForSide(side)]||1)));var counter='<span class="gl-lab-mana-regen" title="Mana Regen +'+esc(regen)+'" aria-label="Mana Regen +'+esc(regen)+'"><img src="'+esc(glDieCounterAsset(regen))+'" alt="Mana Regen '+esc(regen)+'"></span>';return html.replace('</div></button>',counter+'</div></button>');}
   function labManaPoolRow(side,state){
     var shards=manaPoolCardsForSide(state,side),racial=side==='AI'?state.aiRacial:state.racial;
-    var shardHtml=shards.map(function(sh){
-      var label=sh.kind==='CLASS'?(sh.class_name+' Shard'):'Mana Shard',hidden=!!hiddenManaDrawToken(side,sh.uid);
-      return '<button class="gl-lab-mana-card '+(sh.kind==='CLASS'?'is-class':'is-generic')+' '+(hidden?'is-opening-draw-hidden':'')+'" type="button" data-mana-side="'+esc(side)+'" data-mana-uid="'+esc(sh.uid)+'"'+((!hidden)?' data-shard-preview-src="'+esc(manaShardAsset(sh))+'" data-shard-preview-label="'+esc(label)+'"':'')+' aria-label="'+esc(label)+'" title="'+esc(label)+'"><img src="'+esc(manaShardAsset(sh))+'" alt="'+esc(label)+'"></button>';
+    var shardHtml=shards.map(function(sh,idx){
+      var faceDown=!!(sh&&sh.hidden),label=faceDown?'Face-down opponent Shard':(sh.kind==='CLASS'?(sh.class_name+' Shard'):'Mana Shard'),uid=faceDown?('hidden-slot-'+idx):sh.uid,hidden=!!hiddenManaDrawToken(side,uid);
+      return '<button class="gl-lab-mana-card '+(faceDown?'is-face-down':(sh.kind==='CLASS'?'is-class':'is-generic'))+' '+(hidden?'is-opening-draw-hidden':'')+'" type="button" data-mana-side="'+esc(side)+'" data-mana-uid="'+esc(uid)+'"'+((!hidden)?' data-shard-preview-src="'+esc(manaShardAsset(sh))+'" data-shard-preview-label="'+esc(label)+'"':'')+' aria-label="'+esc(label)+'" title="'+esc(label)+'"><img src="'+esc(manaShardAsset(sh))+'" alt="'+esc(label)+'"></button>';
     }).join('');
     pendingManaDrawReservations(side).forEach(function(r){shardHtml+='<span class="gl-lab-mana-card is-pending-draw" data-mana-side="'+esc(side)+'" data-mana-pending-id="'+esc(r.id)+'" aria-hidden="true"></span>';});
     return '<div class="gl-lab-mana-pool gl-lab-mana-pool--'+(side==='AI'?'opponent':'player')+'" aria-label="'+esc(side)+' Shard Pool"><div class="gl-lab-racial">'+v94RacialCoins(side,racial)+'</div><div class="gl-lab-mana-row">'+shardHtml+'</div></div>';
@@ -9462,6 +9462,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
     var s=glPvpDeepSwapSides(clone(state));
     function sw(a,b){ var t=s[a]; s[a]=s[b]; s[b]=t; }
     sw('mana','aiMana'); sw('manaRegen','aiManaRegen'); sw('racial','aiRacial');
+    sw('playerManaDeck','aiManaDeck'); sw('playerManaPoolCards','aiManaPoolCards'); sw('playerManaClasses','aiManaClasses'); sw('playerManaDeckCount','aiManaDeckCount');
     sw('playerDeck','aiDeck'); sw('playerHand','aiHand'); sw('playerDiscard','aiDiscard');
     sw('playerHeroes','aiHeroes'); sw('playerLegacy','aiLegacy');
     sw('playerLegacyPackageSlots','aiLegacyPackageSlots'); sw('playerDeckName','aiDeckName');
