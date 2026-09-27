@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "pvp_version": "v3.50",
   "package_version": "3.0.50",
-  "build_id": "gl-pvp-3.50-animation-parity-final-2026-09-26",
+  "build_id": "gl-pvp-3.50-final27-r3-2026-09-27",
   "release_ready": true,
   "production_frontend_url": "https://grandislegacytcg.github.io/pvp/",
   "production_frontend_owner": "GrandisLegacyTCG.github.io repository /pvp/ directory",
@@ -28,7 +28,7 @@
   "rank_preview": "Lobby-only Deck Builder Style 1 Rank I\u2013III local presentation state below formation; no gameplay/network mutation",
   "battlefield_preserved": true,
   "website_target_version": "v1.39",
-  "note": "v3.50 final non-Shard animation parity: authoritative PvP presentation now bridges approved shared motions for secondary Hand-to-Discard, Attachment-to-Discard, Legacy Field-to-Legacy Deck on Revive, and normal Attack held-card lifecycle through Response/post-resolution continuation. PvP v3.49 Shard system and Main Deck mobile draw timing remain locked.",
+  "note": "v3.50 27 Sept final same-version correction: response legality keeps cannot_block and cannot_dodge type-specific so legal Negate remains available; custom imported Main Decks are exactly 50 or 60 cards; battle VFX/SFX are re-verified; player identity shows actual human name, deck name capped to 20 visible characters, and connection signal; user-facing AI role wording is removed; active match controls are Timer | Sound | Surrender using authoritative match timestamps. Existing Steal, reconnect, Kick, Shard, Tribute, and Website mirror fixes are preserved.",
   "hero_formation": "Deck Builder Style 1 swap controls; starter formation changes are validated server-side and applied at match start",
   "server_packaging_fix": "Dockerfile now copies canonical server/ modules required by server.js, including gameplay-intent-router.mjs"
 }

@@ -4,8 +4,8 @@
   'use strict';
   window.GL_APP_MODE='PVP';
   window.GL_CONFIG={
-    version:'Grandis Legacy PvP v3.50 — Animation Parity Final',
-    buildId:'gl-pvp-3.50-animation-parity-final-2026-09-26',
+    version:'Grandis Legacy PvP v3.50 — Same-Version Maintenance' ,
+    buildId:'gl-pvp-3.50-final27-r3-2026-09-27',
     mode:'server-authoritative-human-vs-human',
     wsPath:'/ws',
     connectionTimeoutMs:10000,

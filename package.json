@@ -2,7 +2,7 @@
   "name": "grandis-legacy-website",
   "version": "1.39.0",
   "private": true,
-  "description": "Grandis Legacy Website v1.39 \u2014 Website v1.38 with /pvp/ replaced by the exact final PvP v3.50 public frontend; unrelated Website content preserved.",
+  "description": "Grandis Legacy Website v1.39 \u2014 27 Sept same-version final correction mirror of PvP v3.50; unrelated Website content preserved.",
   "scripts": {
     "build:arvon": "node tools/build-arvon-index.cjs",
     "test": "node tests/run-v126-mobile-play-online.cjs && node tests/run-v110-mobile-navigation.cjs && node tests/run-v139-pvp-production-sync.cjs",

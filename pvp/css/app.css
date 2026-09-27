@@ -6532,9 +6532,32 @@ html.gl-ui-tablet.gl-tablet-landscape-desktop body.deck-setup-active .deck-setup
 .pvp-v260-swap-button{background:transparent!important;box-shadow:none!important;overflow:visible!important}
 .pvp-v260-swap-button img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
 .pvp-v260-seat{position:relative}
-.pvp-seat-kick{position:absolute;right:8px;top:50%;transform:translateY(-50%);min-height:24px;padding:0 9px;border:1px solid #a82b40;border-radius:6px;background:#5f1320;color:#fff;font-size:9px;font-weight:900;cursor:pointer}
+.pvp-seat-kick{position:static;display:grid;place-items:center;width:28px;height:28px;min-width:28px;min-height:28px;padding:0;border:1px solid #a82b40;border-radius:50%;background:#5f1320;color:#fff;line-height:1;font-size:18px;font-weight:800;cursor:pointer;transform:none;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.pvp-seat-kick>span{display:block;transform:translateY(-1px);pointer-events:none}
+.pvp-seat-kick:hover,.pvp-seat-kick:focus-visible{background:#7b192a;border-color:#d94a61;outline:2px solid rgba(217,74,97,.35);outline-offset:2px}
 .v96-app .match-panel{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)!important;overflow:visible!important}
 .v96-app .match-panel .sound-toggle{grid-column:1!important;grid-row:1!important}
 .v96-app .match-panel .pvp-room-button,.v96-app .match-panel [id*=pvpRoom]{grid-column:2!important;grid-row:1!important}
 .v96-app .match-panel .surrender{grid-column:3!important;grid-row:1!important;display:block!important;visibility:visible!important;opacity:1!important}
-@media(max-width:768px){.pvp-v260-swap-button{width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important}.pvp-seat-kick{right:6px;font-size:8px;padding:0 7px}.gl-mobile-app-menu-button{z-index:12051!important}.gl-mobile-app-menu{z-index:12050!important}}
+@media(max-width:768px){.pvp-v260-swap-button{width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important}.pvp-seat-kick{width:26px;height:26px;min-width:26px;min-height:26px;font-size:17px}.gl-mobile-app-menu-button{z-index:12051!important}.gl-mobile-app-menu{z-index:12050!important}}
+
+
+/* PvP v3.50 same-version maintenance correction — battle negate + Kick asset. */
+.gl-battle-negate-card>.hero-card.hero-main{animation:glBattleNegateCard .7s cubic-bezier(.2,.72,.2,1) both}
+@keyframes glBattleNegateCard{0%{filter:brightness(1);opacity:1}28%{filter:brightness(1.45) saturate(.55);opacity:.72}58%{filter:brightness(.78) saturate(.35);opacity:.52}100%{filter:brightness(1);opacity:1}}
+.pvp-seat-kick img{display:block;width:16px;height:16px;object-fit:contain;pointer-events:none}
+@media(prefers-reduced-motion:reduce){.gl-battle-negate-card>.hero-card.hero-main{animation-duration:.18s!important}}
+
+
+/* v3.50 · 27 Sept final PvP human identity / match timer controls */
+.v96-app [data-pvp-identity-side]{display:flex!important;align-items:center!important;gap:6px!important;min-width:0!important;white-space:nowrap!important;}
+.v96-app [data-pvp-identity-side] .pvp-player-display-name{min-width:0;max-width:92px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:900;}
+.v96-app [data-pvp-identity-side] .pvp-player-deck-name{min-width:0;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.v96-app .pvp-connection-signal{display:inline-flex!important;align-items:flex-end!important;gap:1px!important;width:18px!important;height:11px!important;flex:0 0 18px!important;}
+.v96-app .pvp-connection-signal i{display:block;width:3px;border-radius:1px 1px 0 0;background:#536271;opacity:.24;}.v96-app .pvp-connection-signal i:nth-child(1){height:3px}.v96-app .pvp-connection-signal i:nth-child(2){height:5px}.v96-app .pvp-connection-signal i:nth-child(3){height:8px}.v96-app .pvp-connection-signal i:nth-child(4){height:10px}
+.v96-app .pvp-connection-signal.excellent i{background:#62d895;opacity:1}.v96-app .pvp-connection-signal.good i:nth-child(-n+3){background:#84d47a;opacity:1}.v96-app .pvp-connection-signal.fair i:nth-child(-n+2){background:#e0b755;opacity:1}.v96-app .pvp-connection-signal.poor i:first-child{background:#e47d65;opacity:1}.v96-app .pvp-connection-signal.offline i{background:#8b5660;opacity:.45}
+.v96-app .match-panel{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)!important;gap:4px!important;}
+.v96-app .match-panel .match-timer{grid-column:1!important;grid-row:1!important;display:grid!important;place-items:center!important;min-width:0!important;height:22px!important;border:1px solid #334b61!important;border-radius:6px!important;background:#0b1722!important;color:#dce8f3!important;font-size:7px!important;font-weight:900!important;font-variant-numeric:tabular-nums!important;letter-spacing:.04em!important;}
+.v96-app .match-panel .sound-toggle{grid-column:2!important;grid-row:1!important}.v96-app .match-panel .surrender{grid-column:3!important;grid-row:1!important}
+.v96-app .mobile-match-menu-actions{grid-template-columns:repeat(3,minmax(0,1fr))!important;align-items:center!important}.v96-app .mobile-match-menu-actions .match-timer{display:grid!important;place-items:center!important;min-height:40px;border:1px solid #334b61;border-radius:9px;background:#0b1722;color:#dce8f3;font-weight:900;font-variant-numeric:tabular-nums;}
+@media(max-width:760px){.v96-app [data-pvp-identity-side] .pvp-player-display-name{max-width:76px}.v96-app [data-pvp-identity-side] .pvp-player-deck-name{max-width:118px}.v96-app .mobile-match-menu-actions{grid-template-columns:1fr!important}.v96-app .mobile-match-menu-actions .match-timer{width:100%}}
