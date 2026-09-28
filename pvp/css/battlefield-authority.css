@@ -33,6 +33,14 @@ body:has(.gl-lab-authority) #glMobileAppMenu{display:none!important;}
 .gl-lab-identity span{font-size:7px;color:#9eb0c1;overflow:hidden;text-overflow:ellipsis;}
 .gl-lab-identity--opponent{top:2px;left:4px;}
 .gl-lab-identity--player{bottom:2px;left:4px;}
+/* PvP identity row: one anchored row; connection bar is a flex sibling, never an overlay inside identity. */
+.gl-lab-hand>.pvp-player-identity-row{position:absolute;z-index:430;left:4px;display:flex;align-items:center;gap:4px;max-width:min(62%,520px);min-width:0;}
+.gl-lab-hand--opponent>.pvp-player-identity-row{top:2px;}
+.gl-lab-hand--player>.pvp-player-identity-row{bottom:2px;}
+.gl-lab-hand>.pvp-player-identity-row .pvp-player-identity-container.gl-lab-identity{position:static;z-index:auto;min-width:0;max-width:none;height:22px;padding:2px 7px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;overflow:visible;}
+.gl-lab-hand>.pvp-player-identity-row .pvp-player-display-name{font-size:8px;line-height:8px;max-width:110px;}
+.gl-lab-hand>.pvp-player-identity-row .pvp-player-deck-name{font-size:7px;line-height:8px;color:#9eb0c1;max-width:none;overflow:visible;text-overflow:clip;}
+.gl-lab-hand>.pvp-player-identity-row .pvp-connection-bar{height:22px;flex:0 0 30px;}
 .gl-lab-log-button{position:absolute;z-index:430;right:4px;bottom:2px;height:22px;padding:2px 8px;border:1px solid #39546f;border-radius:6px;background:#101d2b;color:#d9e7f4;font-size:8px;font-weight:800;}
 
 /* HAND is geometry: 40% of each card lives outside viewport; only 60% reserves height. */
@@ -392,16 +400,3 @@ html .gl-lab-authority .gl-lab-hand--opponent .opponent-hand-slot::before,
 html .gl-lab-authority .gl-lab-hand--opponent .opponent-hand-slot::after,
 html .v96-app .hand-area--opponent .opponent-hand-slot::before,
 html .v96-app .hand-area--opponent .opponent-hand-slot::after{content:none!important;display:none!important;border:0!important;outline:0!important;box-shadow:none!important}
-
-
-/* v3.50 · 27 Sept final identity / connection / timer correction */
-.gl-lab-identity{max-width:58%;gap:6px;overflow:visible;}
-.gl-lab-identity .pvp-player-display-name{max-width:78px;flex:0 1 auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.gl-lab-identity .pvp-player-deck-name{max-width:120px;flex:0 1 auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.pvp-connection-signal{display:inline-flex!important;align-items:flex-end;gap:1px;width:17px;height:10px;flex:0 0 17px;overflow:visible!important;}
-.pvp-connection-signal i{display:block;width:3px;border-radius:1px 1px 0 0;background:#536271;opacity:.24;}
-.pvp-connection-signal i:nth-child(1){height:3px}.pvp-connection-signal i:nth-child(2){height:5px}.pvp-connection-signal i:nth-child(3){height:7px}.pvp-connection-signal i:nth-child(4){height:9px}
-.pvp-connection-signal.excellent i{background:#62d895;opacity:1}.pvp-connection-signal.good i:nth-child(-n+3){background:#84d47a;opacity:1}.pvp-connection-signal.fair i:nth-child(-n+2){background:#e0b755;opacity:1}.pvp-connection-signal.poor i:first-child{background:#e47d65;opacity:1}.pvp-connection-signal.offline i{background:#8b5660;opacity:.45}.pvp-connection-signal.connecting i{animation:pvpSignalPulse 1s ease-in-out infinite alternate}.pvp-connection-signal.connecting i:nth-child(2){animation-delay:.12s}.pvp-connection-signal.connecting i:nth-child(3){animation-delay:.24s}.pvp-connection-signal.connecting i:nth-child(4){animation-delay:.36s}
-@keyframes pvpSignalPulse{from{opacity:.2}to{opacity:.9}}
-.gl-lab-sidebar .match-panel .match-timer{grid-column:1!important;grid-row:1!important;display:grid!important;place-items:center;height:23px;border:1px solid #334b61;border-radius:6px;background:#0b1722;color:#dce8f3;font-size:7px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:.04em;}
-.gl-lab-sidebar .match-panel .sound-toggle{grid-column:2!important;grid-row:1!important}.gl-lab-sidebar .match-panel .surrender{grid-column:3!important;grid-row:1!important}

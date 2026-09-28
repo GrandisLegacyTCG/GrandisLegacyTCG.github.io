@@ -1,7 +1,6 @@
-Grandis Legacy Website v1.39
+Grandis Legacy Website v1.40
+Release date: 2026-09-28
 
-GitHub Pages upload package.
-
-- Website: v1.39
-- PvP mirror: Grandis Legacy PvP v3.50 `/public/` copied exactly to `/pvp/`
-- Preserve the repository folder structure when uploading.
+- Website: v1.40
+- PvP mirror: Grandis Legacy PvP v3.51 `/public/` copied exactly to `/pvp/`
+- Upload the contents of this repository to the existing Grandis Legacy GitHub Pages repository.
