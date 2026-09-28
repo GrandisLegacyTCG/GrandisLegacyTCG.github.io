@@ -7128,7 +7128,9 @@ function getActivatedHeroAbilities(state, side, lane){
         visibleW=Math.min(boxW,boxH*(naturalW/naturalH));
       }
       if(visibleH>0){
-        var exhaustScale=.86, exhaustedWidth=visibleH*exhaustScale, exhaustedHalfHeight=(visibleW*exhaustScale)/2;
+        // Ready and Exhausted EXP cards use exactly the same physical card length.
+        // Only the stack anchor/orientation changes with the rotated Hero.
+        var exhaustedWidth=visibleH, exhaustedHalfHeight=visibleW/2;
         rail.style.setProperty('--gl-exp-stack-height',String(Math.round(visibleH*100)/100)+'px');
         rail.style.setProperty('--gl-exp-exhausted-stack-width',String(Math.round(exhaustedWidth*100)/100)+'px');
         rail.style.setProperty('--gl-exp-exhausted-half-height',String(Math.round(exhaustedHalfHeight*100)/100)+'px');
@@ -10377,6 +10379,7 @@ function withUnshuffledSelfTest(fn){ return function(){ var old=STARTUP_SHUFFLE_
   window.GL_LAB_V07_PAYMENT_RACIAL_QA_SELF_TEST=simulatePlaytestV07PaymentAndRacialAudit;
 
   window.GL_LOCAL_AI_BRIDGE={
+    validateImportedDeck:function(deck,side){var v=validateDeck(deck,side==='AI'?'AI':'PLAYER');return clone(v);},
     version:GL_VERSION,
     getSnapshot:glPvpBridgeSnapshot,
     importSnapshot:glPvpBridgeImport,

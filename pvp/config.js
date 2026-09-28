@@ -4,8 +4,8 @@
   'use strict';
   window.GL_APP_MODE='PVP';
   window.GL_CONFIG={
-    version:'Grandis Legacy PvP v3.51 — Final Stability Release' ,
-    buildId:'gl-pvp-3.51-final-stability-r1-2026-09-28',
+    version:'Grandis Legacy PvP v3.51 — Same-Version Minor Correction' ,
+    buildId:'gl-pvp-3.51-minor-correction-r2-2026-09-28',
     mode:'server-authoritative-human-vs-human',
     wsPath:'/ws',
     connectionTimeoutMs:10000,
