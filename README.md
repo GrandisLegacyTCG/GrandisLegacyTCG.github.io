@@ -43,3 +43,13 @@ Only built website/runtime assets are included. Development tests, old history p
 ## Verification boundary
 
 We verified file presence, source versions, JavaScript syntax and static asset references in the generated archive. **Live GitHub Pages deployment and real browser gameplay testing require manual confirmation after upload.**
+
+## S1 archive navigation policy — November 20, 2026
+
+The archive remains available through **direct URLs** (`https://grandislegacytcg.github.io/` and individual archived pages). No forced redirect, no auto-forward, and no changes to Season 0 code.
+
+- All cross-app/public website navigation links from the S1 archive now open the equivalent **Season 0** pages at `https://grandislegacytcg.web.id/`. This includes Home/brand logos, nav links, homepage CTAs, VS AI lobby actions, Deck Builder style links, Rulebook Home, and PvP lobby action links.
+- S1 local gameplay/data/card artwork URLs, Rulebook PDFs, in-page chapter anchors, and direct archive page URLs are **not redirected**, so the archive remains usable when opened directly. Official contact links (Email/Discord) are also unchanged.
+- The **Tutorial** link is hidden/removed from public navigation (including the VS AI lobby). Historical S1 tutorial files remain available at their original direct URL for progress preservation.
+- The **Season 0** navbar link uses the same standard styling as other menu links (not a special gold button).
+- `GOOGLE_ANALYTICS_FOR_S0.md` documents GA4 IDs in existing source. Tracking settings/scripts were not modified.

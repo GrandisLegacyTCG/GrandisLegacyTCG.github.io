@@ -189,24 +189,3 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}img{display:block
 
 /* v1.21 HF2 current Hero HP card showcase asset — matched to former three-card fan perceived size */
 .hero-card-showcase{pointer-events:none;user-select:none;-webkit-user-select:none;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block;filter:none;transform:scale(1.82);transform-origin:center center}
-
-
-/* Season 1 history archive: highlighted navigation to the active Season 0 site. */
-.desktop-nav .season-zero-link{
-  margin-left:8px; padding:10px 16px; border:1px solid rgba(236,208,135,.78);
-  background:linear-gradient(180deg,rgba(236,208,135,.18),rgba(236,208,135,.075));
-  color:#f5d892; border-radius:10px; font-weight:800; letter-spacing:.025em;
-}
-.desktop-nav .season-zero-link:hover,.desktop-nav .season-zero-link:focus-visible{
-  background:#ecd087; color:#1e1e27; outline-color:#ecd087;
-}
-.mobile-nav .season-zero-link{color:#f5d892;font-weight:800;border:1px solid rgba(236,208,135,.25);background:rgba(236,208,135,.06)}
-.mobile-nav .season-zero-link:hover,.mobile-nav .season-zero-link:focus-visible{background:#ecd087;color:#1e1e27}
-/* Allow the new link to fit without horizontal overflow on compact laptops. */
-@media (min-width:821px) and (max-width:1050px){
-  .header-inner{gap:16px}
-  .desktop-nav{display:none}
-  .mobile-menu-button{display:flex}
-  .site-header .header-inner>.brand-link{margin-right:auto}
-  .mobile-nav{top:76px}
-}

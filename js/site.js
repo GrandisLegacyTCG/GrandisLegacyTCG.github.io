@@ -2,7 +2,7 @@
   const mobileDeckBuilderQuery = window.matchMedia('(max-width: 760px)');
   const syncMobileDeckBuilderLinks = () => {
     document.querySelectorAll('[data-mobile-deck-builder]').forEach((link) => {
-      link.href = mobileDeckBuilderQuery.matches ? 'Grandis-Legacy-Deck-Builder/style-2/' : 'Grandis-Legacy-Deck-Builder/style-1/';
+      link.href = mobileDeckBuilderQuery.matches ? 'https://grandislegacytcg.web.id/deck-builder/style-2/' : 'https://grandislegacytcg.web.id/deck-builder/';
     });
   };
   syncMobileDeckBuilderLinks();

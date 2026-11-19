@@ -23,5 +23,8 @@
     "/Grandis-Legacy-Deck-Builder/style-2/",
     "/pvp/",
     "/pvp/battle/"
-  ]
+  ],
+  "navigation_update_date": "2026-11-20",
+  "navigation_policy": "Direct S1 URLs preserved; cross-app website navigation goes to S0; Tutorial removed from navigation",
+  "ga4_tag_reference": "GOOGLE_ANALYTICS_FOR_S0.md"
 }

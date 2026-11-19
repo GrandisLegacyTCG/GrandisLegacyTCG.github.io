@@ -17,3 +17,13 @@ Source versions: Website v1.40; VS AI v6.48; Tutorial v0.71; Deck Builder v1.31;
 - All bundled individual files are below GitHub's 100 MiB size limit.
 
 **Important:** File snapshots are not Git commit history. Back up the original repositories before deleting them. Copy the **contents** of the ZIP into the repository root, not the ZIP file itself. Commit tracked deletions as well as additions.
+
+## November 20, 2026 — Navigation update and Analytics extraction
+
+- Season 0 header link now inherits the exact standard navigation style (no gold button CSS).
+- Tutorial entry removed from homepage header, mobile menu, footer, and VS AI's own navigation. The original direct tutorial URL remains available for history.
+- Homepage, Rulebook, VS AI, Deck Builder, and archived PvP **cross-app navigation links** point to current Season 0 pages. No automatic redirect for archived pages, so Season 1 can still be opened directly.
+- Internal gameplay assets, artwork, local Rulebook chapters and PDFs, contact links, and engine rules remain unchanged.
+- GA4 source IDs extracted to `GOOGLE_ANALYTICS_FOR_S0.md`; analytics tracking itself was not changed.
+- Static link checks: 135/135 passed; JavaScript syntax: changed application bundle copies and homepage JS passed; 45/45 JSON files validated.
+- Live deployment and full browser gameplay QA are still required after the owner's manual upload. Local Chromium navigation is blocked by workspace policy.
