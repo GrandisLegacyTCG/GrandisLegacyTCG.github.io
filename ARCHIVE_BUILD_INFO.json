@@ -1,0 +1,27 @@
+{
+  "archive": "Grandis Legacy Season 1, one-repository playable archive",
+  "date": "2026-11-19",
+  "target_repo": "GrandisLegacyTCG/GrandisLegacyTCG.github.io",
+  "website": "v1.40",
+  "vs_ai": "v6.48",
+  "tutorial": "v0.71",
+  "deck_builder": "v1.31",
+  "pvp_lobby_visual": "v3.51",
+  "pvp_backend_enabled": false,
+  "source_zips": {
+    "website": "Grandis_Legacy_Website_v1.40_GitHub_Pages_2026-09-28.zip",
+    "vs_ai": "Grandis_Legacy_VS_AI_Tutorial_v6.48_v0.71_GitHub_Repository_2026-09-28.zip",
+    "builder": "Grandis_Legacy_Deck_Builder_v1.31_GitHub_Repository_2026-09-28.zip"
+  },
+  "frontend_routes": [
+    "/",
+    "/rulebook/",
+    "/Grandis-Legacy-VS-AI/",
+    "/Grandis-Legacy-VS-AI/tutorial/",
+    "/Grandis-Legacy-Deck-Builder/",
+    "/Grandis-Legacy-Deck-Builder/style-1/",
+    "/Grandis-Legacy-Deck-Builder/style-2/",
+    "/pvp/",
+    "/pvp/battle/"
+  ]
+}

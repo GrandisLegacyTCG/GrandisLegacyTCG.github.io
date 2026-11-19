@@ -1,0 +1,19 @@
+{
+  "source_authority": "v1.9.5",
+  "shared_runtime": "v1.94.2",
+  "runtime_data": "v0.16.2",
+  "effect_recipe": "v0.15.2",
+  "effect_checkpoint": "v0.15.2",
+  "hero_components": "v1.1.0",
+  "starter60": "v1.6.1",
+  "active_application_starters": "OSA v1.9.5 / Starter Deck Authority v1.6.1 (unchanged compositions)",
+  "active_starter_count": 5,
+  "ui_contract": "v2.53",
+  "application_runtime_sync": "v2.66",
+  "vs_ai": "v6.48",
+  "tutorial": "v0.71",
+  "canonical_registry_hash": "7ac1f90f6a9654cf575ac41db64a052901005905b1cf01f3bfc7532873cc9389",
+  "hero_component_registry_hash": "f36f1cc83eb9845743176c3af71f7823125353eae73e832588e9d8b42c6818be",
+  "card_count": 200,
+  "authority_mode": "OSA_CONSUMER_FAIL_CLOSED"
+}

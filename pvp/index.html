@@ -2,38 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>Grandis Legacy PvP</title>
-  <!-- Google tag (gtag.js) — Grandis Legacy PvP -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6JD5Q48SXN"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-6JD5Q48SXN');
-  </script>
-  <link rel="stylesheet" href="css/app.css?v=gl-pvp-3.51-minor-correction-r2-2026-09-28">
-  <link rel="stylesheet" href="css/battlefield-authority.css?v=gl-pvp-3.51-minor-correction-r2-2026-09-28">
-  <link rel="stylesheet" href="shared-ui/battlefield-ui.css?v=2.53">
-  <style>body.pvp-booting #app{display:none!important}</style>
-  <link rel="icon" type="image/png" href="assets/favicon.png?v=3.23">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="Grandis Legacy Season 1 PvP Lobby archive. Multiplayer ended; browse the historical lobby and Starter Decks.">
+  <title>Grandis Legacy — Season 1 PvP Lobby (Archive)</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="css/archive-lobby.css?v=s1-archive-20261119">
 </head>
-<body class="pvp-booting">
-  <div id="app" aria-live="polite"><noscript>Grandis Legacy PvP requires JavaScript enabled.</noscript></div>
-  <div id="choiceOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Card Choice"><section class="choice-panel"><header class="choice-head"><h2 id="choiceTitle">Choice</h2><button id="choiceClose" type="button">Close</button></header><div id="choiceBody" class="choice-body"></div><footer class="choice-foot"><button id="choiceConfirm" type="button">Confirm</button></footer></section></div>
-  <div id="infoOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Information"><section class="info-panel"><header class="info-head"><h2 id="infoTitle">Info</h2><button id="infoClose" type="button">Close</button></header><div id="infoBody" class="info-body"></div></section></div>
-  <div id="responseOverlay" class="modal-overlay response-overlay" role="dialog" aria-modal="true" aria-label="Response Window"><section class="response-panel"><header class="response-head"><h2>Response Window</h2><button id="responseClose" type="button">Close</button></header><div id="responseBody" class="response-body"></div><footer id="responseFooter" class="response-foot"></footer></section></div>
-  <div id="previewOverlay" class="overlay" role="dialog" aria-modal="true" aria-label="Card Preview"><section class="preview-panel"><header class="preview-head"><h2>Card Preview</h2><button id="previewClose" type="button">Close</button></header><div id="previewBody" class="preview-body"></div></section></div>
-  <div id="hoverCardZoom" class="hover-card-zoom" hidden aria-hidden="true"><img id="hoverCardZoomImage" src="" alt="Card zoom"></div>
-  <div id="glAnimationLayer" class="gl-animation-layer" aria-hidden="true"></div>
-  <script>window.GL_APP_MODE="PVP";</script>
-  <script src="shared-ui/battlefield-ui.js?v=2.53"></script>
-  <script src="config.js?v=gl-pvp-3.51-minor-correction-r2-2026-09-28"></script>
-<script src="js/static-data.js?v=gl-pvp-3.51-minor-correction-r2-2026-09-28"></script>
-  <script src="js/pvp-presentation-adapter.js?v=gl-pvp-3.51-minor-correction-r2-2026-09-28"></script>
-  <script src="js/runtime-authority.js?v=gl-pvp-3.51-minor-correction-r2-2026-09-28"></script>
-  <script src="js/app.bundle.js?v=gl-pvp-3.51-minor-correction-r2-2026-09-28"></script>
-  <script src="js/pvp-network.js?v=gl-pvp-3.51-minor-correction-r2-2026-09-28"></script>
-  <script src="js/mobile-app-nav.js?v=gl-pvp-3.51-minor-correction-r2-2026-09-28"></script>
+<body>
+  <div id="pvpSetupOverlay" class="pvp-v260-lobby open">
+    <div class="pvp-v260-page">
+      <header class="pvp-v260-topbar">
+        <a class="pvp-v260-logo" href="../" aria-label="Grandis Legacy Season 1 homepage">
+          <img src="assets/lobby/grandis-legacy-logo.webp" alt="Grandis Legacy" width="190" height="58">
+        </a>
+        <div class="pvp-v260-heading"><h1>PVP LOBBY</h1><p>Season 1 — historical lobby preview</p></div>
+        <nav class="pvp-v260-top-actions" aria-label="Other Grandis Legacy applications">
+          <a class="pvp-v260-btn pvp-v260-outline" href="../Grandis-Legacy-Deck-Builder/style-1/">GO TO DECK BUILDER</a>
+          <a class="pvp-v260-btn pvp-v260-blue" href="../Grandis-Legacy-VS-AI/">GO TO VS AI</a>
+        </nav>
+      </header>
+      <p class="archive-mode-banner"><strong>SEASON 1 ARCHIVE · PVP OFFLINE</strong> — The original lobby can still be explored, but multiplayer, rooms and matchmaking have been permanently disabled in this archive. Play the current version at <a href="https://grandislegacytcg.web.id/">Season 0</a>.</p>
+      <main class="pvp-v260-layout">
+        <section class="pvp-v260-panel pvp-v260-deck-panel" aria-label="Historical Season 1 Deck Preview">
+          <div class="pvp-v260-picker">
+            <label for="pvpSetupDeck">Choose a Deck</label>
+            <div class="pvp-v260-select"><select id="pvpSetupDeck" aria-label="Preview a Season 1 Starter Deck"></select></div>
+          </div>
+          <div class="pvp-v260-title"><h2 id="pvpDeckTitle">Starter Deck 1</h2><p id="pvpDeckClassLine"></p></div>
+          <div class="pvp-v260-showcase">
+            <div class="pvp-v260-formation-wrap">
+              <div id="pvpFormationPreview" class="pvp-v260-formation" aria-label="Hero formation preview"></div>
+              <div class="rank-control" aria-label="Hero Rank Preview">
+                <button id="pvpRankPrev" type="button" aria-label="Previous Hero Rank">‹</button>
+                <strong id="pvpRankLabel">RANK I</strong>
+                <button id="pvpRankNext" type="button" aria-label="Next Hero Rank">›</button>
+              </div>
+            </div>
+            <aside class="pvp-v260-summary"><h3>YOUR DECK</h3><dl id="pvpDeckStats"></dl></aside>
+          </div>
+          <div class="pvp-v260-footer">
+            <button class="pvp-v260-btn pvp-v260-gold pvp-v260-compact" type="button" disabled title="Custom Deck import is unavailable in archive mode">IMPORT CUSTOM DECK</button>
+            <div class="pvp-v260-status" role="status">Starter Deck preview only · Match features disabled</div>
+          </div>
+        </section>
+        <aside class="pvp-v260-panel pvp-v260-room-panel" aria-label="Archived PvP Room Panel">
+          <h2>ROOM PANEL <span style="font-size:10px;color:#e3c87d;font-weight:800;letter-spacing:.06em">(ARCHIVE)</span></h2>
+          <label class="pvp-v260-label" for="pvpSetupName">PLAYER NAME</label>
+          <div class="pvp-v260-name"><input id="pvpSetupName" class="archive-name" maxlength="48" placeholder="Your player name" autocomplete="off"><span class="pvp-v260-name-icon"></span></div>
+          <div class="pvp-v260-actions">
+            <button class="pvp-v260-btn pvp-v260-outline pvp-v260-gold-outline" type="button" disabled>SPECTATE</button>
+            <button class="pvp-v260-btn pvp-v260-gold" type="button" disabled>READY</button>
+          </div>
+          <div class="pvp-v260-divider"></div>
+          <div class="pvp-v260-room-id">
+            <div class="pvp-v260-room-copy"><span>CURRENT ROOM</span><strong>ROOM 1 — ARCHIVED</strong></div>
+            <button class="pvp-v260-btn pvp-v260-outline pvp-v260-gold-outline pvp-v260-switch" type="button" disabled>SWITCH ROOM</button>
+          </div>
+          <dl class="pvp-v260-room-stats">
+            <div><dt>PLAYERS</dt><dd>0/2</dd></div>
+            <div><dt>SPECTATORS</dt><dd>0/4</dd></div>
+            <div><dt>SPECTATORS VIEW</dt><dd>CARD BACKS 🔒</dd></div>
+          </dl>
+          <div class="pvp-v260-seats" aria-label="Previous player slots">
+            <article class="pvp-v260-seat"><div><span>PLAYER 1</span><strong>Empty Slot</strong></div><p><i></i>offline</p></article>
+            <article class="pvp-v260-seat"><div><span>PLAYER 2</span><strong>Empty Slot</strong></div><p><i></i>offline</p></article>
+          </div>
+          <div class="pvp-v260-message">PvP servers are disabled in the Season 1 archive.</div>
+          <div class="pvp-v260-room-footer">
+            <button class="pvp-v260-btn pvp-v260-gold" type="button" disabled>START MATCH</button>
+            <button class="pvp-v260-btn pvp-v260-outline pvp-v260-gold-outline" type="button" disabled>RECONNECT</button>
+          </div>
+          <p class="archive-room-footnote">You can preview Starter Decks and Hero Rank progression.<br><strong>No matchmaking or server connection will be attempted.</strong></p>
+        </aside>
+      </main>
+    </div>
+  </div>
+  <div id="archiveHeroModal" class="archive-card-modal" hidden role="dialog" aria-modal="true" aria-labelledby="archiveHeroName" aria-describedby="archiveHeroHint">
+    <div class="archive-card-modal-card">
+      <div class="archive-card-modal-header"><h2 id="archiveHeroName">HERO PROGRESSION</h2><button type="button" id="archiveHeroClose">CLOSE</button></div>
+      <div class="archive-card-modal-cards" id="archiveHeroCards"></div>
+      <p class="archive-card-modal-hint" id="archiveHeroHint">Season 1 Hero progression · Read-only archive preview</p>
+    </div>
+  </div>
+  <script src="js/archive-lobby.js?v=s1-archive-20261119"></script>
 </body>
 </html>
